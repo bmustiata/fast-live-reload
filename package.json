@@ -1,0 +1,36 @@
+{
+    "name": "fast-live-reload",
+    "description": "A live reloading framework that works with all the browsers.",
+    "author": [{
+        "name" : "Bogdan Mustiata",
+        "email" : "bogdan.mustiata@gmail.com"
+    }],
+    "version": "0.1.0",
+    "dependencies": {
+        "blinkts-lang" : "0.1.7",
+        "superb-class" : "0.2.3"
+    },
+    "devDependencies" : {
+        "grunt" : "0.4.5",
+        "grunt-contrib-clean" : "0.6.0",
+        "grunt-contrib-concat" : "0.5.1"
+    },
+    "keywords": [],
+    "main": "./lib/fast-live-reload.js",
+    "bugs": {
+        "url": "https://github.com/bmustiata/fast-live-reload/issues"
+    },
+    "licenses": [
+        {
+            "type": "BSD",
+            "url": "https://github.com/bmustiata/fast-live-reload/blob/master/LICENSE"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bmustiata/fast-live-reload.git"
+    },
+    "readme": "A live reloading framework that works with all the browsers.",
+    "readmeFilename": "README.md",
+    "homepage": "http://blog.ciplogic.com"
+}

@@ -1,0 +1,2 @@
+new Application().run();
+
