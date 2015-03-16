@@ -8,14 +8,30 @@ var Application = createClass({
 
     _responses : null,
 
-    constructor : function() {
+    /**
+     * @type {number}
+     */
+    _port : null,
+
+    /**
+     * Constructs the server that will listen on the given port.
+     * Defaults to 9001 if not present.
+     * @param {number?} port The port to listen to.
+     */
+    constructor : function(port) {
+        this._port = port || 9001;
+
         this._express = express();
-        this._express.get("/", this._processCall.bind(this));
+        this._express.get("/", this._storeRequest.bind(this));
 
         this._responses = [];
     },
 
-    _processCall : function(req, res) {
+    /**
+     * Whenever a new request arrived, keep it in the list of
+     * things that we should respond to when resources change.
+     */
+    _storeRequest : function(req, res) {
         this._responses.push(res);
     },
 
@@ -23,9 +39,14 @@ var Application = createClass({
      * Starts listening.
      */
     run : function() {
-        this._express.listen(3000);
+        console.log("Listening on port: " + this._port);
+        this._express.listen(this._port);
     },
 
+    /**
+     * Callback method where the server is notified that monitored
+     * files have changed.
+     */
     filesChanged : function(changes) {
         for (var i = 0; i < this._responses.length; i++) {
             this._responses[i].send(JSON.stringify(changes));
