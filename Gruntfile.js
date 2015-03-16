@@ -17,10 +17,10 @@ module.exports = function(grunt) {
             dist: {
                 files: [
                     { src: [
-                        'src/requires.js',
-                        'src/**/*.js',
-                        'src/main.js',
-                        'src/z.js'
+                        'src/node/requires.js',
+                        "src/watcher.js",
+                        "src/application.js",
+                        "src/main.js"
                     ], dest: 'lib/fast-live-reload.js' }
                 ]
             }

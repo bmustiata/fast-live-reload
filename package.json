@@ -8,7 +8,9 @@
     "version": "0.1.0",
     "dependencies": {
         "blinkts-lang" : "0.1.7",
-        "superb-class" : "0.2.3"
+        "superb-class" : "0.2.3",
+        "express" : "4.12.2",
+        "watch" : "0.14.0"
     },
     "devDependencies" : {
         "grunt" : "0.4.5",
@@ -34,3 +36,4 @@
     "readmeFilename": "README.md",
     "homepage": "http://blog.ciplogic.com"
 }
+
