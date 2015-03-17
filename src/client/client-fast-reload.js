@@ -1,5 +1,7 @@
+(function() { // don't pollute the environment.
+
 /**
- * AjaxCall - A class that performs an AJAX call, and invokes the given callback.
+ * AjaxCall - A class that performs an AJAX call, and invokes the given callbacks.
  * @param {string} url
  * @return {void}
  */
@@ -13,7 +15,7 @@ function AjaxCall(url) {
  */
 AjaxCall.prototype.execute = function(callback, errorCallback) {
     var request = new XMLHttpRequest(),
-        callbackCalled = false;
+        callbackCalled = false; // error callback check, so we don't double call it.
 
     try {
         request.onreadystatechange = function() {
@@ -33,7 +35,8 @@ AjaxCall.prototype.execute = function(callback, errorCallback) {
     }
 };
 
-var ajaxCall = new AjaxCall("http://localhost:9001/?_cache=" + new Date().getTime());
+var host = clientFastReloadHost ? clientFastReloadHost : "localhost:9001";
+var ajaxCall = new AjaxCall("http://" + clientFastReloadHost + "/?_cache=" + new Date().getTime());
 
 function loadUpdates() {
     ajaxCall.execute(function(data) {
@@ -47,6 +50,6 @@ function loadUpdates() {
     });
 }
 
-
 loadUpdates();
 
+})();

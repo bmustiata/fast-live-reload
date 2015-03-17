@@ -29,7 +29,7 @@ Since the port is different, this also needs to reflect in the client:
 ```html
 <!-- remove in production!! -->
 <script type="text/javascript">
-    window.clientFastReloadPort=9000;
+    window.clientFastReloadHost="localhost:9000";
 </script>
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
