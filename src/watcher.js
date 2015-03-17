@@ -30,9 +30,15 @@ var Watcher = createClass({
     _currentChanges : null,
 
     /**
+     * @type {number} At how many millis to poll the paths.
+     */
+    _pollInterval : null,
+
+    /**
+     * @param {number} pollInterval Time to poll the paths.
      * @param {Array<string>} paths Monitors the given paths.
      */
-    constructor : function(paths) {
+    constructor : function(pollInterval, paths) {
         if (!paths || (typeof paths.length == "undefined")) {
             throw new Error('Watcher must have a paths array to monitor.');
         }
@@ -43,6 +49,7 @@ var Watcher = createClass({
         this._fileMonitors = [];
 
         this._paths = paths;
+        this._pollInterval = pollInterval;
     },
 
     /**
@@ -57,17 +64,22 @@ var Watcher = createClass({
      * Start monitoring the given folder.
      */
     monitor : function() {
-        var path;
+        var path,
+            pathsString;
 
-        console.log("Monitoring paths: " + this._paths.map(function(it) {
-            return "'" + it + "'";
-        }).join(", "));
+        pathsString = this._paths.map(function(it) {
+            return "'" + chalk.cyan(it) + "'";
+        }).join(", ");
+
+        console.log("Monitoring paths: " + pathsString +
+                        " every " + chalk.cyan(this._pollInterval) + " millis.");
 
         for (var i = 0; i < this._paths.length; i++) {
             path = this._paths[i];
 
             this._createWatch().createMonitor(
                     path,
+                    { interval : this._pollInterval },
                     this._createMonitor.bind(this, path)
             );
         }

@@ -19,7 +19,7 @@ var Application = createClass({
      * @param {number?} port The port to listen to.
      */
     constructor : function(port) {
-        this._port = port || 9001;
+        this._port = port;
 
         this._express = express();
         this._express.get("/", this._storeRequest.bind(this));
@@ -39,7 +39,7 @@ var Application = createClass({
      * Starts listening.
      */
     run : function() {
-        console.log("Listening on port: " + this._port);
+        console.log("Listening on port: " + chalk.cyan(this._port));
         this._express.listen(this._port);
     },
 

@@ -1,6 +1,7 @@
 var createClass = require("superb-class").createClass,
     express = require("express"),
-    nomnom = require("nomnom");
+    nomnom = require("nomnom"),
+    chalk = require("chalk");
 
 /**
  * createWatch - Creates a new watch object.
