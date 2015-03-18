@@ -7,6 +7,10 @@ module.exports = function(grunt) {
         clean: {
             dist : [
                 "lib/"
+            ],
+
+            client : [
+                "client/"
             ]
         },
 
@@ -14,6 +18,7 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: true
             },
+
             dist: {
                 files: [
                     { src: [
@@ -22,6 +27,20 @@ module.exports = function(grunt) {
                         "src/application.js",
                         "src/main.js"
                     ], dest: 'lib/fast-live-reload.js' }
+                ]
+            },
+
+            client: {
+                files: [
+                    {
+                        src: [
+                            "src/client/_wrap-before.js",
+                            "src/client/ajax-call.js",
+                            "src/client/load-updates.js",
+                            "src/client/_wrap-after.js"
+                        ],
+                        dest: "client/fast-live-reload.js"
+                    }
                 ]
             }
         }
@@ -33,5 +52,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
 
     // register our tasks:
-    grunt.registerTask('default', ["clean", "concat"]);
+    grunt.registerTask('build-client', ['clean:client', 'concat:client']);
+    grunt.registerTask('build-server', ['clean:dist', 'concat:dist']);
+
+    grunt.registerTask('default', ["build-server", "build-client"]);
 };
+
