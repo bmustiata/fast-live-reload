@@ -45,41 +45,41 @@ on port `9000`, and publishing the changes on port `8000`.
 Since the port is different, this also needs to reflect in the client.
 There are several ways to configure this.
 
-#### 1. clientFastReloadHost Global Variable
+#### 1. fastLiveReloadHost Global Variable
 
-Use the global variable `clientFastReloadHost`.
+Use the global variable `fastLiveReloadHost`.
 
 ```html
 <!-- remove in production!! -->
 <script type="text/javascript">
-    window.clientFastReloadHost="localhost:8000";
+    window.fastLiveReloadHost="localhost:8000";
 </script>
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
 
-#### 2. clientFastReloadHost Query Parameter
+#### 2. fastLiveReloadHost Query Parameter
 
 In the URL of the page that includes the `client-fast-reload.js` script,
-add the `clientFastReloadHost` query parameter.
+add the `fastLiveReloadHost` query parameter.
 
 For example:
 ```
-http://my-site:1111/my-site/my-page.jsp?clientFastReloadHost=localhost:8000
+http://my-site:1111/my-site/my-page.jsp?fastLiveReloadHost=localhost:8000
 ```
 
 You can still use other parameters if you wish. This will overwrite the
-`clientFastReloadHost` global variable setting if it is defined.
+`fastLiveReloadHost` global variable setting if it is defined.
 
-#### 3. clientFastReloadHost Hash Parameter
+#### 3. fastLiveReloadHost Hash Parameter
 
 *This option is preferred*
 
 In the URL of the page that includes the `client-fast-reload.js` script,
-add the `clientFastReloadHost` query parameter.
+add the `fastLiveReloadHost` query parameter.
 
 For example:
 ```
-http://my-site:1111/my-site/my-page.jsp#clientFastReloadHost=localhost:8000
+http://my-site:1111/my-site/my-page.jsp#fastLiveReloadHost=localhost:8000
 ```
 
 This has the highest precedence, and will overwrite other settings.
@@ -102,4 +102,8 @@ If you don't have yet bower installed, of course, install it first:
 ```sh
 npm install -g bower
 ```
+
+## Change Log
+
+* v1.0.0  2015-03-19  Initial Release
 

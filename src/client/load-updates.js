@@ -7,7 +7,7 @@ var m,
     ajaxCall;
 
 /**
- * Parse the parameters and find the clientFastReloadHost string.
+ * Parse the parameters and find the fastLiveReloadHost string.
  */
 m = /^.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
 queryString = m[2];
@@ -16,9 +16,9 @@ hashString = m[4];
 queryParams = new ParameterParser(queryString);
 hashParams =  new ParameterParser(hashString);
 
-host = window.clientFastReloadHost ? window.clientFastReloadHost : "localhost:9001";
-host = queryParams.get("clientFastReloadHost", host);
-host = hashParams.get("clientFastReloadHost", host);
+host = window.fastLiveReloadHost ? window.fastLiveReloadHost : "localhost:9001";
+host = queryParams.get("fastLiveReloadHost", host);
+host = hashParams.get("fastLiveReloadHost", host);
 
 /**
  * Do the actual ajax call.
