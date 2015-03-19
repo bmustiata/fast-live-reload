@@ -1,6 +1,15 @@
 # fast-live-reload
 A live reload that works with all the possible browsers (ie8+)
-without external dependencies.
+without external dependencies (like jQuery), and can also serve
+local files.
+
+## Why
+
+I wanted a tool where I can test small and bigger applications with
+ease on different browsers, even on remote machines (see for example
+[https://www.modern.ie/en-us]() ).
+
+This tool it's specifically designed for that.
 
 ## Example
 ```sh
@@ -8,7 +17,8 @@ fast-live-reload
 ```
 
 This will start monitoring the current folder for changes,
-listening on port 9001. Make sure the client-fast-reload.js is
+serving it on port 9000, and using port 9001 in order to notify
+updates. Make sure the client-fast-reload.js is
 loaded into your application (see Install for details):
 
 ```html
@@ -16,13 +26,13 @@ loaded into your application (see Install for details):
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
 
-### A More Advanced Example
+## A More Advanced Example
 
 ```sh
-fast-live-reload -p 9000 path1 path2 path3
+fast-live-reload -s /tmp -p 8000 path1 path2 path3
 ```
 
-This will monitor the given paths, listening on port 9000.
+This will monitor the given paths, listening on port 8000.
 
 ### Different Port Configuration
 
@@ -36,7 +46,7 @@ Use the global variable `clientFastReloadHost`.
 ```html
 <!-- remove in production!! -->
 <script type="text/javascript">
-    window.clientFastReloadHost="localhost:9000";
+    window.clientFastReloadHost="localhost:8000";
 </script>
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
@@ -48,7 +58,7 @@ add the clientFastReloadHost query parameter.
 
 For example:
 ```
-http://my-site:1111/my-site/my-page.jsp?clientFastReloadHost=localhost:9000
+http://my-site:1111/my-site/my-page.jsp?clientFastReloadHost=localhost:8000
 ```
 
 You can still use other parameters if you wish. This will overwrite the
@@ -61,7 +71,7 @@ add the clientFastReloadHost query parameter.
 
 For example:
 ```
-http://my-site:1111/my-site/my-page.jsp#clientFastReloadHost=localhost:9000
+http://my-site:1111/my-site/my-page.jsp#clientFastReloadHost=localhost:8000
 ```
 
 This has the highest precedence, and will overwrite other settings.

@@ -24,6 +24,7 @@ module.exports = function(grunt) {
                     { src: [
                         'src/node/requires.js',
                         "src/watcher.js",
+                        "src/static-server.js",
                         "src/application.js",
                         "src/main.js"
                     ], dest: 'lib/fast-live-reload.js' }
@@ -40,8 +41,18 @@ module.exports = function(grunt) {
                             "src/client/load-updates.js",
                             "src/client/_wrap-after.js"
                         ],
-                        dest: "client/fast-live-reload.js"
+                        dest: "client/client-fast-reload.js"
                     }
+                ]
+            },
+        },
+
+        sync : {
+            'client-tmp' : {
+                // pretend: true,
+                verbose: true,
+                files : [
+                    { expand: true, cwd: 'client/', src: ['**'], dest: 'tmp/' }
                 ]
             }
         },
@@ -58,9 +69,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-sync');
 
     // register our tasks:
-    grunt.registerTask('build-client', ['clean:client', 'concat:client']);
+    grunt.registerTask('build-client', ['clean:client', 'concat:client', 'sync:client-tmp']);
     grunt.registerTask('build-server', ['clean:dist', 'concat:dist']);
 
     grunt.registerTask('default', ["build-server", "build-client"]);

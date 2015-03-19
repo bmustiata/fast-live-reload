@@ -16,14 +16,42 @@ var opts = nomnom.script("fast-live-reload")
             },
             default : 9001
         })
+        .option("serve", {
+            abbr: "s",
+            help: "Folder to serve."
+        })
+        .option("serve-port", {
+            abbr: "sp",
+            help: "Port to serve files to.",
+            transform: function(port) {
+                return parseInt(port) || 9000;
+            },
+            default: 9000
+        })
+        .option("no-serve", {
+            abbr: "n",
+            help: "Don't serve any local folder.",
+            flag: true
+        })
         .option("paths", {
             list: true,
-            help: "Paths to monitor for changes.",
+            help: "Paths to monitor for changes. Defaults to the serve folder if used.",
         })
         .parse();
 
 // in case no paths are given for monitoring, monitor the current folder.
-var monitoredPaths = opts._.length ? opts._ : ["."];
+
+var monitoredPaths = ['.'];
+
+if (opts.serve) {
+    monitoredPaths = [ opts.serve ];
+}
+
+if (! opts['no-serve']) {
+    new StaticServer(opts['serve-port'], monitoredPaths[0]).run();
+}
+
+monitoredPaths = opts._.length ? opts._ : monitoredPaths;
 
 var application = new Application(opts.port);
 var watcher = new Watcher(opts.interval, monitoredPaths);
