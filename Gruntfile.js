@@ -36,6 +36,7 @@ module.exports = function(grunt) {
                         src: [
                             "src/client/_wrap-before.js",
                             "src/client/ajax-call.js",
+                            "src/client/parameter-parser.js",
                             "src/client/load-updates.js",
                             "src/client/_wrap-after.js"
                         ],
@@ -43,13 +44,20 @@ module.exports = function(grunt) {
                     }
                 ]
             }
+        },
+
+        watch : { // development mode
+            dist : {
+                files: [ 'src/**/*' ],
+                tasks: [ 'default' ]
+            }
         }
     });
 
     // load NPM tasks:
-    // grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // register our tasks:
     grunt.registerTask('build-client', ['clean:client', 'concat:client']);
