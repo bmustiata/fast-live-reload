@@ -22,6 +22,7 @@ module.exports = function(grunt) {
             dist: {
                 files: [
                     { src: [
+                        'src/node/shell-prefix.js',
                         'src/node/requires.js',
                         "src/watcher.js",
                         "src/static-server.js",
