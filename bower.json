@@ -1,0 +1,34 @@
+{
+  "name": "fast-live-reload",
+  "version": "1.0.0",
+  "homepage": "https://github.com/bmustiata/fast-live-reload",
+  "authors": [
+    "Bogdan Mustiata <bogdan.mustiata@gmail.com>"
+  ],
+  "description": "Fast live reload client code.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "fast-live-reload",
+    "live-reload",
+    "ie8",
+    "ie9",
+    "ie",
+    "ajax"
+  ],
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "lib",
+    "node_modules",
+    "src",
+    "tmp",
+    "bower_components",
+    "test",
+    "tests",
+    "Gruntfile.js",
+    "package.json",
+    "README.md"
+  ]
+}
