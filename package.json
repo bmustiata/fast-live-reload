@@ -22,6 +22,9 @@
     },
     "keywords": [],
     "main": "./lib/fast-live-reload.js",
+    "bin" : {
+        "fast-live-reload" : "./lib/fast-live-reload.js"
+    },
     "bugs": {
         "url": "https://github.com/bmustiata/fast-live-reload/issues"
     },

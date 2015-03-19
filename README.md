@@ -9,17 +9,22 @@ I wanted a tool where I can test small and bigger applications with
 ease on different browsers, even on remote machines (see for example
 [https://www.modern.ie/en-us]() ).
 
-This tool it's specifically designed for that.
+This tool is specifically designed for that.
 
 ## Example
-```sh
-fast-live-reload
+```
+$ fast-live-reload
+Serving . on port 9000
+Changes are served on port: 9001
+Monitoring paths: '.' every 100 millis.
 ```
 
 This will start monitoring the current folder for changes,
 serving it on port 9000, and using port 9001 in order to notify
-updates. Make sure the client-fast-reload.js is
-loaded into your application (see Install for details):
+updates. All of the above parameters can be changed.
+
+Make sure the `client-fast-reload.js` is
+loaded into your application (see **Install** section for details):
 
 ```html
 <!-- remove in production!! -->
@@ -32,7 +37,8 @@ loaded into your application (see Install for details):
 fast-live-reload -s /tmp -p 8000 path1 path2 path3
 ```
 
-This will monitor the given paths, listening on port 8000.
+This will monitor the given paths: `path1`, `path2` and `path3`, serve the `/tmp` folder
+on port `9000`, and publishing the changes on port `8000`.
 
 ### Different Port Configuration
 
@@ -53,8 +59,8 @@ Use the global variable `clientFastReloadHost`.
 
 #### 2. clientFastReloadHost Query Parameter
 
-In the URL of the page that includes the client-fast-reload.js script,
-add the clientFastReloadHost query parameter.
+In the URL of the page that includes the `client-fast-reload.js` script,
+add the `clientFastReloadHost` query parameter.
 
 For example:
 ```
@@ -62,12 +68,14 @@ http://my-site:1111/my-site/my-page.jsp?clientFastReloadHost=localhost:8000
 ```
 
 You can still use other parameters if you wish. This will overwrite the
-clientFastReloadHost global variable setting if it is defined.
+`clientFastReloadHost` global variable setting if it is defined.
 
 #### 3. clientFastReloadHost Hash Parameter
 
-In the URL of the page that includes the client-fast-reload.js script,
-add the clientFastReloadHost query parameter.
+*This option is preferred*
+
+In the URL of the page that includes the `client-fast-reload.js` script,
+add the `clientFastReloadHost` query parameter.
 
 For example:
 ```
@@ -81,12 +89,17 @@ This has the highest precedence, and will overwrite other settings.
 In order to install this run:
 
 ```sh
-npm install fast-live-reload
+npm install -g fast-live-reload
 ```
 
 To fetch the client javascript, run:
 
 ```sh
 bower install fast-live-reload
+```
+
+If you don't have yet bower installed, of course, install it first:
+```sh
+npm install -g bower
 ```
 
