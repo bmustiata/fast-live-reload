@@ -45,6 +45,25 @@ on port `9000`, and publishing the changes on port `8000`.
 Since the port is different, this also needs to reflect in the client.
 There are several ways to configure this.
 
+#### 0. fastLiveReloadHost Default Value
+
+*This option is preferred*
+
+In case no value is specified, te default value is the current host
+with the port 9001.
+
+For example if you're calling your page from a remote machine:
+```
+http://my-test-site:8080/application/test.html
+```
+or
+```
+http://my-test-site/application/test.html
+```
+
+The client-fast-reload will default the value of the `fastLiveReloadHost`
+to `my-test-site:9001`.
+
 #### 1. fastLiveReloadHost Global Variable
 
 Use the global variable `fastLiveReloadHost`.
@@ -71,8 +90,6 @@ You can still use other parameters if you wish. This will overwrite the
 `fastLiveReloadHost` global variable setting if it is defined.
 
 #### 3. fastLiveReloadHost Hash Parameter
-
-*This option is preferred*
 
 In the URL of the page that includes the `client-fast-reload.js` script,
 add the `fastLiveReloadHost` query parameter.
@@ -105,5 +122,6 @@ npm install -g bower
 
 ## Change Log
 
+* v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to current-page-host:9001
 * v1.0.0  2015-03-19  Initial Release
 

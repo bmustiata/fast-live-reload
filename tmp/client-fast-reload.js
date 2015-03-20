@@ -87,6 +87,7 @@ ParameterParser.prototype.get = function(name, defaultValue) {
 var m,
     queryString,
     hashString,
+    hostString,
     queryParams,
     hashParams,
     host,
@@ -95,14 +96,15 @@ var m,
 /**
  * Parse the parameters and find the fastLiveReloadHost string.
  */
-m = /^.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
-queryString = m[2];
-hashString = m[4];
+m = /^(.*?)\/\/(.*?)(\:\d+)?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
+hostString = m[2];
+queryString = m[5];
+hashString = m[7];
 
 queryParams = new ParameterParser(queryString);
 hashParams =  new ParameterParser(hashString);
 
-host = window.fastLiveReloadHost ? window.fastLiveReloadHost : "localhost:9001";
+host = window.fastLiveReloadHost ? window.fastLiveReloadHost : (hostString + ":9001");
 host = queryParams.get("fastLiveReloadHost", host);
 host = hashParams.get("fastLiveReloadHost", host);
 
