@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                         "src/watcher.js",
                         "src/static-server.js",
                         "src/application.js",
-                        "src/main.js"
+                        "src/server-main.js"
                     ], dest: 'lib/fast-live-reload.js' }
                 ]
             },
@@ -39,7 +39,8 @@ module.exports = function(grunt) {
                             "src/client/_wrap-before.js",
                             "src/client/ajax-call.js",
                             "src/client/parameter-parser.js",
-                            "src/client/load-updates.js",
+                            "src/client/update-notifier.js",
+                            "src/client/client-main.js",
                             "src/client/_wrap-after.js"
                         ],
                         dest: "client/client-fast-reload.js"

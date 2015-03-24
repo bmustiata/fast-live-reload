@@ -18,7 +18,7 @@ var opts = nomnom.script("fast-live-reload")
         })
         .option("serve", {
             abbr: "s",
-            help: "Folder to serve."
+            help: "Folder or site (via IFrame) to serve."
         })
         .option("serve-port", {
             abbr: "sp",
@@ -30,7 +30,7 @@ var opts = nomnom.script("fast-live-reload")
         })
         .option("no-serve", {
             abbr: "n",
-            help: "Don't serve any local folder.",
+            help: "Don't serve any local folder or site.",
             flag: true
         })
         .option("paths", {
