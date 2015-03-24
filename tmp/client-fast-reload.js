@@ -130,6 +130,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
         ajaxCall = new AjaxCall("http://" + host + "/?_cache=" + new Date().getTime());
         ajaxCall.execute(function(data) {
             self.callback.call(null, data);
+            setTimeout(loadUpdates, 500);
         }, function() {
             // wait a bit so we don't always update in case the stuff is
             // down.

@@ -1,6 +1,3 @@
-(function() { // don't pollute the environment.
-
-
 /**
  * AjaxCall - A class that performs an AJAX call, and invokes the given callbacks.
  * @param {string} url
@@ -143,14 +140,71 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
 }
 
 
+/**
+ * IFrameSite - A website that is inside an iframe.
+ * @return {void}
+ */
+function IFrameSite(parentNode, initialSite) {
+    var width,
+        height,
+        self = this;
 
-new UpdateNotifier(function(data) {
-    console.log("reload data");
-    document.location.reload();
-}).requestUpdatesFromServer();
+    this._parentNode = parentNode;
+
+    /**
+     * create the DOM element.
+     */
+    this._element = $('<iframe>');
+    this._element.attr('src', initialSite);
+
+    parentNode.append(this._element);
+
+    /**
+     * Bind its UI.
+     */
+    this._resizeIFrame();
+    $(window).resize(function() {
+        self._resizeIFrame.call(self);
+    });
+}
+
+/**
+ * _resizeIFrame - Resizes the iframe, on window change.
+ * @return {void}
+ */
+IFrameSite.prototype._resizeIFrame = function() {
+    width = this._parentNode.width();
+    height = this._parentNode.height();
+
+    this._element.css({
+        width: width,
+        height: height
+    });
+}
+
+/**
+ * navigate - Navigate to the given location.
+ * @param {} location
+ * @return {void}
+ */
+IFrameSite.prototype.navigate = function(location) {
+    this._element.attr('src', location);
+}
 
 
-})();
+
+$(document).ready(function() {
+    var iframeSite = new IFrameSite( $('#iframe-container'), "http://ciplogic.com" );
+
+    $('#goButton').on("click", function(ev) {
+        iframeSite.navigate( $('#webAddress')[0].value );
+    });
+
+    new UpdateNotifier(function(data) {
+        console.log('changes', data);
+    }).requestUpdatesFromServer();
+});
 
 
-//# sourceMappingURL=client-fast-reload.js.map
+
+//# sourceMappingURL=iframe-reload.js.map

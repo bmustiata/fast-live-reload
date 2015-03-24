@@ -11,6 +11,10 @@ module.exports = function(grunt) {
 
             client : [
                 "client/"
+            ],
+
+            iframe : [
+                "iframe/"
             ]
         },
 
@@ -26,7 +30,7 @@ module.exports = function(grunt) {
                         'src/node/requires.js',
                         "src/watcher.js",
                         "src/static-server.js",
-                        "src/application.js",
+                        "src/change-server.js",
                         "src/server-main.js"
                     ], dest: 'lib/fast-live-reload.js' }
                 ]
@@ -47,6 +51,25 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+
+            iframe: {
+                files: [
+                    {
+                        src: [
+                            "src/iframe/_wrap-before.js",
+                            "src/client/ajax-call.js",
+                            "src/client/parameter-parser.js",
+                            "src/client/update-notifier.js",
+
+                            "src/iframe/js/iframe-site.js",
+                            "src/iframe/js/iframe-main.js",
+
+                            "src/iframe/_wrap-after.js"
+                        ],
+                        dest: "iframe/js/iframe-reload.js"
+                    }
+                ]
+            }
         },
 
         sync : {
@@ -56,6 +79,22 @@ module.exports = function(grunt) {
                 files : [
                     { expand: true, cwd: 'client/', src: ['**'], dest: 'tmp/' }
                 ]
+            },
+
+            'iframe' : {
+                verbose: true,
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'src/iframe/',
+                        src: [
+                            'css/*',
+                            'js/jquery.js',
+                            '*',
+                        ],
+                        dest: 'iframe/'
+                    }
+                ]
             }
         },
 
@@ -63,6 +102,11 @@ module.exports = function(grunt) {
             dist : {
                 files: [ 'src/**/*' ],
                 tasks: [ 'default' ]
+            },
+
+            iframe: {
+                files: [ 'src/**/*' ],
+                tasks: [ 'build-iframe-client' ]
             }
         }
     });
@@ -76,7 +120,8 @@ module.exports = function(grunt) {
     // register our tasks:
     grunt.registerTask('build-client', ['clean:client', 'concat:client', 'sync:client-tmp']);
     grunt.registerTask('build-server', ['clean:dist', 'concat:dist']);
+    grunt.registerTask('build-iframe-client', ['clean:iframe', 'concat:iframe', 'sync:iframe']);
 
-    grunt.registerTask('default', ["build-server", "build-client"]);
+    grunt.registerTask('default', ["build-server", "build-client", 'build-iframe-client']);
 };
 

@@ -1,12 +1,12 @@
 /**
- * The server application keeps all the received connections,
+ * The server keeps all the received connections,
  * in a pending state,  and notifies all the users when a
  * change happened, with the changed data.
  */
-var Application = createClass({
+var ChangeServer = createClass({
     _express : null,
 
-    _responses : null,
+    _connectedClients : null,
 
     /**
      * @type {number}
@@ -24,7 +24,7 @@ var Application = createClass({
         this._express = express();
         this._express.get("/", this._storeRequest.bind(this));
 
-        this._responses = [];
+        this._connectedClients = [];
     },
 
     /**
@@ -32,7 +32,10 @@ var Application = createClass({
      * things that we should respond to when resources change.
      */
     _storeRequest : function(req, res) {
-        this._responses.push(res);
+        this._connectedClients.push({
+            request: req,
+            response: res
+        });
     },
 
     /**
@@ -48,14 +51,21 @@ var Application = createClass({
      * files have changed.
      */
     filesChanged : function(changes) {
-        for (var i = 0; i < this._responses.length; i++) {
-            var response = this._responses[i];
+        for (var i = 0; i < this._connectedClients.length; i++) {
+            var response = this._connectedClients[i].response,
+                request = this._connectedClients[i].request;
 
-            response.append('Access-Control-Allow-Origin', '*');
+            // if we know the origin, we allow it, otherwise default to any
+            if (request.header.origin) {
+                response.set('Access-Control-Allow-Origin', request.headers.origin);
+            } else {
+                response.set('Access-Control-Allow-Origin', '*');
+            }
+
             response.send(JSON.stringify(changes));
         }
 
-        this._responses = [];
+        this._connectedClients = [];
     }
 });
 

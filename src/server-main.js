@@ -53,10 +53,10 @@ if (! opts['no-serve']) {
 
 monitoredPaths = opts._.length ? opts._ : monitoredPaths;
 
-var application = new Application(opts.port);
+var changeServer = new ChangeServer(opts.port);
 var watcher = new Watcher(opts.interval, monitoredPaths);
 
-watcher.addListener( application.filesChanged.bind(application) );
-application.run();
+watcher.addListener( changeServer.filesChanged.bind(changeServer) );
+changeServer.run();
 watcher.monitor();
 
