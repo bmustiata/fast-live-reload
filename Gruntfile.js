@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                         "src/watcher.js",
                         "src/static-server.js",
                         "src/change-server.js",
+                        "src/iframe-server.js",
                         "src/server-main.js"
                     ], dest: 'lib/fast-live-reload.js' }
                 ]
@@ -62,7 +63,6 @@ module.exports = function(grunt) {
                             "src/client/update-notifier.js",
 
                             "src/iframe/js/iframe-site.js",
-                            "src/iframe/js/iframe-main.js",
 
                             "src/iframe/_wrap-after.js"
                         ],

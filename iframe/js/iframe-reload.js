@@ -150,6 +150,7 @@ function IFrameSite(parentNode, initialSite) {
         self = this;
 
     this._parentNode = parentNode;
+    this._location = initialSite;
 
     /**
      * create the DOM element.
@@ -180,7 +181,7 @@ IFrameSite.prototype._resizeIFrame = function() {
         width: width,
         height: height
     });
-}
+};
 
 /**
  * navigate - Navigate to the given location.
@@ -188,23 +189,25 @@ IFrameSite.prototype._resizeIFrame = function() {
  * @return {void}
  */
 IFrameSite.prototype.navigate = function(location) {
+    this._location = location;
     this._element.attr('src', location);
-}
+};
 
+/**
+ * reload - Reloads the iframe.
+ * @return {void}
+ */
+IFrameSite.prototype.reload = function() {
+    this._element.attr('src', this._location);
+};
 
-
-$(document).ready(function() {
-    var iframeSite = new IFrameSite( $('#iframe-container'), "http://ciplogic.com" );
-
-    $('#goButton').on("click", function(ev) {
-        iframeSite.navigate( $('#webAddress')[0].value );
-    });
-
-    new UpdateNotifier(function(data) {
-        console.log('changes', data);
-    }).requestUpdatesFromServer();
-});
-
+/**
+ * element - Returns the IFrameElement
+ * @return {Array<Element>} Returns the jQuery element.
+ */
+IFrameSite.prototype.element = function() {
+    return this._element;
+};
 
 
 //# sourceMappingURL=iframe-reload.js.map
