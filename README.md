@@ -3,7 +3,10 @@ A live reload that works with all the possible browsers (ie8+)
 without external dependencies (like jQuery), and can also serve
 local files.
 
-Works even without changing the code of your web site.
+Works also without changing the code of your web site.
+
+Watch a [presentation for v1.1.0](https://www.youtube.com/watch?v=VXN0rTAuMO4).
+It's only 10 minutes long, and you get to see fast-live-reload in action. Even on IE.
 
 ## Why
 
@@ -33,7 +36,7 @@ loaded into your application (see **Install** section for details):
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
 
-## Remote
+## Remote Locations
 
 In case the served location is a remote location, then an iframe
 reloader will be used instead, that will keep reloading _to the served
@@ -135,6 +138,11 @@ In order to install this run:
 npm install -g fast-live-reload
 ```
 
+### Client JavaScript
+
+_You don't need to change your code if you're using the Remote Locations
+for serving._
+
 To fetch the client javascript, run:
 
 ```sh
@@ -148,6 +156,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.2.0  2015-03-25  Adds remote monitoring via iframe (-s http://host/my-app/my-page.jsp).
 * v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to current-page-host:9001
 * v1.0.0  2015-03-19  Initial Release
 
