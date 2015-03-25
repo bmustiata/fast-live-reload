@@ -3,6 +3,8 @@ A live reload that works with all the possible browsers (ie8+)
 without external dependencies (like jQuery), and can also serve
 local files.
 
+Works even without changing the code of your web site.
+
 ## Why
 
 I wanted a tool where I can test small and bigger applications with
@@ -30,6 +32,30 @@ loaded into your application (see **Install** section for details):
 <!-- remove in production!! -->
 <script type="text/javascript" src="client-fast-reload.js"></script>
 ```
+
+## Remote
+
+In case the served location is a remote location, then an iframe
+reloader will be used instead, that will keep reloading _to the served
+url_ whenever changes are detected in the monitored folders.
+
+```
+$ fast-live-reload -s http://localhost:8080/my-webapp/some-page.jsp
+Serving IFrame reloader for http://localhost:8080/my-webapp/some-page.jsp on port 9000
+Changes are served on port: 9001
+Monitoring paths: '.' every 100 millis.
+```
+
+*Pros*
+
+1. You don't need the client listener code, since it's part of the parent iframe.
+2. In case the page would crash (e.g. 500 error), the reloader will still attempt
+    to reload it, when changes occur.
+
+*Cons*
+
+1. Changing the page works, but when reloading, it will reload back to the original
+    given link.
 
 ## A More Advanced Example
 
