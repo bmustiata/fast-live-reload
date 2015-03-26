@@ -62,6 +62,7 @@ var IFrameServer = createClass({
                 // allow in frame embedding.
                 res.set('Access-Control-Allow-Origin', '*');
                 res.set('X-Frame-Options', '');
+
                 callback(null, data);
             }
         }));
@@ -71,6 +72,9 @@ var IFrameServer = createClass({
          */
         this._app.use('/', function(req, res, next) {
             if (req.path == '/fast-live-reload/' || req.cookies.fastLiveReload) {
+                if (!req.cookies.fastLiveReload) { // called directly /fast-live-reload/
+                    res.cookie('fastLiveReload', 'true');
+                }
                 return next();
             }
 

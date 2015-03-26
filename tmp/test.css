@@ -1,5 +1,11 @@
+body {
+    font-family: 'verdana', 'arial', sans-serif;
+    margin: 10px 2px 10px 2px;
+    padding: 0;
+}
+
 div {
-    font-family: arial;
+    font-family: arial, sans-serif;
     border: green solid 10px;
     color: red;
 }

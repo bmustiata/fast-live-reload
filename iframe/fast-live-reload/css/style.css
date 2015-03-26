@@ -29,10 +29,18 @@ body {
 
 }
 
-.commercial {
-    position: absolute;
+.commercial,
+.commercial a,
+.commercial a:visited,
+.commercial a:hover,
+.commercial a:active {
     color: #551111;
     text-shadow: 1px 1px 4px #888888;
+    text-decoration: none;
+}
+
+.commercial {
+    position: absolute;
     right: 4px;
     top: 2px;
 }

@@ -23,10 +23,12 @@ function IFrameSite(parentNode, initialSite) {
      */
     this._resizeIFrame();
     $(window).resize(function() {
-        self._resizeIFrame.call(self);
+        self._resizeIFrame();
     });
 
-    this._element.load(this._onIFrameReloaded.bind(this));
+    this._element.load(function() {
+        self._onIFrameReloaded();
+    });
 }
 
 /**
@@ -58,7 +60,11 @@ IFrameSite.prototype.navigate = function(location) {
  * @return {void}
  */
 IFrameSite.prototype.reload = function() {
-    this._element.attr('src', this._location);
+    try {
+        this._element[0].contentWindow.document.location.reload();
+    } catch (e) { // security exception, default to basic reloading
+        this._element.attr('src', this._location);
+    }
 };
 
 /**
