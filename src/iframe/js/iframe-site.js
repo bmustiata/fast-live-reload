@@ -25,6 +25,8 @@ function IFrameSite(parentNode, initialSite) {
     $(window).resize(function() {
         self._resizeIFrame.call(self);
     });
+
+    this._element.load(this._onIFrameReloaded.bind(this));
 }
 
 /**
@@ -65,5 +67,22 @@ IFrameSite.prototype.reload = function() {
  */
 IFrameSite.prototype.element = function() {
     return this._element;
+};
+
+/**
+ * _onIFrameReloaded - Function called when the iframe was reloaded.
+ * @return {void}
+ */
+IFrameSite.prototype._onIFrameReloaded = function(ev) {
+    var iframeLocation = this._element[0].contentWindow.document.location.href;
+    this._location = iframeLocation;
+};
+
+/**
+ * location - Returns the current location of the iframe.
+ * @return {string}
+ */
+IFrameSite.prototype.location = function() {
+    return this._location;
 };
 

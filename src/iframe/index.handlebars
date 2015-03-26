@@ -11,26 +11,14 @@
         <div class="header-container">
             <div class="commercial">fast-live-reload</div>
             <span>Address: </span>
-            <input type="test" name="address" id="webAddress" value="{{TARGET_URL}}"/>
+            <input type="test" name="address" id="webAddress"/>
             <button id="goButton">Go</button>
         </div>
         <div class="iframe-container" id="iframe-container">
         </div>
 
         <script type="text/javascript">
-            (function($) {
-                $(document).ready(function() {
-                    var iframeSite = new IFrameSite( $('#iframe-container'), "{{TARGET_URL}}" );
-
-                    $('#goButton').on("click", function(ev) {
-                        iframeSite.navigate( $('#webAddress')[0].value );
-                    });
-
-                    new UpdateNotifier(function(data) {
-                        iframeSite.reload();
-                    }).requestUpdatesFromServer();
-                });
-            })(jQuery);
+            initializeFastLiveReload('{{TARGET_URL}}');
         </script>
     </body>
 </html>

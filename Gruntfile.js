@@ -63,10 +63,11 @@ module.exports = function(grunt) {
                             "src/client/update-notifier.js",
 
                             "src/iframe/js/iframe-site.js",
+                            "src/iframe/js/iframe-main.js",
 
                             "src/iframe/_wrap-after.js"
                         ],
-                        dest: "iframe/js/iframe-reload.js"
+                        dest: "iframe/fast-live-reload/js/iframe-reload.js"
                     }
                 ]
             }
@@ -92,7 +93,7 @@ module.exports = function(grunt) {
                             'js/jquery.js',
                             '*',
                         ],
-                        dest: 'iframe/'
+                        dest: 'iframe/fast-live-reload/'
                     }
                 ]
             }

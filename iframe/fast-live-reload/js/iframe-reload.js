@@ -167,6 +167,8 @@ function IFrameSite(parentNode, initialSite) {
     $(window).resize(function() {
         self._resizeIFrame.call(self);
     });
+
+    this._element.load(this._onIFrameReloaded.bind(this));
 }
 
 /**
@@ -208,6 +210,54 @@ IFrameSite.prototype.reload = function() {
 IFrameSite.prototype.element = function() {
     return this._element;
 };
+
+/**
+ * _onIFrameReloaded - Function called when the iframe was reloaded.
+ * @return {void}
+ */
+IFrameSite.prototype._onIFrameReloaded = function(ev) {
+    var iframeLocation = this._element[0].contentWindow.document.location.href;
+    this._location = iframeLocation;
+};
+
+/**
+ * location - Returns the current location of the iframe.
+ * @return {string}
+ */
+IFrameSite.prototype.location = function() {
+    return this._location;
+};
+
+
+/**
+ * initializeFastLiveReload - Initializes the fast live reload.
+ * @param {string} targetUrl
+ * @return {void}
+ */
+function initializeFastLiveReload(targetUrl) {
+    var m = /^((.*?)\/\/(.*?)(\:\d+))?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
+    var hostString = m[1] + targetUrl;
+
+    $(document).ready(function() {
+        var iframeSite = new IFrameSite( $('#iframe-container'), hostString );
+
+        $('#webAddress')[0].value = hostString;
+
+        iframeSite.element().load(function() {
+        	$('#webAddress')[0].value = iframeSite.location();
+        });
+
+        $('#goButton').on("click", function(ev) {
+            iframeSite.navigate( $('#webAddress')[0].value );
+        });
+
+        new UpdateNotifier(function(data) {
+            iframeSite.reload();
+        }).requestUpdatesFromServer();
+    });
+}
+
+window.initializeFastLiveReload = initializeFastLiveReload;
 
 
 //# sourceMappingURL=iframe-reload.js.map
