@@ -45,20 +45,22 @@ url_ whenever changes are detected in the monitored folders.
 ```
 $ fast-live-reload -s http://localhost:8080/my-webapp/some-page.jsp
 Serving IFrame reloader for http://localhost:8080/my-webapp/some-page.jsp on port 9000
+Proxying host: http://localhost:8080
 Changes are served on port: 9001
 Monitoring paths: '.' every 100 millis.
 ```
 
-*Pros*
+This will proxy the localhost:8080 host on port 9000, and will allow getting
+the /fast-live-reload/ URL into the website, where the monitoring of the site
+will take place.
+
+Here are the benefits of using remote locations:
 
 1. You don't need the client listener code, since it's part of the parent iframe.
 2. In case the page would crash (e.g. 500 error), the reloader will still attempt
     to reload it, when changes occur.
-
-*Cons*
-
-1. Changing the page works, but when reloading, it will reload back to the original
-    given link.
+3. Changing the page works, and when reloading, it will reload the current iframe
+    page.
 
 ## A More Advanced Example
 
@@ -156,6 +158,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.3.0  2015-03-26  Proxy the remote host.
 * v1.2.0  2015-03-25  Adds remote monitoring via iframe (-s http://host/my-app/my-page.jsp).
 * v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to current-page-host:9001
 * v1.0.0  2015-03-19  Initial Release
