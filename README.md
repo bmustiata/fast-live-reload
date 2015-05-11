@@ -158,6 +158,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.3.2  2015-05-11  Correct version in the metadata.
 * v1.3.1  2015-05-11  Allow the iframe reloader for local content. Fixed handlebars null data bug.
 * v1.3.0  2015-03-26  Proxy the remote host.
 * v1.2.0  2015-03-25  Adds remote monitoring via iframe (-s http://host/my-app/my-page.jsp).
