@@ -4,7 +4,8 @@ var createClass = require("superb-class").createClass,
     chalk = require("chalk"),
     expressHandlebars = require("express-handlebars"),
     expressProxy = require("express-http-proxy"),
-    expressCookieParser = require("cookie-parser");
+    expressCookieParser = require("cookie-parser"),
+    exec = require("shelljs").exec;
 
 /**
  * createWatch - Creates a new watch object.

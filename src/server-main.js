@@ -33,6 +33,11 @@ var opts = nomnom.script("fast-live-reload")
             help: "Don't serve any local folder or site.",
             flag: true
         })
+        .option("execute", {
+            abbr: "e",
+            help: "Execute the given commands on change. Only after the commands runs, will the clients be notified of the changes.",
+            list: true
+        })
         .option("paths", {
             list: true,
             help: "Paths to monitor for changes. Defaults to the serve folder if used.",
@@ -56,10 +61,32 @@ if (! opts['no-serve']) {
 
 monitoredPaths = opts._.length ? opts._ : monitoredPaths;
 
+//
+// We need a watcher to monitor the file system folders, and a
+// change server that will notify active browser clients when changes
+// occured.
+//
 var changeServer = new ChangeServer(opts.port);
-var watcher = new Watcher(opts.interval, monitoredPaths);
+var watcher = new Watcher(opts.interval, monitoredPaths),
+    watcherCallback;
 
-watcher.addListener( changeServer.filesChanged.bind(changeServer) );
+//
+// In case commands need to be executed, we notify the command executor server
+// of the file changes, and in turn it will notify the change server after the
+// commands are done.
+//
+// The reason is allowing having a build that also changes data, so we don't get
+// too many triggers for reloading of the page.
+//
+if (opts.execute) {
+    var executeCommandsServer = new ExecuteCommandsServer(opts.execute, changeServer);
+    watcherCallback = executeCommandsServer.filesChanged.bind(executeCommandsServer);
+} else {
+    watcherCallback = changeServer.filesChanged.bind(changeServer);
+}
+
+watcher.addListener( watcherCallback );
+
 changeServer.run();
 watcher.monitor();
 

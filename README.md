@@ -65,11 +65,19 @@ Here are the benefits of using remote locations:
 ## A More Advanced Example
 
 ```sh
-fast-live-reload -s /tmp -p 8000 path1 path2 path3
+fast-live-reload -e "grunt build-client" -s /tmp -p 8000 path1 path2 path3
 ```
 
 This will monitor the given paths: `path1`, `path2` and `path3`, serve the `/tmp` folder
 on port `9000`, and publishing the changes on port `8000`.
+
+Whenever files will change in either path1, path2 or path3
+
+```
+grunt build-client
+```
+
+will be executed before notifying the browser clients of the changes.
 
 ### Different Port Configuration
 
@@ -158,10 +166,11 @@ npm install -g bower
 
 ## Change Log
 
+* v1.4.0  2015-05-11  Allow executing commands with `-e`.
 * v1.3.2  2015-05-11  Correct version in the metadata.
 * v1.3.1  2015-05-11  Allow the iframe reloader for local content. Fixed handlebars null data bug.
-* v1.3.0  2015-03-26  Proxy the remote host.
-* v1.2.0  2015-03-25  Adds remote monitoring via iframe (-s http://host/my-app/my-page.jsp).
-* v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to current-page-host:9001
-* v1.0.0  2015-03-19  Initial Release
+* v1.3.0  2015-03-26  Proxy remote hosts when using `-s`.
+* v1.2.0  2015-03-25  Adds remote monitoring via iframe (`-s http://host/my-app/my-page.jsp`).
+* v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to `current-page-host:9001`.
+* v1.0.0  2015-03-19  Initial Release.
 

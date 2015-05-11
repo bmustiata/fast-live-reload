@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                         "src/static-server.js",
                         "src/change-server.js",
                         "src/iframe-server.js",
+                        "src/execute-server.js",
                         "src/server-main.js"
                     ], dest: 'lib/fast-live-reload.js' }
                 ]
