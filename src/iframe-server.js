@@ -2,16 +2,16 @@
  * Create a server that serves the iframe page,
  * in a handlebars template, to provide the URL
  * to redirect to automatically, and proxies the
- * content of the original page.
+ * content of the original page. In case the URI
+ * is a file, it just serves the file.
  */
 var IFrameServer = createClass({
     /**
      * Constructs a handlebars server that serves the given path.
      */
-    constructor : function(port, servedPath, serveUrl) {
+    constructor : function(port, serveUri) {
         this._port = port;
-        this._servedPath = servedPath;
-        this._serveUrl = serveUrl;
+        this._serveUrl = serveUri;
 
         var app = this._app = express();
 
@@ -37,35 +37,13 @@ var IFrameServer = createClass({
         var m = /^(.*?\:\/\/[^/]+)(\/?.*)$/.exec( this._serveUrl );
 
         if (!m) {
-            throw new Error("Invalid URL: " + this._serveUrl);
+            this._serveFileUri();
+        } else {
+            var proxyHost = m[ 1 ],
+                requestPath = m[ 2 ];
+
+            this._serveProxyUri(proxyHost, requestPath);
         }
-
-        var proxyHost = m[ 1 ],
-            requestPath = m[ 2 ];
-
-        console.log("Proxying host: " + chalk.cyan(proxyHost));
-
-        /**
-         * Load the proxy.
-         */
-        this._app.use('/', expressProxy(proxyHost, {
-            filter : function(req, res) {
-                // if fast live reload already loaded, there's no need to do anything.
-                if (req.cookies.fastLiveReload && !/^\/fast-live-reload\//.test(req.path)) {
-                    return true;
-                }
-
-                return false;
-            },
-
-            intercept : function(data, req, res, callback) {
-                // allow in frame embedding.
-                res.set('Access-Control-Allow-Origin', '*');
-                res.set('X-Frame-Options', '');
-
-                callback(null, data);
-            }
-        }));
 
         /**
          * Redirect on the first reload.
@@ -92,6 +70,47 @@ var IFrameServer = createClass({
         }.bind(this));
 
         this._app.listen(this._port);
-    }
+    },
+
+    /**
+     * _serveProxyUri - Serves the content using a PROXY.
+     * @param {} proxyHost
+     * @param {} requestPath
+     * @return {void}
+     */
+    _serveProxyUri : function(proxyHost, requestPath) {
+        console.log("Proxying host: " + chalk.cyan(proxyHost));
+
+        /**
+         * Load the proxy.
+         */
+        this._app.use('/', expressProxy(proxyHost, {
+            filter : function(req, res) {
+                // if fast live reload already loaded, there's no need to do anything.
+                if (req.cookies.fastLiveReload && !/^\/fast-live-reload\//.test(req.path)) {
+                    return true;
+                }
+
+                return false;
+            },
+
+            intercept : function(data, req, res, callback) {
+                // allow in frame embedding.
+                res.set('Access-Control-Allow-Origin', '*');
+                res.set('X-Frame-Options', '');
+
+                callback(null, data);
+            }
+        }));
+    },
+
+    /**
+     * _serveFileUri - Serves local files content.
+     * @return {void}
+     */
+    _serveFileUri : function() {
+        console.log("Serving content: " + chalk.cyan(this._serveUrl));
+        this._app.use(express.static( this._serveUrl ));
+    },
 });
 

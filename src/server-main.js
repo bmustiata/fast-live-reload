@@ -50,13 +50,8 @@ if (opts.serve) {
 if (! opts['no-serve']) {
     var serveUri = monitoredPaths[0];
 
-    if (/^\w+\:\/\//.test(serveUri)) { // is a remote URI.
-        // restore the monitored paths, since the watcher can't process em
-        monitoredPaths = ['.'];
-        new IFrameServer(opts['serve-port'], 'iframe', serveUri).run();
-    } else {
-        new StaticServer(opts['serve-port'], monitoredPaths[0]).run();
-    }
+    monitoredPaths = ['.'];
+    new IFrameServer(opts['serve-port'], serveUri).run();
 }
 
 monitoredPaths = opts._.length ? opts._ : monitoredPaths;

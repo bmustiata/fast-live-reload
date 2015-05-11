@@ -142,8 +142,8 @@ npm install -g fast-live-reload
 
 ### Client JavaScript
 
-_You don't need to change your code if you're using the Remote Locations
-for serving._
+_You don't need to change your code if you're using the IFrame reloader. In
+order to access it just go to `http://localhost:9000/fast-live-reload/`_
 
 To fetch the client javascript, run:
 
@@ -158,6 +158,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.3.1  2015-05-11  Allow the iframe reloader for local content. Fixed handlebars null data bug.
 * v1.3.0  2015-03-26  Proxy the remote host.
 * v1.2.0  2015-03-25  Adds remote monitoring via iframe (-s http://host/my-app/my-page.jsp).
 * v1.1.0  2015-03-20  Default the fastLiveReloadHost parameter to current-page-host:9001
