@@ -1,6 +1,21 @@
 
+/**
+ * isLocalServe - Checks if the given pathOrUrl is a remote URL or not.
+ * @param {} pathOrUrl
+ * @return {boolean}
+ */
+function isLocalServe(pathOrUrl) {
+    // find only the host part for proxying
+    var m = /^(.*?\:\/\/[^/]+)(\/?.*)$/.exec( pathOrUrl );
+
+    return !m;
+}
+
+//
+// Parse the input options.
+//
 var opts = nomnom.script("fast-live-reload")
-        .help("Swiss army knife of live reloading.\n\nMonitors multiple folders for changes, notifies connected clients, executes programs, serves local content, proxies sites, iframe reloads existing pages...\n")
+        .help("The swiss army knife of live reloading.\n\nMonitors multiple folders for changes, notifies connected clients, executes programs, serves local content, proxies sites, iframe reloads existing pages...\n")
         .option("interval", {
             help: "Poll every how many milliseconds.",
             transform: function(millis) {
@@ -46,16 +61,21 @@ var opts = nomnom.script("fast-live-reload")
 
 // in case no paths are given for monitoring, monitor the current folder.
 
-var monitoredPaths = ['.'];
+var monitoredPaths = ['.'],
+    serveUri;
 
-if (opts.serve) {
-    monitoredPaths = [ opts.serve ];
+serveUri = opts.serve;
+
+if (!serveUri) { // there is no `-s` set
+    serveUri = monitoredPaths[0]; // monitor ./
+}
+
+// if there was a `-s` specified with a local path, monitor that by default.
+if (isLocalServe(serveUri)) {
+     monitoredPaths = [ serveUri ];
 }
 
 if (! opts['no-serve']) {
-    var serveUri = monitoredPaths[0];
-
-    monitoredPaths = ['.'];
     new IFrameServer(opts['serve-port'], serveUri).run();
 }
 
