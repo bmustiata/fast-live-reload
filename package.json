@@ -5,7 +5,7 @@
         "name" : "Bogdan Mustiata",
         "email" : "bogdan.mustiata@gmail.com"
     }],
-    "version": "1.4.0",
+    "version": "1.4.1",
     "dependencies": {
         "superb-class" : "0.2.3",
         "express" : "4.12.2",
