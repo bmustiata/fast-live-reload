@@ -7,17 +7,27 @@ function initializeFastLiveReload(targetUrl) {
     var m = /^((.*?)\/\/(.*?)(\:\d+))?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
     var hostString = m[1] + targetUrl;
 
-    $(document).ready(function() {
-        var iframeSite = new IFrameSite( $('#iframe-container'), hostString );
+    var ENTER = 13;
 
-        $('#webAddress')[0].value = hostString;
+    $(document).ready(function() {
+        var iframeSite = new IFrameSite( $('#iframe-container'), hostString ),
+            webAddressInput = $('#webAddress'),
+            goButton = $("#goButton");
+
+        webAddressInput[0].value = hostString;
 
         iframeSite.element().load(function() {
-        	$('#webAddress')[0].value = iframeSite.location();
+        	webAddressInput[0].value = iframeSite.location();
         });
 
-        $('#goButton').on("click", function(ev) {
-            iframeSite.navigate( $('#webAddress')[0].value );
+        goButton.on("click", function(ev) {
+            iframeSite.navigate( webAddressInput[0].value );
+        });
+
+        webAddressInput.on("keyup", function(ev) {
+            if (ev.keyCode == ENTER) { // jump to the given address.
+                iframeSite.navigate( webAddressInput[0].value );
+            }
         });
 
         new UpdateNotifier(function(data) {
