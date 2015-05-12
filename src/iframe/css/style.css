@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding : 0;
@@ -9,7 +13,7 @@ body {
     padding-left: 4px;
     border-bottom: solid #888888 1px;
     background-color: #e2e2e2;
-    height: 25px;
+    height: 26px; /** border-bottom + input:23 + margin-top:1 + margin-bottom:1 */
     left: 0;
     right: 0;
     top: 0;
@@ -18,15 +22,17 @@ body {
 .header-container input {
     width : 600px;
     border: #888888 solid 1px;
-    height: 19px;
+    height: 23px;
     padding: 1px;
     margin-top: 1px;
+    vertical-align: top; /** IE8: :) */
 }
 
 .header-container button {
     border: #888888 solid 1px;
     height: 23px;
-
+    margin-top: 1px;
+    vertical-align: top; /** IE8: :) */
 }
 
 .commercial,
@@ -50,7 +56,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    top: 25px;
+    top: 26px;
     padding: 0;
     margin: 0;
 }
