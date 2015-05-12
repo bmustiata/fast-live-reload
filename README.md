@@ -1,4 +1,6 @@
 # fast-live-reload
+The swiss army knife of live reloading.
+
 A live reload that works with all the possible browsers (ie8+)
 without external dependencies (like jQuery), and can also serve
 local files.
@@ -166,6 +168,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.4.1  2015-05-12  *BugFix* Add path param.
 * v1.4.0  2015-05-11  Allow executing commands with `-e`.
 * v1.3.2  2015-05-11  Correct version in the metadata.
 * v1.3.1  2015-05-11  Allow the iframe reloader for local content. Fixed handlebars null data bug.
