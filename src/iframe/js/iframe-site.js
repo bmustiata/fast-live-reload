@@ -92,3 +92,11 @@ IFrameSite.prototype.location = function() {
     return this._location;
 };
 
+/**
+ * title - Returns the title of the current IFrame.
+ * @return {string}
+ */
+IFrameSite.prototype.title = function() {
+    return this._element[0].contentWindow.document.title;
+};
+

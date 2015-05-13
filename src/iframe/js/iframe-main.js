@@ -18,6 +18,7 @@ function initializeFastLiveReload(targetUrl) {
 
         iframeSite.element().load(function() {
         	webAddressInput[0].value = iframeSite.location();
+          document.title = iframeSite.title();
         });
 
         goButton.on("click", function(ev) {

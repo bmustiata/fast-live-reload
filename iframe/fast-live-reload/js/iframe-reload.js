@@ -234,6 +234,14 @@ IFrameSite.prototype.location = function() {
     return this._location;
 };
 
+/**
+ * title - Returns the title of the current IFrame.
+ * @return {string}
+ */
+IFrameSite.prototype.title = function() {
+    return this._element[0].contentWindow.document.title;
+};
+
 
 /**
  * initializeFastLiveReload - Initializes the fast live reload.
@@ -255,6 +263,7 @@ function initializeFastLiveReload(targetUrl) {
 
         iframeSite.element().load(function() {
         	webAddressInput[0].value = iframeSite.location();
+          document.title = iframeSite.title();
         });
 
         goButton.on("click", function(ev) {
