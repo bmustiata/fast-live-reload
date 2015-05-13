@@ -168,7 +168,7 @@ npm install -g bower
 
 ## Change Log
 
-* v1.4.3  2015-05-13  *BugFix* Removed scss bower dependency.
+* v1.4.3  2015-05-13  *BugFix* Removed scss bower dependency. Better log messages.
 * v1.4.2  2015-05-13  *BugFix* Responsive layout for the address bar. Display the title of the page.
 * v1.4.1  2015-05-12  *BugFix* Add --add-path param. A bunch of bugfixes.
 * v1.4.0  2015-05-11  Allow executing commands with `-e`.
