@@ -6,8 +6,12 @@
  *
  * Set to false if you want to drop support for IE6 and IE7
  */
+
+$legacy_browser_support: false !default;
+
 /* Base
    ========================================================================== */
+
 /**
  * 1. Set default font family to sans-serif.
  * 2. Prevent iOS and IE text size adjust after device orientation change,
@@ -15,33 +19,34 @@
  * 3. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
  *  `em` units.
  */
-/* line 23, ../../../src/iframe/scss/_normalize.scss */
+
 html {
-  font-family: sans-serif;
-  /* 1 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  @if $legacy_browser_support {
+    *font-size: 100%; /* 3 */
+  }
 }
 
 /**
  * Remove default margin.
  */
-/* line 36, ../../../src/iframe/scss/_normalize.scss */
+
 body {
   margin: 0;
 }
 
 /* HTML5 display definitions
    ========================================================================== */
+
 /**
  * Correct `block` display not defined for any HTML5 element in IE 8/9.
  * Correct `block` display not defined for `details` or `summary` in IE 10/11
  * and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
-/* line 50, ../../../src/iframe/scss/_normalize.scss */
+
 article,
 aside,
 details,
@@ -62,22 +67,24 @@ summary {
  * 1. Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
  */
-/* line 71, ../../../src/iframe/scss/_normalize.scss */
+
 audio,
 canvas,
 progress,
 video {
-  display: inline-block;
-  /* 1 */
-  vertical-align: baseline;
-  /* 2 */
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+  @if $legacy_browser_support {
+    *display: inline;
+    *zoom: 1;
+  }
 }
 
 /**
  * Prevents modern browsers from displaying `audio` without controls.
  * Remove excess height in iOS 5 devices.
  */
-/* line 88, ../../../src/iframe/scss/_normalize.scss */
+
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -87,7 +94,7 @@ audio:not([controls]) {
  * Address `[hidden]` styling not present in IE 8/9/10.
  * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.
  */
-/* line 98, ../../../src/iframe/scss/_normalize.scss */
+
 [hidden],
 template {
   display: none;
@@ -95,10 +102,11 @@ template {
 
 /* Links
    ========================================================================== */
+
 /**
  * Remove the gray background color from active links in IE 10.
  */
-/* line 110, ../../../src/iframe/scss/_normalize.scss */
+
 a {
   background-color: transparent;
 }
@@ -107,17 +115,20 @@ a {
  * Improve readability of focused elements when they are also in an
  * active/hover state.
  */
-/* line 120, ../../../src/iframe/scss/_normalize.scss */
-a:active, a:hover {
-  outline: 0;
+
+a {
+  &:active, &:hover {
+    outline: 0;
+  };
 }
 
 /* Text-level semantics
    ========================================================================== */
+
 /**
  * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
  */
-/* line 132, ../../../src/iframe/scss/_normalize.scss */
+
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -125,16 +136,22 @@ abbr[title] {
 /**
  * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
  */
-/* line 140, ../../../src/iframe/scss/_normalize.scss */
+
 b,
 strong {
   font-weight: bold;
 }
 
+@if $legacy_browser_support {
+  blockquote {
+    margin: 1em 40px;
+  }
+}
+
 /**
  * Address styling not present in Safari and Chrome.
  */
-/* line 155, ../../../src/iframe/scss/_normalize.scss */
+
 dfn {
   font-style: italic;
 }
@@ -143,25 +160,82 @@ dfn {
  * Address variable `h1` font-size and margin within `section` and `article`
  * contexts in Firefox 4+, Safari, and Chrome.
  */
-/* line 164, ../../../src/iframe/scss/_normalize.scss */
+
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 
+@if $legacy_browser_support {
+  h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+  }
+
+  h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+  }
+
+  h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+  }
+
+  h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+  }
+}
+
 /**
  * Addresses styling not present in IE 8/9.
  */
-/* line 200, ../../../src/iframe/scss/_normalize.scss */
+
 mark {
   background: #ff0;
   color: #000;
 }
 
+@if $legacy_browser_support {
+
+  /**
+   * Addresses margins set differently in IE 6/7.
+   */
+
+  p,
+  pre {
+    *margin: 1em 0;
+  }
+
+  /*
+   * Addresses CSS quotes not supported in IE 6/7.
+   */
+
+  q {
+    *quotes: none;
+  }
+
+  /*
+   * Addresses `quotes` property not supported in Safari 4.
+   */
+
+  q:before,
+  q:after {
+    content: '';
+    content: none;
+  }
+}
+
 /**
  * Address inconsistent and variable font size in all browsers.
  */
-/* line 239, ../../../src/iframe/scss/_normalize.scss */
+
 small {
   font-size: 80%;
 }
@@ -169,7 +243,7 @@ small {
 /**
  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
  */
-/* line 247, ../../../src/iframe/scss/_normalize.scss */
+
 sub,
 sup {
   font-size: 75%;
@@ -178,41 +252,87 @@ sup {
   vertical-align: baseline;
 }
 
-/* line 255, ../../../src/iframe/scss/_normalize.scss */
 sup {
   top: -0.5em;
 }
 
-/* line 259, ../../../src/iframe/scss/_normalize.scss */
 sub {
   bottom: -0.25em;
 }
 
+@if $legacy_browser_support {
+
+  /* ==========================================================================
+     Lists
+     ========================================================================== */
+
+  /*
+   * Addresses margins set differently in IE 6/7.
+   */
+
+  dl,
+  menu,
+  ol,
+  ul {
+    *margin: 1em 0;
+  }
+
+  dd {
+    *margin: 0 0 0 40px;
+  }
+
+  /*
+   * Addresses paddings set differently in IE 6/7.
+   */
+
+  menu,
+  ol,
+  ul {
+    *padding: 0 0 0 40px;
+  }
+
+  /*
+   * Corrects list images handled incorrectly in IE 7.
+   */
+
+  nav ul,
+  nav ol {
+    *list-style: none;
+    *list-style-image: none;
+  }
+
+}
+
 /* Embedded content
    ========================================================================== */
+
 /**
  * 1. Remove border when inside `a` element in IE 8/9/10.
  * 2. Improves image quality when scaled in IE 7.
  */
-/* line 314, ../../../src/iframe/scss/_normalize.scss */
+
 img {
   border: 0;
+  @if $legacy_browser_support {
+    *-ms-interpolation-mode: bicubic; /* 2 */
+  }
 }
 
 /**
  * Correct overflow not hidden in IE 9/10/11.
  */
-/* line 325, ../../../src/iframe/scss/_normalize.scss */
+
 svg:not(:root) {
   overflow: hidden;
 }
 
 /* Grouping content
    ========================================================================== */
+
 /**
  * Address margin not present in IE 8/9 and Safari.
  */
-/* line 336, ../../../src/iframe/scss/_normalize.scss */
+
 figure {
   margin: 1em 40px;
 }
@@ -220,7 +340,7 @@ figure {
 /**
  * Address differences between Firefox and other browsers.
  */
-/* line 344, ../../../src/iframe/scss/_normalize.scss */
+
 hr {
   box-sizing: content-box;
   height: 0;
@@ -229,7 +349,7 @@ hr {
 /**
  * Contain overflow in all browsers.
  */
-/* line 353, ../../../src/iframe/scss/_normalize.scss */
+
 pre {
   overflow: auto;
 }
@@ -238,21 +358,26 @@ pre {
  * Address odd `em`-unit font size rendering in all browsers.
  * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
-/* line 362, ../../../src/iframe/scss/_normalize.scss */
+
 code,
 kbd,
 pre,
 samp {
   font-family: monospace, monospace;
+  @if $legacy_browser_support {
+    _font-family: 'courier new', monospace;
+  }
   font-size: 1em;
 }
 
 /* Forms
    ========================================================================== */
+
 /**
  * Known limitation: by default, Chrome and Safari on OS X allow very limited
  * styling of `select`, unless a `border` property is set.
  */
+
 /**
  * 1. Correct color not being inherited.
  *  Known issue: affects color of disabled elements.
@@ -260,24 +385,25 @@ samp {
  * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
  * 4. Improves appearance and consistency in all browsers.
  */
-/* line 389, ../../../src/iframe/scss/_normalize.scss */
+
 button,
 input,
 optgroup,
 select,
 textarea {
-  color: inherit;
-  /* 1 */
-  font: inherit;
-  /* 2 */
-  margin: 0;
-  /* 3 */
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+  @if $legacy_browser_support {
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+  }
 }
 
 /**
  * Address `overflow` set to `hidden` in IE 8/9/10/11.
  */
-/* line 407, ../../../src/iframe/scss/_normalize.scss */
+
 button {
   overflow: visible;
 }
@@ -288,7 +414,7 @@ button {
  * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
  * Correct `select` style inheritance in Firefox.
  */
-/* line 418, ../../../src/iframe/scss/_normalize.scss */
+
 button,
 select {
   text-transform: none;
@@ -303,21 +429,22 @@ select {
  * 4. Removes inner spacing in IE 7 without affecting normal text inputs.
  *  Known issue: inner spacing remains in IE 6.
  */
-/* line 433, ../../../src/iframe/scss/_normalize.scss */
+
 button,
-html input[type="button"],
+html input[type="button"], /* 1 */
 input[type="reset"],
 input[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */
-  cursor: pointer;
-  /* 3 */
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+  @if $legacy_browser_support {
+    *overflow: visible;  /* 4 */
+  }
 }
 
 /**
  * Re-set default cursor for disabled elements.
  */
-/* line 448, ../../../src/iframe/scss/_normalize.scss */
+
 button[disabled],
 html input[disabled] {
   cursor: default;
@@ -326,7 +453,7 @@ html input[disabled] {
 /**
  * Remove inner padding and border in Firefox 4+.
  */
-/* line 457, ../../../src/iframe/scss/_normalize.scss */
+
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -337,7 +464,7 @@ input::-moz-focus-inner {
  * Address Firefox 4+ setting `line-height` on `input` using `!important` in
  * the UA stylesheet.
  */
-/* line 468, ../../../src/iframe/scss/_normalize.scss */
+
 input {
   line-height: normal;
 }
@@ -347,13 +474,15 @@ input {
  * 2. Remove excess padding in IE 8/9/10.
  *  Known issue: excess padding remains in IE 6.
  */
-/* line 478, ../../../src/iframe/scss/_normalize.scss */
+
 input[type="checkbox"],
 input[type="radio"] {
-  box-sizing: border-box;
-  /* 1 */
-  padding: 0;
-  /* 2 */
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+  @if $legacy_browser_support {
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+  }
 }
 
 /**
@@ -361,7 +490,7 @@ input[type="radio"] {
  * `font-size` values of the `input`, it causes the cursor style of the
  * decrement button to change from `default` to `text`.
  */
-/* line 494, ../../../src/iframe/scss/_normalize.scss */
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   height: auto;
@@ -371,12 +500,10 @@ input[type="number"]::-webkit-outer-spin-button {
  * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.
  */
-/* line 504, ../../../src/iframe/scss/_normalize.scss */
+
 input[type="search"] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  box-sizing: content-box;
-  /* 2 */
+  -webkit-appearance: textfield; /* 1 */
+  box-sizing: content-box; /* 2 */
 }
 
 /**
@@ -384,7 +511,7 @@ input[type="search"] {
  * Safari (but not Chrome) clips the cancel button when the search input has
  * padding (and `textfield` appearance).
  */
-/* line 515, ../../../src/iframe/scss/_normalize.scss */
+
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -393,7 +520,7 @@ input[type="search"]::-webkit-search-decoration {
 /**
  * Define consistent border, margin, and padding.
  */
-/* line 524, ../../../src/iframe/scss/_normalize.scss */
+
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -406,18 +533,20 @@ fieldset {
  * 3. Corrects text not wrapping in Firefox 3.
  * 4. Corrects alignment displayed oddly in IE 6/7.
  */
-/* line 537, ../../../src/iframe/scss/_normalize.scss */
+
 legend {
-  border: 0;
-  /* 1 */
-  padding: 0;
-  /* 2 */
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+  @if $legacy_browser_support {
+    white-space: normal; /* 3 */
+    *margin-left: -7px; /* 4 */
+  }
 }
 
 /**
  * Remove default vertical scrollbar in IE 8/9/10/11.
  */
-/* line 550, ../../../src/iframe/scss/_normalize.scss */
+
 textarea {
   overflow: auto;
 }
@@ -426,178 +555,24 @@ textarea {
  * Don't inherit the `font-weight` (applied by a rule above).
  * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
  */
-/* line 559, ../../../src/iframe/scss/_normalize.scss */
+
 optgroup {
   font-weight: bold;
 }
 
 /* Tables
    ========================================================================== */
+
 /**
  * Remove most spacing between table cells.
  */
-/* line 570, ../../../src/iframe/scss/_normalize.scss */
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 575, ../../../src/iframe/scss/_normalize.scss */
 td,
 th {
   padding: 0;
 }
-
-/* line 1, ../../../src/iframe/scss/layout/_general.scss */
-body {
-  margin: 0;
-  padding: 0;
-}
-
-/* line 6, ../../../src/iframe/scss/layout/_general.scss */
-* {
-  box-sizing: border-box;
-}
-
-/* line 3, ../../../src/iframe/scss/layout/_header.scss */
-.header-container {
-  border-bottom: black solid 1px;
-  position: absolute;
-  height: 40px;
-  left: 0;
-  right: 0;
-  top: 0;
-  padding-left: 2px;
-}
-/* line 12, ../../../src/iframe/scss/layout/_header.scss */
-.header-container > * {
-  height: 35px;
-  line-height: 35px;
-  vertical-align: middle;
-}
-/* line 18, ../../../src/iframe/scss/layout/_header.scss */
-.header-container .header-input-container {
-  position: relative;
-  height: 35px;
-  display: block;
-}
-/* line 23, ../../../src/iframe/scss/layout/_header.scss */
-.header-container .header-input-container div.input-div {
-  position: absolute;
-  left: 0px;
-  right: 42px;
-  top: 2px;
-  height: 35px;
-}
-/* line 30, ../../../src/iframe/scss/layout/_header.scss */
-.header-container .header-input-container div.input-div input {
-  width: 100%;
-  height: 100%;
-}
-/* line 36, ../../../src/iframe/scss/layout/_header.scss */
-.header-container .header-input-container div.button-div {
-  width: 38px;
-  position: absolute;
-  right: 2px;
-  top: 2px;
-}
-/* line 42, ../../../src/iframe/scss/layout/_header.scss */
-.header-container .header-input-container div.button-div button {
-  width: 100%;
-  height: 35px;
-}
-@media only screen and (min-width: 75em) {
-  /* line 18, ../../../src/iframe/scss/layout/_header.scss */
-  .header-container .header-input-container {
-    margin-left: 70px;
-  }
-}
-@media only screen and (min-width: 40em) {
-  /* line 18, ../../../src/iframe/scss/layout/_header.scss */
-  .header-container .header-input-container {
-    margin-right: 120px;
-  }
-}
-/* line 57, ../../../src/iframe/scss/layout/_header.scss */
-.header-container span {
-  display: none;
-}
-@media only screen and (min-width: 75em) {
-  /* line 57, ../../../src/iframe/scss/layout/_header.scss */
-  .header-container span {
-    display: inline-block;
-    float: left;
-    padding-top: 2px;
-    padding-left: 2px;
-  }
-}
-
-/* line 1, ../../../src/iframe/scss/layout/_iframe.scss */
-.iframe-container {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  top: 40px;
-  padding: 0;
-  margin: 0;
-}
-/* line 10, ../../../src/iframe/scss/layout/_iframe.scss */
-.iframe-container iframe {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  border: 0;
-}
-
-/* line 1, ../../../src/iframe/scss/typography/_general.scss */
-.header-container {
-  background-color: #cacaff;
-}
-
-/* line 5, ../../../src/iframe/scss/typography/_general.scss */
-body {
-  color: #181800;
-}
-
-/* line 1, ../../../src/iframe/scss/typography/_fonts.scss */
-body {
-  font-family: 'Tahoma', 'Arial', sans-serif;
-}
-
-/* line 1, ../../../src/iframe/scss/typography/_inputs.scss */
-input, button {
-  border: #888888 solid 1px;
-  vertical-align: top;
-}
-
-/* line 1, ../../../src/iframe/scss/components/_commercial.scss */
-.commercial,
-.commercial a,
-.commercial a:visited,
-.commercial a:hover,
-.commercial a:active {
-  color: #313100;
-  text-shadow: 1px 1px 4px #2d2d00;
-  text-decoration: none;
-}
-
-/* line 11, ../../../src/iframe/scss/components/_commercial.scss */
-.commercial {
-  position: absolute;
-  right: 4px;
-  top: 2px;
-  display: none;
-}
-@media only screen and (min-width: 40em) {
-  /* line 11, ../../../src/iframe/scss/components/_commercial.scss */
-  .commercial {
-    display: block;
-  }
-}
-
-/*# sourceMappingURL=style.css.map */

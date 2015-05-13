@@ -30,5 +30,8 @@
     "Gruntfile.js",
     "package.json",
     "README.md"
-  ]
+  ],
+  "dependencies": {
+    "normalize-scss": "~3.0.3"
+  }
 }

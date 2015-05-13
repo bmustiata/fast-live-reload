@@ -1,0 +1,17 @@
+$bar-height : 40px;
+
+$small-bar-height: 30px;
+
+//$bar-border-size: 1px;
+//$bar-border : black solid $bar-border-size;
+
+$bar-border-size: 1px;
+$bar-border : black solid $bar-border-size;
+
+$commercial-color: #313100;
+$background-color: lighten(complement($commercial-color), 80);
+$border-color: #888888;
+$text-color: #000000;
+$text-color: darken($commercial-color, 5);
+
+$padding : 2px;

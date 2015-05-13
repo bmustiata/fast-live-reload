@@ -89,13 +89,24 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'src/iframe/',
                         src: [
-                            'css/*',
                             'js/jquery.js',
-                            '*',
+                            '*.handlebars',
+                            '*.html',
                         ],
                         dest: 'iframe/fast-live-reload/'
                     }
                 ]
+            }
+        },
+
+        compass: {
+            iframe : {
+                options: {
+                    sassDir: 'src/iframe/scss',
+                    cssDir: 'iframe/fast-live-reload/css',
+                    sourcemap: true
+                    // environment: 'production'
+                }
             }
         },
 
@@ -117,12 +128,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sync');
+    grunt.loadNpmTasks('grunt-contrib-compass');
 
     // register our tasks:
-    grunt.registerTask('build-client', ['clean:client', 'concat:client', 'sync:client-tmp']);
-    grunt.registerTask('build-server', ['clean:dist', 'concat:dist']);
-    grunt.registerTask('build-iframe-client', ['clean:iframe', 'concat:iframe', 'sync:iframe']);
+    grunt.registerTask('build-client', ['concat:client', 'sync:client-tmp']);
+    grunt.registerTask('build-server', ['concat:dist']);
+    grunt.registerTask('build-iframe-client', ['concat:iframe', 'sync:iframe', 'compass:iframe']);
 
-    grunt.registerTask('default', ["build-server", "build-client", 'build-iframe-client']);
+    grunt.registerTask('clean-all', ['clean:client', 'clean:dist', 'clean:iframe']);
+    grunt.registerTask('build-all', ['build-client', 'build-server', 'build-iframe-client']);
+
+    grunt.registerTask('default', ['clean-all', 'build-all']);
 };
 

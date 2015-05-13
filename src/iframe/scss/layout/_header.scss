@@ -1,0 +1,69 @@
+$header-internal-height : $bar-height - $padding - $padding - $bar-border-size;
+
+.header-container {
+  border-bottom: $bar-border;
+  position: absolute;
+  height: $bar-height;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding-left: $padding;
+
+  &>* {
+    height: $header-internal-height;
+    line-height: $header-internal-height;
+    vertical-align: middle;
+  }
+
+  .header-input-container {
+      position: relative;
+      height: $header-internal-height;
+      display:block;
+
+      div.input-div {
+        position: absolute;
+        left: 0px;
+        right: 40px + $padding;
+        top: $padding;
+        height: $bar-height - $padding -$padding -$bar-border-size;
+
+        input {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      div.button-div {
+        width: 40px - $padding;
+        position: absolute;
+        right: $padding;
+        top: $padding;
+
+        button {
+          width: 100%;
+          height: $bar-height - $padding - $padding - $bar-border-size;
+        }
+      }
+
+      @media only screen and (min-width: 75em) {
+          margin-left: 70px;
+      }
+
+      @media only screen and (min-width: 40em) {
+        margin-right: 120px;
+      }
+  }
+
+  span {
+    display: none;
+
+    @media only screen and (min-width: 75em) {
+      display: inline-block;
+      float: left;
+      padding-top: $padding;
+      padding-left: $padding;
+    }
+  }
+}
+
+

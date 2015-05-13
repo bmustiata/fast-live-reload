@@ -1,0 +1,22 @@
+.commercial,
+.commercial a,
+.commercial a:visited,
+.commercial a:hover,
+.commercial a:active {
+  color: $commercial-color;
+  text-shadow: 1px 1px 4px darken($commercial-color, 0.7);
+  text-decoration: none;
+}
+
+.commercial {
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  display: none;
+
+  @media only screen and (min-width: 40em) {
+      display: block;
+  }
+}
+
+
