@@ -30,8 +30,8 @@ var IFrameServer = createClass({
      * Runs the actual server.
      */
     run : function() {
-        console.log("Serving IFrame reloader for " + chalk.cyan( this._serveUrl ) +
-                 " on port " + chalk.cyan(this._port));
+        console.log("Proxy: " + chalk.cyan("http://localhost:" + this._port + "/") + "\n" +
+                    "for: " + chalk.cyan( this._serveUrl ) );
 
         // find only the host part for proxying
         var m = /^(.*?\:\/\/[^/]+)(\/?.*)$/.exec( this._serveUrl );
@@ -74,13 +74,11 @@ var IFrameServer = createClass({
 
     /**
      * _serveProxyUri - Serves the content using a PROXY.
-     * @param {} proxyHost
-     * @param {} requestPath
+     * @param {string} proxyHost
+     * @param {string} requestPath
      * @return {void}
      */
     _serveProxyUri : function(proxyHost, requestPath) {
-        console.log("Proxying host: " + chalk.cyan(proxyHost));
-
         /**
          * Load the proxy.
          */
@@ -109,8 +107,7 @@ var IFrameServer = createClass({
      * @return {void}
      */
     _serveFileUri : function() {
-        console.log("Serving content: " + chalk.cyan(this._serveUrl));
         this._app.use(express.static( this._serveUrl ));
-    },
+    }
 });
 
