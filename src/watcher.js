@@ -1,6 +1,7 @@
 /**
  * Monitors a folder, and notifies the registered subscribers whenever
  * files change, with an aggregate object of changes.
+ * @type {Watcher}
  */
 var Watcher = createClass({
     /**
@@ -36,14 +37,16 @@ var Watcher = createClass({
 
     /**
      * @param {number} pollInterval Time to poll the paths.
+     * @param {number} delay Time to wait before triggering changes.
      * @param {Array<string>} paths Monitors the given paths.
      */
-    constructor : function(pollInterval, paths) {
+    constructor : function(pollInterval, delay, paths) {
         if (!paths || (typeof paths.length == "undefined")) {
             throw new Error('Watcher must have a paths array to monitor.');
         }
 
         this._createWatch = createWatch;
+        this._delay = delay;
 
         this._listeners = [];
         this._fileMonitors = [];
@@ -106,7 +109,9 @@ var Watcher = createClass({
      */
     _notify : function(path, event, f) {
         if (!this._notificationTimeout) {
-            this._notificationTimeout = setTimeout(this._fireChangedFiles.bind(this), 50);
+            var delay = this._delay >= 0 ? this._delay : 0;
+
+            this._notificationTimeout = setTimeout(this._fireChangedFiles.bind(this), delay);
             this._currentChanges = {
                 eventCount : 0,
                 "created" : {},

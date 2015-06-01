@@ -13,7 +13,7 @@ It's only 10 minutes long, and you get to see fast-live-reload in action. Even o
 ## Why
 
 I wanted a tool where I can test small and bigger applications with
-ease on different browsers, even on remote machines (see for example
+ease on all browsers, even on remote machines (see for example
 [https://www.modern.ie/en-us]() ).
 
 This tool is specifically designed for that.
@@ -30,19 +30,18 @@ This will start monitoring the current folder for changes,
 serving it on port 9000, and using port 9001 in order to notify
 updates. All of the above parameters can be changed.
 
-Make sure the `client-fast-reload.js` is
-loaded into your application (see **Install** section for details):
+Live reloading is possible without having to add any client script
+_even for static resources_, by navigating to the /fast-live-reload/ URL,
+in this case it would be:
 
-```html
-<!-- remove in production!! -->
-<script type="text/javascript" src="client-fast-reload.js"></script>
+```
+http://localhost:9000/fast-live-reload/
 ```
 
 ## Remote Locations
 
-In case the served location is a remote location, then an iframe
-reloader will be used instead, that will keep reloading _to the served
-url_ whenever changes are detected in the monitored folders.
+Remote locations are proxied, and the reloader will allow to reload the
+browser even if it's an external URL, when files change.
 
 ```
 $ fast-live-reload -s http://localhost:8080/my-webapp/some-page.jsp
@@ -64,16 +63,17 @@ Here are the benefits of using remote locations:
 3. Changing the page works, and when reloading, it will reload the current iframe
     page.
 
-## A More Advanced Example
+## A Complete Example
 
 ```sh
-fast-live-reload -e "grunt build-client" -s /tmp -p 8000 path1 path2 path3
+fast-live-reload -e "grunt build-client" -s /tmp -p 8000 path1 path2 path3 -d 1000
 ```
 
 This will monitor the given paths: `path1`, `path2` and `path3`, serve the `/tmp` folder
 on port `9000`, and publishing the changes on port `8000`.
 
-Whenever files will change in either path1, path2 or path3
+Whenever files will change in either path1, path2 or path3, fast-live-reload will
+wait for a second (`-d 1000`) and then
 
 ```
 grunt build-client
@@ -81,9 +81,22 @@ grunt build-client
 
 will be executed before notifying the browser clients of the changes.
 
+## No IFrame reloading
+
+When the IFrame reloading is not possible, or undesired, you can also use
+the client reload script awailable in bower.
+
+Make sure the `client-fast-reload.js` is
+loaded into your application (see **Install** section for details):
+
+```html
+<!-- remove in production!! -->
+<script type="text/javascript" src="client-fast-reload.js"></script>
+```
+
 ### Different Port Configuration
 
-Since the port is different, this also needs to reflect in the client.
+If the ports/host are different, these also need to be reflected in the client.
 There are several ways to configure this.
 
 #### 0. fastLiveReloadHost Default Value
@@ -168,6 +181,7 @@ npm install -g bower
 
 ## Change Log
 
+* v1.4.3  2015-06-01  Allow setting a delay for commands with `-d`.
 * v1.4.2  2015-05-13  *BugFix* Responsive layout for the address bar. Display the title of the page.
 * v1.4.1  2015-05-12  *BugFix* Add --add-path param. A bunch of bugfixes.
 * v1.4.0  2015-05-11  Allow executing commands with `-e`.

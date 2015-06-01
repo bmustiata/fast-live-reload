@@ -23,6 +23,19 @@ var opts = nomnom.script("fast-live-reload")
             },
             default : 100
         })
+        .option("delay", {
+            abbr: "d",
+            help: "Time to wait in milliseconds before triggering changes.",
+            transform: function(millis) {
+                millis = parseInt(millis);
+
+                if ("" + millis == "NaN") {
+                    return -1;
+                }
+                return millis;
+            },
+            default : -1
+        })
         .option("port", {
             abbr: "p",
             help: "Port to listen to.",
@@ -98,7 +111,7 @@ if (opts['add-path']) {
 // occured.
 //
 var changeServer = new ChangeServer(opts.port);
-var watcher = new Watcher(opts.interval, monitoredPaths),
+var watcher = new Watcher(opts.interval, opts.delay, monitoredPaths),
     watcherCallback;
 
 //
