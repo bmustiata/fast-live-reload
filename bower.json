@@ -1,6 +1,6 @@
 {
   "name": "fast-live-reload",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "homepage": "https://github.com/bmustiata/fast-live-reload",
   "authors": [
     "Bogdan Mustiata <bogdan.mustiata@gmail.com>"
@@ -30,8 +30,5 @@
     "Gruntfile.js",
     "package.json",
     "README.md"
-  ],
-  "dependencies": {
-    "normalize-scss": "~3.0.3"
-  }
+  ]
 }
