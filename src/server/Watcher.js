@@ -74,8 +74,8 @@ var Watcher = createClass({
             return "'" + chalk.cyan(it) + "'";
         }).join(", ");
 
-        console.log("Monitoring paths: " + pathsString +
-                        " every " + chalk.cyan(this._pollInterval) + " millis.");
+        //console.log("Monitoring paths: " + pathsString +
+        //                " every " + chalk.cyan(this._pollInterval) + " millis.");
 
         for (var i = 0; i < this._paths.length; i++) {
             path = this._paths[i];

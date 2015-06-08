@@ -30,8 +30,8 @@ var IFrameServer = createClass({
      * Runs the actual server.
      */
     run : function() {
-        console.log("Proxy: " + chalk.cyan("http://localhost:" + this._port + "/") + "\n" +
-                    "for: " + chalk.cyan( this._serveUrl ) );
+        //console.log("Proxy: " + chalk.cyan("http://localhost:" + this._port + "/") + "\n" +
+        //            "for: " + chalk.cyan( this._serveUrl ) );
 
         // find only the host part for proxying
         var m = /^(.*?\:\/\/[^/]+)(\/?.*)$/.exec( this._serveUrl );

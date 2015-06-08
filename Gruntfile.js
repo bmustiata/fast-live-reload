@@ -6,15 +6,15 @@ module.exports = function(grunt) {
     grunt.initConfig({
         clean: {
             dist : [
-                "lib/"
+                'lib/'
             ],
 
             client : [
-                "client/"
+                'client/'
             ],
 
             iframe : [
-                "iframe/"
+                'iframe/'
             ]
         },
 
@@ -25,16 +25,22 @@ module.exports = function(grunt) {
 
             dist: {
                 files: [
-                    { src: [
-                        'src/node/shell-prefix.js',
-                        'src/node/requires.js',
-                        'src/show-help.js',
-                        "src/watcher.js",
-                        "src/change-server.js",
-                        "src/iframe-server.js",
-                        "src/execute-server.js",
-                        "src/server-main.js"
-                    ], dest: 'lib/fast-live-reload.js' }
+                    {
+                        src: [
+                            'src/node/shell-prefix.js',
+                            'src/node/requires.js',
+                            'src/server/Watcher.js',
+                            'src/server/ChangeServer.js',
+                            'src/server/IFrameServer.js',
+                            'src/server/ExecuteCommandsServer.js',
+                            'src/server/ExecutorSet.js',
+
+                            'src/node/show-help.js',
+                            'src/node/read-parameters.js',
+                            'src/node/server-main.js'
+                        ],
+                        dest: 'lib/fast-live-reload.js'
+                    }
                 ]
             },
 
@@ -42,14 +48,14 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [
-                            "src/client/_wrap-before.js",
-                            "src/client/ajax-call.js",
-                            "src/client/parameter-parser.js",
-                            "src/client/update-notifier.js",
-                            "src/client/client-main.js",
-                            "src/client/_wrap-after.js"
+                            'src/client/_wrap-before.js',
+                            'src/client/ajax-call.js',
+                            'src/client/parameter-parser.js',
+                            'src/client/update-notifier.js',
+                            'src/client/client-main.js',
+                            'src/client/_wrap-after.js'
                         ],
-                        dest: "client/client-fast-reload.js"
+                        dest: 'client/client-fast-reload.js'
                     }
                 ]
             },
@@ -58,17 +64,17 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [
-                            "src/iframe/_wrap-before.js",
-                            "src/client/ajax-call.js",
-                            "src/client/parameter-parser.js",
-                            "src/client/update-notifier.js",
+                            'src/iframe/_wrap-before.js',
+                            'src/client/ajax-call.js',
+                            'src/client/parameter-parser.js',
+                            'src/client/update-notifier.js',
 
-                            "src/iframe/js/iframe-site.js",
-                            "src/iframe/js/iframe-main.js",
+                            'src/iframe/js/iframe-site.js',
+                            'src/iframe/js/iframe-main.js',
 
-                            "src/iframe/_wrap-after.js"
+                            'src/iframe/_wrap-after.js'
                         ],
-                        dest: "iframe/fast-live-reload/js/iframe-reload.js"
+                        dest: 'iframe/fast-live-reload/js/iframe-reload.js'
                     }
                 ]
             }

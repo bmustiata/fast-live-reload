@@ -7,7 +7,8 @@ var createClass = require("superb-class").createClass,
     expressCookieParser = require("cookie-parser"),
     exec = require("shelljs").exec,
     handlebars = require("handlebars"),
-    fs = require("fs");
+    fs = require("fs"),
+    onceMany = require("once-many").onceMany;
 
 /**
  * createWatch - Creates a new watch object.

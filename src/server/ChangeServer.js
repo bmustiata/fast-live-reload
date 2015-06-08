@@ -42,7 +42,7 @@ var ChangeServer = createClass({
      * Starts listening.
      */
     run : function() {
-        console.log("Changes are served on port: " + chalk.cyan(this._port));
+        //console.log("Changes are served on port: " + chalk.cyan(this._port));
         this._express.listen(this._port);
     },
 

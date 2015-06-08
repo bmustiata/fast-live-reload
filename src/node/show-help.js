@@ -5,7 +5,7 @@
 function showHelp() {
     var helpText;
 
-    helpText = fs.readFileSync("lib/readme.hbs", {
+    helpText = fs.readFileSync(__dirname + "/readme.hbs", {
         encoding: 'utf-8'
     });
 
@@ -23,8 +23,9 @@ function showHelp() {
         context = {};
     }
 
-    context.BINARY = "binary";
+    context.BINARY = "fast-live-reload";
 
     console.log(handlebars.compile(helpText)(context));
+
     process.exit();
 }

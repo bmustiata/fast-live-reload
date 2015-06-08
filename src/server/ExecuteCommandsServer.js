@@ -17,10 +17,10 @@ var ExecuteCommandsServer = createClass("ExecuteCommandsServer", {
         this._commands = commands;
         this._changeServer = changeServer;
 
-        console.log("On change run the following commands: ");
-        this._commands.forEach(function(command, it) {
-            console.log( chalk.cyan(it + 1 + ".") + " " + chalk.green(command) );
-        });
+        //console.log("On change run the following commands: ");
+        //this._commands.forEach(function(command, it) {
+        //    console.log( chalk.cyan(it + 1 + ".") + " " + chalk.green(command) );
+        //});
     },
 
     /**
