@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                     { src: [
                         'src/node/shell-prefix.js',
                         'src/node/requires.js',
+                        'src/show-help.js',
                         "src/watcher.js",
                         "src/change-server.js",
                         "src/iframe-server.js",
