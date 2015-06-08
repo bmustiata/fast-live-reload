@@ -1,7 +1,7 @@
 
 /**
  * isLocalServe - Checks if the given pathOrUrl is a remote URL or not.
- * @param {} pathOrUrl
+ * @param {string} pathOrUrl
  * @return {boolean}
  */
 function isLocalServe(pathOrUrl) {
@@ -10,6 +10,34 @@ function isLocalServe(pathOrUrl) {
 
     return !m;
 }
+
+function showHelp() {
+    var helpText;
+
+    helpText = fs.readFileSync("lib/readme.hbs", {
+        encoding: 'utf-8'
+    });
+
+    var context;
+
+    if (chalk.supportsColor) {
+        context = {
+            GRAY: chalk.styles.gray.open,
+            RESET: chalk.styles.reset.open,
+            BLUE: chalk.styles.cyan.open,
+            GREEN: chalk.styles.green.open,
+            BOLD: chalk.styles.bold.open
+        };
+    } else {
+        context = {};
+    }
+
+    context.BINARY = "binary";
+
+    console.log(handlebars.compile(helpText)(context));
+}
+
+showHelp();
 
 //
 // Parse the input options.

@@ -1,0 +1,31 @@
+fast-live-reload: The swiss army knife of live reloading.
+{{GRAY}}Monitors multiple folders for changes, notifies connected clients, executes programs, serves local content, proxies sites, iframe reloads existing pages...{{RESET}}
+
+{{BOLD}}Usage:{{RESET}} {{BLUE}}{{BINARY}} {{BOLD}}[options]{{RESET}}
+
+{{BOLD}}Options:{{RESET}}
+    {{BLUE}}{{BOLD}}--interval{{RESET}}          {{GRAY}}Poll every how many milliseconds.  [100]{{RESET}}
+    {{BLUE}}{{BOLD}}-p{{RESET}}, {{BLUE}}{{BOLD}}--port{{RESET}}          {{GRAY}}Port to listen to.  [9001]{{RESET}}
+    {{BLUE}}{{BOLD}}-s{{RESET}}, {{BLUE}}{{BOLD}}--serve{{RESET}}         {{GRAY}}Folder or site (via IFrame) to serve.{{RESET}}
+    {{BLUE}}{{BOLD}}-sp{{RESET}}, {{BLUE}}{{BOLD}}--serve-port{{RESET}}   {{GRAY}}Port to serve files to.  [9000]{{RESET}}
+    {{BLUE}}{{BOLD}}-n{{RESET}}, {{BLUE}}{{BOLD}}--no-serve{{RESET}}      {{GRAY}}Don't serve any local folder or site.{{RESET}}
+    {{BLUE}}{{BOLD}}-e{{RESET}}, {{BLUE}}{{BOLD}}--execute{{RESET}}       {{GRAY}}Execute the given commands on change. After the commands runs, the clients will be notified of changes.{{RESET}}
+    {{BLUE}}{{BOLD}}-ep{{RESET}}, {{BLUE}}{{BOLD}}-pe{{RESET}}, {{BLUE}}{{BOLD}}--parallel-execute{{RESET}}
+                        {{GRAY}}Execute the given command on startup, and kill it when fast-live-reload goes down (useful for external watchers).{{RESET}}
+    {{BLUE}}{{BOLD}}--add-path{{RESET}}          {{GRAY}}Paths to monitor for changes. Defaults to the serve folder if not present.{{RESET}}
+
+{{BOLD}}Example:{{RESET}}
+fast-live-reload {{BLUE}}{{BOLD}}-s{{RESET}} {{BLUE}}/target/{{RESET}}
+    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}tsc --watch --rootDir src/ts --outDir target/js --sourceMap src/ts/*.ts{{RESET}}" \
+    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}compass watch{{GREEN}}" \
+    {{BLUE}}src/js {{BOLD}}-e{{RESET}} {{GREEN}}"grunt concat sync"{{RESET}} \
+    {{BLUE}}src/html src/css {{BOLD}}-e{{RESET}} {{GREEN}}"grunt sync"{{RESET}}
+
+1. will start a server that serves the content from the {{BLUE}}/target/{{RESET}} folder on port {{BLUE}}9000{{RESET}}{{GRAY}} (default){{RESET}}
+2. will run on startup, and kill on shutdown:
+  a. {{GREEN}}tsc --watch --rootDir src/ts --outDir target/js --sourceMap src/*.ts{{RESET}}
+  b. {{GREEN}}compass watch{{RESET}}
+3. will monitor and execute when files change in subfolders:{{RESET}}
+{{GRAY}}+ {{BLUE}}src{{GRAY}}/{{RESET}}
+{{GRAY}}  + {{BLUE}}js{{GRAY}}/               -> {{GREEN}}grunt concat sync{{RESET}}
+{{GRAY}}  + {{BLUE}}html{{GRAY}}/ and {{BLUE}}css{{GRAY}}/    -> {{GREEN}}grunt sync{{RESET}}

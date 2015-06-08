@@ -78,7 +78,12 @@ module.exports = function(grunt) {
                 // pretend: true,
                 verbose: true,
                 files : [
-                    { expand: true, cwd: 'client/', src: ['**'], dest: 'tmp/' }
+                    {
+                        expand: true,
+                        cwd: 'client/',
+                        src: ['**'],
+                        dest: 'tmp/'
+                    }
                 ]
             },
 
@@ -91,9 +96,23 @@ module.exports = function(grunt) {
                         src: [
                             'js/jquery.js',
                             '*.handlebars',
-                            '*.html',
+                            '*.html'
                         ],
                         dest: 'iframe/fast-live-reload/'
+                    }
+                ]
+            },
+
+            'dist' : {
+                verbose: true,
+                files: [
+                    {
+                        cwd: 'src/doc/',
+                        expand: true,
+                        src: [
+                            'readme.hbs'
+                        ],
+                        dest: 'lib/'
                     }
                 ]
             }
@@ -132,7 +151,7 @@ module.exports = function(grunt) {
 
     // register our tasks:
     grunt.registerTask('build-client', ['concat:client', 'sync:client-tmp']);
-    grunt.registerTask('build-server', ['concat:dist']);
+    grunt.registerTask('build-server', ['concat:dist', 'sync:dist']);
     grunt.registerTask('build-iframe-client', ['concat:iframe', 'sync:iframe', 'compass:iframe']);
 
     grunt.registerTask('clean-all', ['clean:client', 'clean:dist', 'clean:iframe']);
