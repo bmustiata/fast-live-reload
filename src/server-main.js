@@ -11,6 +11,9 @@ function isLocalServe(pathOrUrl) {
     return !m;
 }
 
+/**
+ * Shows the help for the application.
+ */
 function showHelp() {
     var helpText;
 
@@ -35,6 +38,7 @@ function showHelp() {
     context.BINARY = "binary";
 
     console.log(handlebars.compile(helpText)(context));
+    process.exit();
 }
 
 showHelp();
