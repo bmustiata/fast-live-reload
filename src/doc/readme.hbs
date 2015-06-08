@@ -16,18 +16,19 @@ fast-live-reload: The swiss army knife of live reloading.
     {{BLUE}}{{BOLD}}--add-path{{RESET}}          {{GRAY}}Paths to monitor for changes. Defaults to serve folder.{{RESET}}
 
 {{BOLD}}Example:{{RESET}}
-fast-live-reload {{BLUE}}{{BOLD}}-s{{RESET}} {{BLUE}}/target/{{RESET}}
-    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts{{RESET}}"\
-    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}compass watch{{GREEN}}"\
-    {{BLUE}}src/js {{BOLD}}-e{{RESET}} {{GREEN}}"grunt concat sync"{{RESET}}\
-    {{BLUE}}src/html src/css {{BOLD}}-e{{RESET}} {{GREEN}}"grunt sync"{{RESET}}
+fast-live-reload {{BLUE}}{{BOLD}}-s{{RESET}} {{BLUE}}/target/{{GRAY}} \\{{RESET}}
+    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts{{RESET}}"{{GRAY}}\\{{RESET}}
+    {{BLUE}}{{BOLD}}-ep{{RESET}} "{{GREEN}}compass watch{{RESET}}"{{GRAY}}\\{{RESET}}
+    {{BLUE}}src/js {{BOLD}}-e{{RESET}} "{{GREEN}}grunt concat sync{{RESET}}"{{GRAY}}\\{{RESET}}
+    {{BLUE}}src/html src/css {{BOLD}}-e{{RESET}} "{{GREEN}}grunt sync{{RESET}}"{{RESET}}
 
 Will
-1. serve the content from the {{BLUE}}/target/{{RESET}} folder on port {{BLUE}}9000{{RESET}},{{GRAY}} (default){{RESET}}
-2. run on startup, and then kill on shutdown both:
-   {{GRAY}}a: {{GREEN}}tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/*.ts{{RESET}}
+1. notify the changes for clients on port {{BLUE}}9001{{RESET}},{{GRAY}} (default){{RESET}}
+2. serve the content from the {{BLUE}}/target/{{RESET}} folder on port {{BLUE}}9000{{RESET}},{{GRAY}} (default){{RESET}}
+3. run on startup, and then kill on shutdown, both:
+   {{GRAY}}a: {{GREEN}}tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts{{RESET}}
    {{GRAY}}b: {{GREEN}}compass watch{{RESET}}
-3. and will monitor and execute when files change in subfolders:{{RESET}}
+4. and will monitor and execute when files change in subfolders:{{RESET}}
    {{GRAY}}+ {{BLUE}}src{{GRAY}}/{{RESET}}
    {{GRAY}}  + {{BLUE}}js{{GRAY}}/               -> {{GREEN}}grunt concat sync{{RESET}}
    {{GRAY}}  + {{BLUE}}html{{GRAY}}/ and {{BLUE}}css{{GRAY}}/    -> {{GREEN}}grunt sync{{RESET}}
