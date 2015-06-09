@@ -2,18 +2,22 @@
 The swiss army knife of live reloading.
 
 A live reload that works with all the possible browsers (ie8+)
-without external dependencies (like jQuery), and can also serve
-local files.
+without external dependencies (like jQuery), can serve local
+files, and integrate with whatever development flow you're having,
+including other watcher tools or build steps (in the Complete Example 
+you can see `typescript` and `compass` integration, using their native
+watchers for optimal development speed, side by side with multiple folders
+that trigger different actions on change). 
 
-Works also without changing the code of your web site.
+Reloading works also without altering the code of your web site.
 
 Watch a [presentation for v1.1.0](https://www.youtube.com/watch?v=VXN0rTAuMO4).
 It's only 10 minutes long, and you get to see fast-live-reload in action. Even on IE.
 
 ## Why
 
-I wanted a tool where I can test small and bigger applications with
-ease on all browsers, even on remote machines (see for example
+I wanted a simple tool where I can develop and test all kinds of web applications with
+ease on all browsers, even on remote machines (see for example 
 [https://www.modern.ie/en-us]() ).
 
 This tool is specifically designed for that.
@@ -21,14 +25,14 @@ This tool is specifically designed for that.
 ## Example
 ```
 $ fast-live-reload
-Serving . on port 9000
-Changes are served on port: 9001
-Monitoring paths: '.' every 100 millis.
+Will
+1. notify the changes for clients on port 9001,
+2. serve the content from . on port 9000,
+3. and will monitor and execute when files change in subfolders:
+   a: .    
 ```
 
-This will start monitoring the current folder for changes,
-serving it on port 9000, and using port 9001 in order to notify
-updates. All of the above parameters can be changed.
+All of the above parameters can be changed.
 
 Live reloading is possible without having to add any client script
 _even for static resources_, by navigating to the /fast-live-reload/ URL,
@@ -38,6 +42,26 @@ in this case it would be:
 http://localhost:9000/fast-live-reload/
 ```
 
+## A Complete Example
+```
+$ fast-live-reload -s /target/ \
+    -ep "tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts"\
+    -ep "compass watch"\
+    src/js -e "grunt concat sync"\
+    src/html src/css -e "grunt sync"
+
+Will
+1. notify the changes for clients on port 9001,
+2. serve the content from /target/ on port 9000,
+3. run on startup, and then kill on shutdown:
+   a: tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts
+   b: compass watch
+4. and will monitor and execute when files change in subfolders:
+   a: src/js   -> grunt concat sync
+   b: src/html -> grunt sync
+      src/css     
+```
+
 ## Remote Locations
 
 Remote locations are proxied, and the reloader will allow to reload the
@@ -45,10 +69,11 @@ browser even if it's an external URL, when files change.
 
 ```
 $ fast-live-reload -s http://localhost:8080/my-webapp/some-page.jsp
-Serving IFrame reloader for http://localhost:8080/my-webapp/some-page.jsp on port 9000
-Proxying host: http://localhost:8080
-Changes are served on port: 9001
-Monitoring paths: '.' every 100 millis.
+Will
+1. notify the changes for clients on port 9001,
+2. serve the content from http://localhost:8080/my-webapp/some-page.jsp on port 9000,
+3. and will monitor and execute when files change in subfolders:
+   a: .    
 ```
 
 This will proxy the localhost:8080 host on port 9000, and will allow getting
@@ -62,24 +87,6 @@ Here are the benefits of using remote locations:
     to reload it, when changes occur.
 3. Changing the page works, and when reloading, it will reload the current iframe
     page.
-
-## A Complete Example
-
-```sh
-fast-live-reload -e "grunt build-client" -s /tmp -p 8000 path1 path2 path3 -d 1000
-```
-
-This will monitor the given paths: `path1`, `path2` and `path3`, serve the `/tmp` folder
-on port `9000`, and publishing the changes on port `8000`.
-
-Whenever files will change in either path1, path2 or path3, fast-live-reload will
-wait for a second (`-d 1000`) and then
-
-```
-grunt build-client
-```
-
-will be executed before notifying the browser clients of the changes.
 
 ## No IFrame reloading
 
@@ -181,6 +188,7 @@ npm install -g bower
 
 ## Change Log
 
+* v2.0.0  2015-06-09  Allow parallel execution (`-pe`), multiple monitor/execution flows, dry runs (`-n`). Major refactor.
 * v1.4.4  2015-06-01  Allow setting a delay for commands with `-d`.
 * v1.4.3  2015-05-13  *BugFix* Removed scss bower dependency. Better log messages.
 * v1.4.2  2015-05-13  *BugFix* Responsive layout for the address bar. Display the title of the page.

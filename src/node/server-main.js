@@ -1,7 +1,8 @@
 
 var changeServer;
 
-var logIndex = 0;
+var logIndex = 0,
+    runningProcesses = [];
 
 if (!dryRun) {
     changeServer = new ChangeServer(port);
@@ -28,6 +29,8 @@ if (parallelExecutePrograms.length) {
         parallelExecutePrograms.forEach(function (command) {
             var parsedCommand = new CommandLineParser(command);
             var process = spawn(parsedCommand.getCommand(), parsedCommand.getArgs());
+
+            runningProcesses.push(process);
 
             // output
             process.stdout.on("data", function (data) {
@@ -98,6 +101,12 @@ executorSets.forEach(function(executorSet, index) {
 if (!dryRun) {
     changeServer.run();
 }
+
+process.on("exit", function() { // kill everything on exit.
+    runningProcesses.forEach(function(process) {
+        process.kill();
+    });
+});
 
 /**
  * Pads the string at the end with spaces to fit the given length.

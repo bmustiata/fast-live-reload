@@ -101,6 +101,7 @@ for (var i = 2; i < process.argv.length; i++) {
     }
 
     if (paramState == "EXECUTE") {
+        paramState = "FOLDER";
         currentExecutor = new ExecutorSet();
         executorSets.push( currentExecutor );
     }
