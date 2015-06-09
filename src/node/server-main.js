@@ -23,6 +23,23 @@ if (parallelExecutePrograms.length) {
     parallelExecutePrograms.forEach(function(command, index) {
         console.log("   " + chalk.gray( String.fromCharCode(97 + index) + ": ") + chalk.green(command));
     });
+
+    if (!dryRun) {
+        parallelExecutePrograms.forEach(function (command) {
+            var parsedCommand = new CommandLineParser(command);
+            var process = spawn(parsedCommand.getCommand(), parsedCommand.getArgs());
+
+            // output
+            process.stdout.on("data", function (data) {
+                console.log(chalk.gray("> " + command));
+                console.log("" + data);
+            });
+            process.stderr.on("data", function (data) {
+                console.log(chalk.red("> " + command));
+                console.error("" + data);
+            });
+        });
+    }
 }
 
 //

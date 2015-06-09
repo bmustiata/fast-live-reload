@@ -1,6 +1,5 @@
 var createClass = require("superb-class").createClass,
     express = require("express"),
-    nomnom = require("nomnom"),
     chalk = require("chalk"),
     expressHandlebars = require("express-handlebars"),
     expressProxy = require("express-http-proxy"),
@@ -8,7 +7,8 @@ var createClass = require("superb-class").createClass,
     exec = require("shelljs").exec,
     handlebars = require("handlebars"),
     fs = require("fs"),
-    onceMany = require("once-many").onceMany;
+    onceMany = require("once-many").onceMany,
+    spawn = require("cross-spawn").spawn;
 
 /**
  * createWatch - Creates a new watch object.

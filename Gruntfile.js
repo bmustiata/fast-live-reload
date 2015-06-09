@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                             'src/node/requires.js',
                             'src/server/Watcher.js',
                             'src/server/ChangeServer.js',
+                            'src/server/CommandLineParser.js',
                             'src/server/IFrameServer.js',
                             'src/server/ExecuteCommandsServer.js',
                             'src/server/ExecutorSet.js',
