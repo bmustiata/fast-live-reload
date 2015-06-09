@@ -55,11 +55,10 @@ var ExecutorSet = createClass("ExecutorSet", {
     },
 
     /**
-     * Returns the commands to be executed. If no commands are registered,
-     * returns null.
+     * Returns the commands to be executed.
      * @return {Array<string>}
      */
     getExecutedCommands : function() {
-        return this._executedCommands.length ? this._executedCommands : null;
+        return this._executedCommands;
     }
 });

@@ -5,7 +5,8 @@ var serveUri,
     interval = 100,
     delay = 50,
     executorSets = [ new ExecutorSet() ],
-    parallelExecutePrograms = [];
+    parallelExecutePrograms = [],
+    dryRun = false;
 
 //
 // Process the arguments.
@@ -64,8 +65,13 @@ for (var i = 2; i < process.argv.length; i++) {
         continue;
     }
 
-    if ("-n" == arg || "--no-serve" == arg) {
+    if ("-ns" == arg || "--no-serve" == arg) {
         noServe = true;
+        continue;
+    }
+
+    if ("-n" == arg || "--dry-run" == arg) {
+        dryRun = true;
         continue;
     }
 

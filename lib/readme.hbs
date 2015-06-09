@@ -6,13 +6,14 @@ fast-live-reload: The swiss army knife of live reloading.
 
 {{BOLD}}Options:{{RESET}}
     {{BLUE}}{{BOLD}}--interval{{RESET}}          {{GRAY}}Poll every how many milliseconds.  [100]{{RESET}}
-    {{BLUE}}{{BOLD}}-p{{RESET}}, {{BLUE}}{{BOLD}}--port{{RESET}}          {{GRAY}}Port to listen to.  [9001]{{RESET}}
     {{BLUE}}{{BOLD}}-s{{RESET}}, {{BLUE}}{{BOLD}}--serve{{RESET}}         {{GRAY}}Folder or site (via IFrame) to serve.{{RESET}}
-    {{BLUE}}{{BOLD}}-sp{{RESET}}, {{BLUE}}{{BOLD}}--serve-port{{RESET}}   {{GRAY}}Port to serve files to.  [9000]{{RESET}}
-    {{BLUE}}{{BOLD}}-n{{RESET}}, {{BLUE}}{{BOLD}}--no-serve{{RESET}}      {{GRAY}}Don't serve any local folder or site.{{RESET}}
     {{BLUE}}{{BOLD}}-e{{RESET}}, {{BLUE}}{{BOLD}}--execute{{RESET}}       {{GRAY}}Execute the given commands on change.{{RESET}}
     {{BLUE}}{{BOLD}}-ep{{RESET}}, {{BLUE}}{{BOLD}}-pe{{RESET}}, {{BLUE}}{{BOLD}}--parallel-execute{{RESET}}
                         {{GRAY}}Run processes as long as fast-live-reload runs.{{RESET}}
+    {{BLUE}}{{BOLD}}-p{{RESET}}, {{BLUE}}{{BOLD}}--port{{RESET}}          {{GRAY}}Port to listen to.  [9001]{{RESET}}
+    {{BLUE}}{{BOLD}}-sp{{RESET}}, {{BLUE}}{{BOLD}}--serve-port{{RESET}}   {{GRAY}}Port to serve files to.  [9000]{{RESET}}
+    {{BLUE}}{{BOLD}}-ns{{RESET}}, {{BLUE}}{{BOLD}}--no-serve{{RESET}}     {{GRAY}}Don't serve any local folder or site.{{RESET}}
+    {{BLUE}}{{BOLD}}-n{{RESET}}, {{BLUE}}{{BOLD}}--dry-run{{RESET}}       {{GRAY}}Show what will be done. Don't execute.{{RESET}}
     {{BLUE}}{{BOLD}}--add-path{{RESET}}          {{GRAY}}Paths to monitor for changes. Defaults to serve folder.{{RESET}}
 
 {{BOLD}}Example:{{RESET}}
