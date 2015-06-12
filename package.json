@@ -20,6 +20,7 @@
     "shelljs": "0.4.0",
     "spawn-sync": "1.0.11",
     "superb-class": "0.2.3",
+    "tamper": "^0.1.0",
     "watch": "0.14.0"
   },
   "devDependencies": {

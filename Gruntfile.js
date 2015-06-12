@@ -77,6 +77,17 @@ module.exports = function(grunt) {
                             'src/iframe/_wrap-after.js'
                         ],
                         dest: 'iframe/fast-live-reload/js/iframe-reload.js'
+                    },
+                    {
+                        src: [
+                            'src/client/_wrap-before.js',
+                            'src/client/ajax-call.js',
+                            'src/client/parameter-parser.js',
+                            'src/client/update-notifier.js',
+                            'src/client/client-main.js',
+                            'src/client/_wrap-after.js'
+                        ],
+                        dest: 'iframe/fast-live-reload/js/client-reload.js'
                     }
                 ]
             }

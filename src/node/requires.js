@@ -8,7 +8,8 @@ var createClass = require("superb-class").createClass,
     handlebars = require("handlebars"),
     fs = require("fs"),
     onceMany = require("once-many").onceMany,
-    spawn = require("cross-spawn").spawn;
+    spawn = require("cross-spawn").spawn,
+    tamper = require("tamper");
 
 /**
  * createWatch - Creates a new watch object.

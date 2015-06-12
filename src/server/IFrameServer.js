@@ -82,6 +82,7 @@ var IFrameServer = createClass({
         /**
          * Load the proxy.
          */
+        var _this = this;
         this._app.use('/', expressProxy(proxyHost, {
             filter : function(req, res) {
                 // if fast live reload already loaded, there's no need to do anything.
@@ -97,6 +98,11 @@ var IFrameServer = createClass({
                 res.set('Access-Control-Allow-Origin', '*');
                 res.set('X-Frame-Options', '');
 
+                var bufferData = data.toString();
+                if (/<\/body>\s*<\/html>\s*$/i.test(bufferData)) {
+                    data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+                }
+
                 callback(null, data);
             }
         }));
@@ -107,7 +113,20 @@ var IFrameServer = createClass({
      * @return {void}
      */
     _serveFileUri : function() {
+        this._app.use(tamper(function(req, res) {
+            var mime = res.getHeader('Content-Type')
+
+            if (!/text\/html/.test(mime)) {
+                return false;
+            }
+
+            // Return a function in order to capture and modify the response body:
+            return function(body) {
+                return body.replace(/(<\/body>\s*<\/html>\s*)$/i,
+                    "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+            }
+        }));
         this._app.use(express.static( this._serveUrl ));
-    }
+    },
 });
 
