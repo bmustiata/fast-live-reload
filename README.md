@@ -1,5 +1,6 @@
 # fast-live-reload
-The swiss army knife of live reloading.
+The swiss army knife of live reloading. Continuously develop without refreshing your browser.
+
 
 A live reload that works with all the possible browsers (ie8+)
 without external dependencies (like jQuery), can serve local
@@ -9,10 +10,13 @@ you can see `typescript` and `compass` integration, using their native
 watchers for optimal development speed, side by side with multiple folders
 that trigger different actions on change).
 
+
 Reloading works also without altering the code of your web site.
+
 
 Watch a [presentation for v1.1.0](https://www.youtube.com/watch?v=VXN0rTAuMO4).
 It's only 10 minutes long, and you get to see fast-live-reload in action. Even on IE.
+
 
 ## Why
 
