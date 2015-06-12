@@ -6,12 +6,17 @@
  * is a file, it just serves the file.
  */
 var IFrameServer = createClass({
+    _port : null,
+    _serveUrl : null,
+    _injectClientCode : true,
+
     /**
      * Constructs a handlebars server that serves the given path.
      */
-    constructor : function(port, serveUri) {
+    constructor : function(port, serveUri, shouldInjectClientCode) {
         this._port = port;
         this._serveUrl = serveUri;
+        this._injectClientCode = shouldInjectClientCode;
 
         var app = this._app = express();
 
@@ -48,17 +53,19 @@ var IFrameServer = createClass({
         /**
          * Redirect on the first reload.
          */
-        this._app.use('/', function(req, res, next) {
-            if (req.path == '/fast-live-reload/' || req.cookies.fastLiveReload) {
-                if (!req.cookies.fastLiveReload) { // called directly /fast-live-reload/
-                    res.cookie('fastLiveReload', 'true');
+        if (!this._injectClientCode) { // redirect only if no client code is injected.
+            this._app.use('/', function (req, res, next) {
+                if (req.path == '/fast-live-reload/' || req.cookies.fastLiveReload) {
+                    if (!req.cookies.fastLiveReload) { // called directly /fast-live-reload/
+                        res.cookie('fastLiveReload', 'true');
+                    }
+                    return next();
                 }
-                return next();
-            }
 
-            res.cookie('fastLiveReload', 'true');
-        	res.redirect('/fast-live-reload/');
-        }.bind(this));
+                res.cookie('fastLiveReload', 'true');
+                res.redirect('/fast-live-reload/');
+            }.bind(this));
+        }
 
         /**
          * Serve the fast-live-reload page.
@@ -98,9 +105,11 @@ var IFrameServer = createClass({
                 res.set('Access-Control-Allow-Origin', '*');
                 res.set('X-Frame-Options', '');
 
-                var bufferData = data.toString();
-                if (/<\/body>\s*<\/html>\s*$/i.test(bufferData)) {
-                    data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+                if (this._injectClientCode) {
+                    var bufferData = data.toString();
+                    if (/<\/body>\s*<\/html>\s*$/i.test(bufferData)) {
+                        data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+                    }
                 }
 
                 callback(null, data);
@@ -113,19 +122,21 @@ var IFrameServer = createClass({
      * @return {void}
      */
     _serveFileUri : function() {
-        this._app.use(tamper(function(req, res) {
-            var mime = res.getHeader('Content-Type')
+        if (this._injectClientCode) {
+            this._app.use(tamper(function (req, res) {
+                var mime = res.getHeader('Content-Type')
 
-            if (!/text\/html/.test(mime)) {
-                return false;
-            }
+                if (!/text\/html/.test(mime)) {
+                    return false;
+                }
 
-            // Return a function in order to capture and modify the response body:
-            return function(body) {
-                return body.replace(/(<\/body>\s*<\/html>\s*)$/i,
-                    "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
-            }
-        }));
+                // Return a function in order to capture and modify the response body:
+                return function (body) {
+                    return body.replace(/(<\/body>\s*<\/html>\s*)$/i,
+                        "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+                }
+            }));
+        }
         this._app.use(express.static( this._serveUrl ));
     },
 });

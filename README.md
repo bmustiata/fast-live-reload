@@ -37,6 +37,16 @@ $ fast-live-reload
 
 All of the above parameters can be changed.
 
+
+You can open in a browser any HTML page via the `http://localhost:9000/`, edit it, and
+see the page reloading live.
+
+
+For all the resources that have the mimetype as text/html, the live reload client script will
+be automatically injected before the end of the body tag (the auto injection can be disabled
+via `-no-inject`).
+
+
 Live reloading is possible without having to add any client script
 _even for static resources_, by navigating to the /fast-live-reload/ URL,
 in this case it would be:
@@ -64,6 +74,7 @@ Options:
     -sp, --serve-port   Port to serve files to.  [9000]
     -ns, --no-serve     Don't serve any local folder or site.
     -nc, --no-clients   Don't start the client change server.
+    -ni, --no-inject    Don't inject client code.
     -nn, --no-notify    Don't notify clients.
     -n, --dry-run       Show what will be done. Don't execute.
     --add-path          Paths to monitor for changes. Defaults to serve folder.
@@ -135,10 +146,13 @@ npm install -g fast-live-reload
 
 ### Client JavaScript
 
-_You don't need to change your code if you're using the IFrame reloader. In
-order to access it just go to `http://localhost:9000/fast-live-reload/`_
 
-To fetch the client javascript, run:
+_You don't need to change your code if you're serving files (`-s`) without `--no-inject`, 
+or using the IFrame reloader._
+
+
+If you must use the reloader script (e.g. a site that redirects to itself due to security)
+then fetch it with bower, and refer to it into your html pages.
 
 ```sh
 bower install fast-live-reload
@@ -148,6 +162,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.2.0  2015-06-12  Automatically inject the client script in html resources. (disable with `-ni`)
 * v2.1.0  2015-06-12  Allow no client notifications for executions (`-nn`) or no client server altogether (`-ns`)
 * v2.0.0  2015-06-09  Allow parallel execution (`-pe`), multiple monitor/execution flows, dry runs (`-n`). Major refactor.
 * v1.4.4  2015-06-01  Allow setting a delay for commands with `-d`.

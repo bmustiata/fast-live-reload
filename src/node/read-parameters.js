@@ -7,7 +7,8 @@ var serveUri,
     executorSets = [ new ExecutorSet() ],
     parallelExecutePrograms = [],
     dryRun = false,
-    shouldCreateClientServer = true;
+    shouldCreateClientServer = true,
+    shouldInjectClientCode = true;
 
 //
 // Process the arguments.
@@ -73,6 +74,11 @@ for (var i = 2; i < process.argv.length; i++) {
 
     if ("-n" == arg || "--dry-run" == arg) {
         dryRun = true;
+        continue;
+    }
+
+    if ("-ni" == arg || "--no-inject" == arg) {
+        shouldInjectClientCode = false;
         continue;
     }
 

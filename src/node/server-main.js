@@ -18,7 +18,7 @@ if (shouldCreateClientServer) {
 
 if (! noServe) {
     if (!dryRun) {
-        new IFrameServer(servePort, serveUri).run();
+        new IFrameServer(servePort, serveUri, shouldInjectClientCode).run();
     }
     console.log(++logIndex + ". " + sentencePrefix.next() +
         "serve the content from " + chalk.cyan(serveUri) + " on port " + chalk.cyan(servePort));
