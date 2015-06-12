@@ -29,11 +29,10 @@ This tool is specifically designed for that.
 ## Example
 ```
 $ fast-live-reload
-Will
-1. notify the changes for clients on port 9001,
-2. serve the content from . on port 9000,
+1. Will notify the changes for clients on port 9001
+2. and will serve the content from . on port 9000
 3. and will monitor and execute when files change in subfolders:
-   a: .
+   a: .    
 ```
 
 All of the above parameters can be changed.
@@ -64,6 +63,8 @@ Options:
     -p, --port          Port to listen to.  [9001]
     -sp, --serve-port   Port to serve files to.  [9000]
     -ns, --no-serve     Don't serve any local folder or site.
+    -nc, --no-clients   Don't start the client change server.
+    -nn, --no-notify    Don't notify clients.
     -n, --dry-run       Show what will be done. Don't execute.
     --add-path          Paths to monitor for changes. Defaults to serve folder.
 
@@ -74,16 +75,29 @@ fast-live-reload -s /target/ \
     src/js -e "grunt concat sync"\
     src/html src/css -e "grunt sync"
 
-Will
-1. notify the changes for clients on port 9001, (default)
-2. serve the content from the /target/ folder on port 9000, (default)
-3. run on startup, and then kill on shutdown, both:
+1. Will notify the changes for clients on port 9001
+2. and will serve the content from /target/ on port 9000
+3. and will run on startup, and then kill on shutdown:
    a: tsc --watch --rootDir src/ts --outDir out/js --sourceMap src/ts/*.ts
    b: compass watch
 4. and will monitor and execute when files change in subfolders:
    a: src/js   -> grunt concat sync
    b: src/html -> grunt sync
       src/css
+```
+
+### Run only programs when files change 
+
+We disable both serving or proxying files (`-ns`) and the client reload 
+server (`-nc`).
+
+```
+$ fast-live-reload -ns -nc graph-data \
+    -e "groovy generate-graph-data.groovy" \
+    -e "dot -Tpng -ocustom-graph.png custom.graph"
+1. Will monitor and execute when files change in subfolders:
+   a: graph-data -> groovy generate-graph-data.groovy (no refresh)
+                    dot -Tpng -ocustom-graph.png custom.graph
 ```
 
 ## Remote Locations
@@ -134,6 +148,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.1.0  2015-06-12  Allow no client notifications for executions (`-nn`) or no client server altogether (`-ns`)
 * v2.0.0  2015-06-09  Allow parallel execution (`-pe`), multiple monitor/execution flows, dry runs (`-n`). Major refactor.
 * v1.4.4  2015-06-01  Allow setting a delay for commands with `-d`.
 * v1.4.3  2015-05-13  *BugFix* Removed scss bower dependency. Better log messages.

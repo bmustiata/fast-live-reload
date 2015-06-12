@@ -27,7 +27,7 @@ AjaxCall.prototype.execute = function(callback, errorCallback) {
                     callbackCalled = callbackCalled || errorCallback();
                 }
             }
-        }
+        };
 
         request.open("GET", this.url, true);
         request.send();

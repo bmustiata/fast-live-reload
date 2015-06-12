@@ -14,6 +14,11 @@ var ExecutorSet = createClass("ExecutorSet", {
 	_executedCommands : null,
 
     /**
+     * @type {boolean}
+     */
+    noNotifications : false,
+
+    /**
      * constructor - Default constructor.
 	 */
     constructor: function() {

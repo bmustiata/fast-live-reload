@@ -6,7 +6,8 @@ var serveUri,
     delay = 50,
     executorSets = [ new ExecutorSet() ],
     parallelExecutePrograms = [],
-    dryRun = false;
+    dryRun = false,
+    shouldCreateClientServer = true;
 
 //
 // Process the arguments.
@@ -80,6 +81,16 @@ for (var i = 2; i < process.argv.length; i++) {
         i++; // skip the next parameter
         parallelExecutePrograms.push(parallelExecute);
 
+        continue;
+    }
+
+    if ("-nn" == arg || "--no-notify" == arg) {
+        currentExecutor.noNotifications = true;
+        continue;
+    }
+
+    if ("-nc" == arg || "--no-clients" == arg) {
+        shouldCreateClientServer = false;
         continue;
     }
 

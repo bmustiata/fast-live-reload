@@ -33,6 +33,7 @@ module.exports = function(grunt) {
                             'src/server/ChangeServer.js',
                             'src/server/CommandLineParser.js',
                             'src/server/IFrameServer.js',
+                            'src/server/NoopChangeServer.js',
                             'src/server/ExecuteCommandsServer.js',
                             'src/server/ExecutorSet.js',
 
@@ -135,25 +136,12 @@ module.exports = function(grunt) {
                     // environment: 'production'
                 }
             }
-        },
-
-        watch : { // development mode
-            dist : {
-                files: [ 'src/**/*' ],
-                tasks: [ 'default' ]
-            },
-
-            iframe: {
-                files: [ 'src/**/*' ],
-                tasks: [ 'build-iframe-client' ]
-            }
         }
     });
 
     // load NPM tasks:
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-contrib-compass');
 

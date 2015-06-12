@@ -1,25 +1,32 @@
 
-var changeServer;
+var changeServer,
+    noNotificationsChangeServer = new NoopChangeServer();
 
 var logIndex = 0,
     runningProcesses = [];
 
 if (!dryRun) {
-    changeServer = new ChangeServer(port);
+    changeServer = shouldCreateClientServer ? new ChangeServer(port) : noNotificationsChangeServer;
 }
 
-console.log(dryRun ? "Should" : "Will");
-console.log(++logIndex + ". notify the changes for clients on port " + chalk.cyan(port) + ",");
+var sentencePrefix = dryRun ? onceMany("Should ", "and should ") : onceMany("Will ", "and will ");
+
+if (shouldCreateClientServer) {
+    console.log(++logIndex + ". " + sentencePrefix.next() +
+        "notify the changes for clients on port " + chalk.cyan(port));
+}
 
 if (! noServe) {
     if (!dryRun) {
         new IFrameServer(servePort, serveUri).run();
     }
-    console.log(++logIndex + ". serve the content from " + chalk.cyan(serveUri) + " on port " + chalk.cyan(servePort) + ",");
+    console.log(++logIndex + ". " + sentencePrefix.next() +
+        "serve the content from " + chalk.cyan(serveUri) + " on port " + chalk.cyan(servePort));
 }
 
 if (parallelExecutePrograms.length) {
-    console.log(++logIndex + ". run on startup, and then kill on shutdown:");
+    console.log(++logIndex + ". " + sentencePrefix.next() +
+        "run on startup, and then kill on shutdown:");
 
     parallelExecutePrograms.forEach(function(command, index) {
         console.log("   " + chalk.gray( String.fromCharCode(97 + index) + ": ") + chalk.green(command));
@@ -50,7 +57,8 @@ if (parallelExecutePrograms.length) {
 // change server that will notify active browser clients when changes
 // occured.
 //
-console.log(++logIndex + ". and will monitor and execute when files change in subfolders:");
+console.log(++logIndex + ". " + sentencePrefix.next() +
+    "monitor and execute when files change in subfolders:");
 
 // find the maximum path length for padding purposes.
 var maxPathLength = computeMaxPathLength(executorSets);
@@ -61,16 +69,19 @@ executorSets.forEach(function(executorSet, index) {
         i;
 
     var monitoredPaths = executorSet.getMonitoredPaths(),
-        executedCommands = executorSet.getExecutedCommands();
+        executedCommands = executorSet.getExecutedCommands(),
+        noNotifications = executorSet.noNotifications || !shouldCreateClientServer;
 
     var indent = onceMany("   " + chalk.gray( String.fromCharCode(97 + index) + ": "), "      "),
-        arrow = onceMany(executedCommands.length ? chalk.gray(" -> ") : "    ", "    ");
+        arrow = onceMany(executedCommands.length ? chalk.gray(" -> ") : "    ", "    "),
+        noNotify = onceMany( noNotifications ? chalk.gray(" (no refresh)") : "", "" );
 
     for (i = 0; i < Math.max(monitoredPaths.length, executedCommands.length); i++) {
         console.log(indent.next() +
                     chalk.cyan(rpad(monitoredPaths[i] || "", maxPathLength)) +
                     arrow.next() +
-                    chalk.green(executedCommands[i] || ""));
+                    chalk.green(executedCommands[i] || "") +
+                    noNotify.next());
     }
 
     if (dryRun) { // don't actually execute anything.
@@ -78,6 +89,8 @@ executorSets.forEach(function(executorSet, index) {
     }
 
     watcher = new Watcher(interval, delay, monitoredPaths);
+
+    var localChangeServer = noNotifications ? noNotificationsChangeServer : changeServer;
 
     //
     // In case commands need to be executed, we notify the command executor server
@@ -88,10 +101,10 @@ executorSets.forEach(function(executorSet, index) {
     // too many triggers for reloading of the page.
     //
     if (executedCommands.length) {
-        var executeCommandsServer = new ExecuteCommandsServer(executedCommands, changeServer);
+        var executeCommandsServer = new ExecuteCommandsServer(executedCommands, localChangeServer);
         watcherCallback = executeCommandsServer.filesChanged.bind(executeCommandsServer);
     } else {
-        watcherCallback = changeServer.filesChanged.bind(changeServer);
+        watcherCallback = changeServer.filesChanged.bind(localChangeServer);
     }
 
     watcher.addListener( watcherCallback );
