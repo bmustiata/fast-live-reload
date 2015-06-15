@@ -1,7 +1,7 @@
 # fast-live-reload
 The swiss army knife of live reloading. Continuously develop without refreshing your browser.
 
-![demo](http://raw.githubusercontent.com/bmustiata/fast-live-reload/master/doc/simple-demo.gif)
+![demo](https://raw.githubusercontent.com/bmustiata/fast-live-reload/master/doc/simple-demo.gif)
 
 A live reload that works with all the possible browsers (ie8+)
 without external dependencies (like jQuery), can serve local
