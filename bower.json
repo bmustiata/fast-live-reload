@@ -24,6 +24,7 @@
     "node_modules",
     "src",
     "tmp",
+    "iframe",
     "bower_components",
     "test",
     "tests",
