@@ -162,6 +162,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.2.1  2015-06-29  *BugFix* Allow monitoring single file resources.
 * v2.2.0  2015-06-12  Automatically inject the client script in html resources. (disable with `-ni`)
 * v2.1.0  2015-06-12  Allow no client notifications for executions (`-nn`) or no client server altogether (`-ns`)
 * v2.0.0  2015-06-09  Allow parallel execution (`-pe`), multiple monitor/execution flows, dry runs (`-n`). Major refactor.
