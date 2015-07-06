@@ -75,6 +75,7 @@ Options:
     -sp, --serve-port   Port to serve files to.  [9000]
     -ns, --no-serve     Don't serve any local folder or site.
     -nc, --no-clients   Don't start the client change server.
+    -o,  --offline      Don't serve local files nor notify clients.
     -ni, --no-inject    Don't inject client code.
     -nn, --no-notify    Don't notify clients.
     -n, --dry-run       Show what will be done. Don't execute.
@@ -163,6 +164,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.2.3  2015-07-06  *BugFix* Don't inject client code when `-nc` is set. Added `-o` alias for `-ns` and `-nc` together. (run commands only)
 * v2.2.2  2015-06-29  *BugFix* Allow monitoring single file resources.
 * v2.2.1  2015-06-16  *BugFix* Added demo gif.
 * v2.2.0  2015-06-12  Automatically inject the client script in html resources. (disable with `-ni`)
