@@ -99,13 +99,14 @@ fast-live-reload -s /target/ \
       src/css
 ```
 
-### Run only programs when files change 
+### Run only programs when files change
 
-We disable both serving or proxying files (`-ns`) and the client reload 
-server (`-nc`).
+We disable both serving or proxying files (`-ns`) and the client reload
+server (`-nc`), using the offline shortcut `-o` (`--offline`) that activates
+both `-ns` and `-nc`.
 
 ```
-$ fast-live-reload -ns -nc graph-data \
+$ fast-live-reload -o graph-data \
     -e "groovy generate-graph-data.groovy" \
     -e "dot -Tpng -ocustom-graph.png custom.graph"
 1. Will monitor and execute when files change in subfolders:
@@ -164,6 +165,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.2.4  2015-07-06  *BugFix* Fix for broken offline. Exclude iframe folder from bower client.
 * v2.2.3  2015-07-06  *BugFix* Don't inject client code when `-nc` is set. Added `-o` alias for `-ns` and `-nc` together. (run commands only)
 * v2.2.2  2015-06-29  *BugFix* Allow monitoring single file resources.
 * v2.2.1  2015-06-16  *BugFix* Added demo gif.
