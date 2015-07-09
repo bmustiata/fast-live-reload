@@ -164,7 +164,8 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
-* v2.2.4  2015-07-09  *BugFix* Don't serve single files. Fix for proxy redirect.
+* v2.2.5  2015-07-09  *BugFix* Don't serve single files. Fix for proxy redirect.
+* v2.2.4  2015-07-06  *BugFix* Offline issue.
 * v2.2.3  2015-07-06  *BugFix* Don't inject client code when `-nc` is set. Added `-o` alias for `-ns` and `-nc` together. (run commands only)
 * v2.2.2  2015-06-29  *BugFix* Allow monitoring single file resources.
 * v2.2.1  2015-06-16  *BugFix* Added demo gif.
