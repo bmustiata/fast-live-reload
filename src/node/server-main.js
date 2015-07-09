@@ -17,11 +17,13 @@ if (shouldCreateClientServer) {
 }
 
 if (! noServe) {
+    var parsedUri = new ParsedUri(serveUri);
     if (!dryRun) {
-        new IFrameServer(servePort, serveUri, shouldInjectClientCode).run();
+        new IFrameServer(servePort, parsedUri, shouldInjectClientCode).run();
     }
     console.log(++logIndex + ". " + sentencePrefix.next() +
-        "serve the content from " + chalk.cyan(serveUri) + " on port " + chalk.cyan(servePort));
+        "serve the content from " + chalk.cyan(parsedUri.folderUri) +
+        " on port " + chalk.cyan(servePort));
 }
 
 if (parallelExecutePrograms.length) {

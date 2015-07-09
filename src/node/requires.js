@@ -7,6 +7,7 @@ var createClass = require("superb-class").createClass,
     exec = require("shelljs").exec,
     handlebars = require("handlebars"),
     fs = require("fs"),
+    path = require("path"),
     onceMany = require("once-many").onceMany,
     spawn = require("cross-spawn").spawn,
     tamper = require("tamper");

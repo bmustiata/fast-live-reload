@@ -7,15 +7,19 @@
  */
 var IFrameServer = createClass({
     _port : null,
-    _serveUrl : null,
+    _parsedServeUri : null,
     _injectClientCode : true,
 
     /**
      * Constructs a handlebars server that serves the given path.
+     * @param {number} port The port to start listening onto.
+     * @param {ParsedUri} parsedUri A parsed URI to proxy or serve.
+     * @param {boolean} shouldInjectClientCode A flag if to inject the client code
+     *      in the HTML pages or not.
      */
-    constructor : function(port, serveUri, shouldInjectClientCode) {
+    constructor : function(port, parsedUri, shouldInjectClientCode) {
         this._port = port;
-        this._serveUrl = serveUri;
+        this._parsedServeUri = parsedUri;
         this._injectClientCode = shouldInjectClientCode;
 
         var app = this._app = express();
@@ -35,19 +39,10 @@ var IFrameServer = createClass({
      * Runs the actual server.
      */
     run : function() {
-        //console.log("Proxy: " + chalk.cyan("http://localhost:" + this._port + "/") + "\n" +
-        //            "for: " + chalk.cyan( this._serveUrl ) );
-
-        // find only the host part for proxying
-        var m = /^(.*?\:\/\/[^/]+)(\/?.*)$/.exec( this._serveUrl );
-
-        if (!m) {
+        if (this._parsedServeUri.isFileUri) {
             this._serveFileUri();
         } else {
-            var proxyHost = m[ 1 ],
-                requestPath = m[ 2 ];
-
-            this._serveProxyUri(proxyHost, requestPath);
+            this._serveProxyUri();
         }
 
         /**
@@ -55,6 +50,7 @@ var IFrameServer = createClass({
          */
         if (!this._injectClientCode) { // redirect only if no client code is injected.
             this._app.use('/', function (req, res, next) {
+
                 if (req.path == '/fast-live-reload/' || req.cookies.fastLiveReload) {
                     if (!req.cookies.fastLiveReload) { // called directly /fast-live-reload/
                         res.cookie('fastLiveReload', 'true');
@@ -72,7 +68,7 @@ var IFrameServer = createClass({
          */
         this._app.get('/fast-live-reload/', function(req, res, next) {
         	res.render('index', {
-                TARGET_URL : requestPath
+                TARGET_URL : this._parsedServeUri.requestPath
             });
         }.bind(this));
 
@@ -81,26 +77,24 @@ var IFrameServer = createClass({
 
     /**
      * _serveProxyUri - Serves the content using a PROXY.
-     * @param {string} proxyHost
-     * @param {string} requestPath
      * @return {void}
      */
-    _serveProxyUri : function(proxyHost, requestPath) {
+    _serveProxyUri : function() {
         /**
          * Load the proxy.
          */
         var _this = this;
-        this._app.use('/', expressProxy(proxyHost, {
+        this._app.use('/', expressProxy(this._parsedServeUri.proxyHost, {
             filter : function(req, res) {
                 // if fast live reload already loaded, there's no need to do anything.
                 if (req.cookies.fastLiveReload && !/^\/fast-live-reload\//.test(req.path)) {
-                    return true;
+                    return false;
                 }
 
-                return false;
+                return true;
             },
 
-            intercept : function(data, req, res, callback) {
+            intercept : function(rsp, data, req, res, callback) {
                 // allow in frame embedding.
                 res.set('Access-Control-Allow-Origin', '*');
                 res.set('X-Frame-Options', '');
@@ -113,7 +107,7 @@ var IFrameServer = createClass({
                 }
 
                 callback(null, data);
-            }
+            }.bind(this)
         }));
     },
 
@@ -137,7 +131,7 @@ var IFrameServer = createClass({
                 }
             }));
         }
-        this._app.use(express.static( this._serveUrl ));
+        this._app.use(express.static( this._parsedServeUri.folderUri ));
     },
 });
 
