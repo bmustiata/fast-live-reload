@@ -4,10 +4,12 @@
 /**
  * AjaxCall - A class that performs an AJAX call, and invokes the given callbacks.
  * @param {string} url
+ * @param {string} method?
  * @return {void}
  */
-function AjaxCall(url) {
+function AjaxCall(url, method) {
     this.url = url;
+    this.method = method || "GET";
 }
 
 /**
@@ -22,14 +24,14 @@ AjaxCall.prototype.execute = function(callback, errorCallback) {
         request.onreadystatechange = function() {
             if (request.readyState == 4) {
                 if (parseInt(request.status / 100) == 2) {
-                    callback(JSON.parse(request.responseText));
+                    callback(request.responseText);
                 } else {
                     callbackCalled = callbackCalled || errorCallback();
                 }
             }
         };
 
-        request.open("GET", this.url, true);
+        request.open(this.method, this.url, true);
         request.send();
     } catch (e) {
         callbackCalled = callbackCalled || errorCallback();
@@ -145,11 +147,11 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
 
 
 new UpdateNotifier(function(data) {
-    console.log(arguments);
+    var data = JSON.parse(data);
 
     if (onlyCssChanged(data)) {
         reloadOnlyCss();
-        window.getComputedStyle(document.body);
+
         return;
     }
 
@@ -197,6 +199,7 @@ function reloadOnlyCss() {
     for (var i = 0; i < cssNodes.length; i++) {
         var cssNode = cssNodes[i];
         cssNode.href = refreshHref(cssNode.href); // resetting the href forces the reload.
+        new AjaxCall(cssNode.href).execute(forceRedraw, forceRedraw);
     }
 }
 
@@ -220,6 +223,16 @@ function refreshHref(href) {
 
     // it contains our parameter, we need to replace the value.
     return href.replace(/([?&]_cache=)\d+$/, "$1" + new Date().getTime());
+}
+
+/**
+ * forceRedraw - Force the redraw of the page somehow.
+ * @return {void}
+ */
+function forceRedraw() {
+    var oldDisplayValue = document.body.style.display || 'block';
+    document.body.style.display = 'none';
+    document.body.style.display = oldDisplayValue;
 }
 
 /**

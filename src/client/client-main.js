@@ -1,10 +1,10 @@
 
 new UpdateNotifier(function(data) {
-    console.log(arguments);
+    var data = JSON.parse(data);
 
     if (onlyCssChanged(data)) {
         reloadOnlyCss();
-        window.getComputedStyle(document.body);
+
         return;
     }
 
@@ -52,6 +52,7 @@ function reloadOnlyCss() {
     for (var i = 0; i < cssNodes.length; i++) {
         var cssNode = cssNodes[i];
         cssNode.href = refreshHref(cssNode.href); // resetting the href forces the reload.
+        new AjaxCall(cssNode.href).execute(forceRedraw, forceRedraw);
     }
 }
 
@@ -75,6 +76,16 @@ function refreshHref(href) {
 
     // it contains our parameter, we need to replace the value.
     return href.replace(/([?&]_cache=)\d+$/, "$1" + new Date().getTime());
+}
+
+/**
+ * forceRedraw - Force the redraw of the page somehow.
+ * @return {void}
+ */
+function forceRedraw() {
+    var oldDisplayValue = document.body.style.display || 'block';
+    document.body.style.display = 'none';
+    document.body.style.display = oldDisplayValue;
 }
 
 /**
