@@ -199,6 +199,9 @@ function reloadOnlyCss() {
     for (var i = 0; i < cssNodes.length; i++) {
         var cssNode = cssNodes[i];
         cssNode.href = refreshHref(cssNode.href); // resetting the href forces the reload.
+
+        // FIXME: this is a hack for a bug chrome that doesn't redraws, unless at least
+        // a mouse over occurs even if colors actually changed, on some platforms.
         new AjaxCall(cssNode.href).execute(forceRedraw, forceRedraw);
     }
 }
@@ -227,6 +230,8 @@ function refreshHref(href) {
 
 /**
  * forceRedraw - Force the redraw of the page somehow.
+ * This is implemented currently by alternating the display style of the
+ * body element;
  * @return {void}
  */
 function forceRedraw() {
