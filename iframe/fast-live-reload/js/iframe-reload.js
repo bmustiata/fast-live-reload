@@ -19,7 +19,7 @@ AjaxCall.prototype.execute = function(callback, errorCallback) {
         request.onreadystatechange = function() {
             if (request.readyState == 4) {
                 if (parseInt(request.status / 100) == 2) {
-                    callback();
+                    callback(JSON.parse(request.responseText));
                 } else {
                     callbackCalled = callbackCalled || errorCallback();
                 }
