@@ -165,6 +165,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.3.0  2015-08-10  Reload only CSS link elements if only changes in `.css` files occured.
 * v2.2.7  2015-07-25  *BugFix* Remove the `<base/>` tag when existing, if injecting the client script.
 * v2.2.5  2015-07-09  *BugFix* Don't serve single files. Fix for proxy redirect.
 * v2.2.4  2015-07-06  *BugFix* Fix for broken offline. Exclude iframe folder from bower client.
