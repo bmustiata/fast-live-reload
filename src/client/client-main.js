@@ -1,6 +1,6 @@
 
 new UpdateNotifier(function(data) {
-    var data = JSON.parse(data);
+    data = JSON.parse(data);
 
     if (onlyCssChanged(data)) {
         reloadOnlyCss();
@@ -16,7 +16,7 @@ new UpdateNotifier(function(data) {
 /**
  * onlyCssChanged - Checks if only CSS files changed in the data response
  * from the server.
- * @param {} data
+ * @param {any} data
  * @return {boolean}
  */
 function onlyCssChanged(data) {
@@ -42,12 +42,33 @@ function onlyCssChanged(data) {
 }
 
 /**
- * reloadOnlyCss - Resets the href for all the CSS link nodes to force
- * their reloading.
- * @return {void}
+ * Reloads the CSS for all the iframes, including the iframes that are
+ * created programatically, and assumes accessing the document of the
+ * iframe might fail.
  */
 function reloadOnlyCss() {
-    var cssNodes = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < window.frames.length; i++) {
+        var frame = window.frames[0];
+        
+        try {
+            reloadOnlyCssForDocument(frame.document);
+        } catch(e) {
+            // ignore on purpose, if reloading failed, it might be because we
+            // are not CORS compliant.
+        }
+    }
+    
+    reloadOnlyCssForDocument(document);
+}
+
+/**
+ * reloadOnlyCssForDocument - Resets the href for all the CSS link 
+ * nodes to force their reloading.
+ * @param {Document} doc The document to reload only the CSS.
+ * @return {void}
+ */
+function reloadOnlyCssForDocument(doc) {
+    var cssNodes = doc.querySelectorAll('link[rel="stylesheet"]');
 
     for (var i = 0; i < cssNodes.length; i++) {
         var cssNode = cssNodes[i];
@@ -55,7 +76,11 @@ function reloadOnlyCss() {
 
         // FIXME: this is a hack for a bug chrome that doesn't redraws, unless at least
         // a mouse over occurs even if colors actually changed, on some platforms.
-        new AjaxCall(cssNode.href).execute(forceRedraw, forceRedraw);
+        new AjaxCall(cssNode.href).execute(function() {
+        	forceRedraw(doc);
+        }, function() {
+            forceRedraw(doc);
+        });
     }
 }
 
@@ -85,12 +110,13 @@ function refreshHref(href) {
  * forceRedraw - Force the redraw of the page somehow.
  * This is implemented currently by alternating the display style of the
  * body element;
+ * @param {Document} doc The document to reload.
  * @return {void}
  */
-function forceRedraw() {
-    var oldDisplayValue = document.body.style.display || 'block';
-    document.body.style.display = 'none';
-    document.body.style.display = oldDisplayValue;
+function forceRedraw(doc) {
+    var oldDisplayValue = doc.body.style.display || 'block';
+    doc.body.style.display = 'none';
+    doc.body.style.display = oldDisplayValue;
 }
 
 /**

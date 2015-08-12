@@ -165,6 +165,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.3.2  2015-08-12  *BugFix* Reload CSS only also in iframes, even the programatically created ones.
 * v2.3.1  2015-08-10  *BugFix* Removed the doc folder from the bower download.
 * v2.3.0  2015-08-10  Reload only CSS link elements if only changes in `.css` files occured.
 * v2.2.7  2015-07-25  *BugFix* Remove the `<base/>` tag when existing, if injecting the client script.
