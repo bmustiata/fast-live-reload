@@ -1,23 +1,17 @@
 # fast-live-reload
-The swiss army knife of live reloading. Continuously develop without refreshing your browser.
+Watch your pages change without refreshing your browser. The live reload that finally feels perfect.
 
 ![demo](https://raw.githubusercontent.com/bmustiata/fast-live-reload/master/doc/simple-demo.gif)
 
 A live reload that works with all the possible browsers (ie8+)
-without external dependencies (like jQuery), can serve local
-files, and integrate with whatever development flow you're having,
-including other watcher tools or build steps (in the **Complete Help and Example**
-you can see `typescript` and `compass` integration, using their native
-watchers for optimal development speed, side by side with multiple folders
-that trigger different actions on change).
+without external dependencies (like jQuery), and can do pretty much anything,
+and integrate with whatever development flow you're having,
+including other watcher tools or build steps.
 
+**Don't take my word for it, see why it's awesome in a short [presentation for v2.2.7](https://www.youtube.com/watch?v=XC4aLM21YAU).
+It's only 18 minutes long, and you get to feel the power of fast-live-reload.**
 
-Reloading works also without altering the code of your web site.
-
-
-Watch a [presentation for v1.1.0](https://www.youtube.com/watch?v=VXN0rTAuMO4).
-It's only 10 minutes long, and you get to see fast-live-reload in action. Even on IE.
-
+Reloading works without touching the code of your web site.
 
 ## Why
 
@@ -165,6 +159,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.3.3  2015-08-18  *BugFix* Updated documentation.
 * v2.3.2  2015-08-12  *BugFix* Reload CSS only also in iframes, even the programatically created ones.
 * v2.3.1  2015-08-10  *BugFix* Removed the doc folder from the bower download.
 * v2.3.0  2015-08-10  Reload only CSS link elements if only changes in `.css` files occured.
