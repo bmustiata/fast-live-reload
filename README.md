@@ -160,6 +160,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.4.0  2015-09-24  Treat monitored paths as globs. Documented delay (`-d`) param.
 * v2.3.3  2015-08-18  *BugFix* Updated documentation.
 * v2.3.2  2015-08-12  *BugFix* Reload CSS only also in iframes, even the programatically created ones.
 * v2.3.1  2015-08-10  *BugFix* Removed the doc folder from the bower download.

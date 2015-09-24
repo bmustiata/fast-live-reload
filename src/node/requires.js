@@ -10,7 +10,8 @@ var createClass = require("superb-class").createClass,
     path = require("path"),
     onceMany = require("once-many").onceMany,
     spawn = require("cross-spawn").spawn,
-    tamper = require("tamper");
+    tamper = require("tamper"),
+    glob = require("glob");
 
 /**
  * createWatch - Creates a new watch object.
