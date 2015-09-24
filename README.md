@@ -61,6 +61,7 @@ Usage: fast-live-reload [options]
 
 Options:
     --interval          Poll every how many milliseconds.  [100]
+    -d, --delay         Delay to avoid throttling.  [50]
     -s, --serve         Folder or site (via IFrame) to serve.
     -e, --execute       Execute the given commands on change.
     -ep, -pe, --parallel-execute
