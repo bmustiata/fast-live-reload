@@ -36,8 +36,9 @@ if (parallelExecutePrograms.length) {
 
     if (!dryRun) {
         parallelExecutePrograms.forEach(function (command) {
-            var parsedCommand = new CommandLineParser(command);
-            var process = spawn(parsedCommand.getCommand(), parsedCommand.getArgs());
+            var process = childProcess.exec(command);
+            //var parsedCommand = new CommandLineParser(command);
+            //var process = spawn(parsedCommand.getCommand(), parsedCommand.getArgs());
 
             runningProcesses.push(process);
 

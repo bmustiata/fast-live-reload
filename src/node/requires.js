@@ -4,14 +4,13 @@ var createClass = require("superb-class").createClass,
     expressHandlebars = require("express-handlebars"),
     expressProxy = require("express-http-proxy"),
     expressCookieParser = require("cookie-parser"),
-    exec = require("shelljs").exec,
     handlebars = require("handlebars"),
     fs = require("fs"),
     path = require("path"),
     onceMany = require("once-many").onceMany,
-    spawn = require("cross-spawn").spawn,
     tamper = require("tamper"),
-    glob = require("glob");
+    glob = require("glob"),
+    childProcess = require("child_process");
 
 /**
  * createWatch - Creates a new watch object.

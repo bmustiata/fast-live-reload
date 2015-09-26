@@ -16,11 +16,6 @@ var ExecuteCommandsServer = createClass("ExecuteCommandsServer", {
     constructor: function(commands, changeServer) {
         this._commands = commands;
         this._changeServer = changeServer;
-
-        //console.log("On change run the following commands: ");
-        //this._commands.forEach(function(command, it) {
-        //    console.log( chalk.cyan(it + 1 + ".") + " " + chalk.green(command) );
-        //});
     },
 
     /**
@@ -35,8 +30,14 @@ var ExecuteCommandsServer = createClass("ExecuteCommandsServer", {
         this._commands.forEach(function(command) {
             console.log("\nRunning: " + chalk.green(command));
 
-            if (exec(command).code != 0) {
-                console.log(chalk.yellow("Command failed: " + command));
+            try {
+                var result = childProcess.execSync(command, {
+                    encoding: 'utf-8'
+                });
+
+                console.log(result);
+            } catch (e) {
+                console.error(chalk.yellow("Command failed: " + command, e));
             }
         });
 
