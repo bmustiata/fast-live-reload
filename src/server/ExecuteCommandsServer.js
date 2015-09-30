@@ -37,7 +37,9 @@ var ExecuteCommandsServer = createClass("ExecuteCommandsServer", {
 
                 console.log(result);
             } catch (e) {
-                console.error(chalk.yellow("Command failed: " + command, e));
+                console.error(chalk.yellow("Command failed: " + command), e.message);
+                console.log(e.stdout);
+                console.error(e.stderr);
             }
         });
 
