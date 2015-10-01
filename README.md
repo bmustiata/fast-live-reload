@@ -160,6 +160,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.5.2  2015-10-01  *BugFix* Use the correct client port by default, in injected client scripts, or iframe reloading.
 * v2.5.1  2015-09-30  *BugFix* Show the output in case commands fail.
 * v2.5.0  2015-09-26  Use the shell to execute the commands. Requires now at least node v0.12 to run.
 * v2.4.1  2015-09-25  *BugFix* Normalize Windows paths.
