@@ -127,8 +127,8 @@ var IFrameServer = createClass({
     _generateInjectClientCode : function(req) {
         var clientHost = this._getClientHost(req);
 
-        return "<script type='text/javascript'>window.fastLiveReloadHost = window.fastLiveReloadHost || '" + clientHost + "';</script>";
-            "<script src='/fast-live-reload/js/client-reload.js'></script>"
+        return "<script type='text/javascript'>window.fastLiveReloadHost = window.fastLiveReloadHost || '" + clientHost + "';</script>" +
+            "<script src='/fast-live-reload/js/client-reload.js'></script>";
     },
 
     /**
