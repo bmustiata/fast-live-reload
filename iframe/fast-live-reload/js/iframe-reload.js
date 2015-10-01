@@ -85,10 +85,12 @@ ParameterParser.prototype.get = function(name, defaultValue) {
 
 /**
  * UpdateNotifier - Notifies when updates were reported by the server.
+ * @param {string} clientHost The client host to connect to in order to wait for updates.
  * @param {function} callback
  * @return {void}
  */
-function UpdateNotifier(callback) {
+function UpdateNotifier(clientHost, callback) {
+    this._clientHost = clientHost || "localhost:9001";
     this.callback = callback;
 }
 
@@ -118,7 +120,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     queryParams = new ParameterParser(queryString);
     hashParams =  new ParameterParser(hashString);
 
-    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : (hostString + ":9001");
+    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : this._clientHost;
     host = queryParams.get("fastLiveReloadHost", host);
     host = hashParams.get("fastLiveReloadHost", host);
 
@@ -248,9 +250,10 @@ IFrameSite.prototype.title = function() {
 /**
  * initializeFastLiveReload - Initializes the fast live reload.
  * @param {string} targetUrl
+ * @param {string} clientUrl The client used url to wait for update notifications.
  * @return {void}
  */
-function initializeFastLiveReload(targetUrl) {
+function initializeFastLiveReload(targetUrl, clientUrl) {
     var m = /^((.*?)\/\/(.*?)(\:\d+))?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
     var hostString = m[1] + targetUrl;
 
@@ -278,7 +281,7 @@ function initializeFastLiveReload(targetUrl) {
             }
         });
 
-        new UpdateNotifier(function(data) {
+        new UpdateNotifier(clientUrl, function(data) {
             iframeSite.reload();
         }).requestUpdatesFromServer();
     });

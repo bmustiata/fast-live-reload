@@ -19,7 +19,7 @@ if (shouldCreateClientServer) {
 if (! noServe) {
     var parsedUri = new ParsedUri(serveUri);
     if (!dryRun) {
-        new IFrameServer(servePort, parsedUri, shouldInjectClientCode).run();
+        new IFrameServer(servePort, parsedUri, port, shouldInjectClientCode).run();
     }
     console.log(++logIndex + ". " + sentencePrefix.next() +
         "serve the content from " + chalk.cyan(parsedUri.folderUri) +

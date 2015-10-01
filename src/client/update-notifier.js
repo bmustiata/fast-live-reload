@@ -1,9 +1,11 @@
 /**
  * UpdateNotifier - Notifies when updates were reported by the server.
+ * @param {string} clientHost The client host to connect to in order to wait for updates.
  * @param {function} callback
  * @return {void}
  */
-function UpdateNotifier(callback) {
+function UpdateNotifier(clientHost, callback) {
+    this._clientHost = clientHost || "localhost:9001";
     this.callback = callback;
 }
 
@@ -33,7 +35,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     queryParams = new ParameterParser(queryString);
     hashParams =  new ParameterParser(hashString);
 
-    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : (hostString + ":9001");
+    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : this._clientHost;
     host = queryParams.get("fastLiveReloadHost", host);
     host = hashParams.get("fastLiveReloadHost", host);
 

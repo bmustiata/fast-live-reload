@@ -14,13 +14,15 @@ var IFrameServer = createClass({
      * Constructs a handlebars server that serves the given path.
      * @param {number} port The port to start listening onto.
      * @param {ParsedUri} parsedUri A parsed URI to proxy or serve.
+     * @param {number} clientPort The client port where the client waits for notifications.
      * @param {boolean} shouldInjectClientCode A flag if to inject the client code
      *      in the HTML pages or not.
      */
-    constructor : function(port, parsedUri, shouldInjectClientCode) {
+    constructor : function(port, parsedUri, clientPort, shouldInjectClientCode) {
         this._port = port;
         this._parsedServeUri = parsedUri;
         this._injectClientCode = shouldInjectClientCode;
+        this._clientPort = clientPort;
 
         var app = this._app = express();
 
@@ -68,7 +70,8 @@ var IFrameServer = createClass({
          */
         this._app.get('/fast-live-reload/', function(req, res, next) {
         	res.render('index', {
-                TARGET_URL : this._parsedServeUri.requestPath
+                TARGET_URL : this._parsedServeUri.requestPath,
+                CLIENT_HOST : this._getClientHost(req)
             });
         }.bind(this));
 
@@ -103,7 +106,8 @@ var IFrameServer = createClass({
                 if (this._injectClientCode) {
                     var bufferData = data.toString();
                     if (/<\/body>\s*<\/html>\s*$/i.test(bufferData)) {
-                        data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
+                        var codeToInject = this._generateInjectClientCode(req);
+                        data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, codeToInject + "$1");
                         data = data.replace(/<base\s+href=".*?"\s*(\/>)|(><\/base>)/i, "");
                     }
                 }
@@ -111,6 +115,31 @@ var IFrameServer = createClass({
                 callback(null, data);
             }.bind(this)
         }));
+    },
+
+    /**
+     * _generateInjectClientCode - Generates the code that needs to be injected
+     * into a page in order to get the live reloading. It should be the client
+     * configuration, and the reference to the client-reload.js script.
+     * @param {Request} req The original request
+     * @return {string}
+     */
+    _generateInjectClientCode : function(req) {
+        var clientHost = this._getClientHost(req);
+
+        return "<script type='text/javascript'>window.fastLiveReloadHost = window.fastLiveReloadHost || '" + clientHost + "';</script>";
+            "<script src='/fast-live-reload/js/client-reload.js'></script>"
+    },
+
+    /**
+     * _getClientHost - Gets the client host, from the current request, and the this._clientPort.
+     * @param {Request} req
+     * @return {string}
+     */
+    _getClientHost : function(req) {
+        var result = req.headers.host.replace(/^(.+?)(:\d+)?$/, '$1:' + this._clientPort);
+
+        return result;
     },
 
     /**

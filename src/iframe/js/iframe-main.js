@@ -1,9 +1,10 @@
 /**
  * initializeFastLiveReload - Initializes the fast live reload.
  * @param {string} targetUrl
+ * @param {string} clientUrl The client used url to wait for update notifications.
  * @return {void}
  */
-function initializeFastLiveReload(targetUrl) {
+function initializeFastLiveReload(targetUrl, clientUrl) {
     var m = /^((.*?)\/\/(.*?)(\:\d+))?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
     var hostString = m[1] + targetUrl;
 
@@ -31,7 +32,7 @@ function initializeFastLiveReload(targetUrl) {
             }
         });
 
-        new UpdateNotifier(function(data) {
+        new UpdateNotifier(clientUrl, function(data) {
             iframeSite.reload();
         }).requestUpdatesFromServer();
     });
