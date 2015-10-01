@@ -1,5 +1,5 @@
 
-new UpdateNotifier(clientHost, function(data) {
+new UpdateNotifier(null, function(data) {
     data = JSON.parse(data);
 
     if (onlyCssChanged(data)) {

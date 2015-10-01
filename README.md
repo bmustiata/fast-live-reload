@@ -160,6 +160,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.5.4  2015-10-01  *BugFix* Use the window.fastLiveReloadHost variable for the client script.
 * v2.5.3  2015-10-01  *BugFix* Actually inject the script, not only the config.
 * v2.5.2  2015-10-01  *BugFix* Use the correct client port by default, in injected client scripts, or iframe reloading.
 * v2.5.1  2015-09-30  *BugFix* Show the output in case commands fail.
