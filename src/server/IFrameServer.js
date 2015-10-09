@@ -105,9 +105,9 @@ var IFrameServer = createClass({
 
                 if (this._injectClientCode) {
                     var bufferData = data.toString();
-                    if (/<\/body>\s*<\/html>\s*$/i.test(bufferData)) {
+                    if (/(<\/body>([\s\S]*?)<\/html>\s*)$/i.test(bufferData)) {
                         var codeToInject = this._generateInjectClientCode(req);
-                        data = bufferData.replace(/(<\/body>\s*<\/html>\s*)$/i, codeToInject + "$1");
+                        data = bufferData.replace(/(<\/body>([\s\S]*?)<\/html>\s*)$/i, codeToInject + "$1");
                         data = data.replace(/<base\s+href=".*?"\s*(\/>)|(><\/base>)/i, "");
                     }
                 }
@@ -157,7 +157,7 @@ var IFrameServer = createClass({
 
                 // Return a function in order to capture and modify the response body:
                 return function (body) {
-                    return body.replace(/(<\/body>\s*<\/html>\s*)$/i,
+                    return body.replace(/(<\/body>([\s\S]*?)<\/html>\s*)$/i,
                         "<script src='/fast-live-reload/js/client-reload.js'></script>$1");
                 }
             }));
