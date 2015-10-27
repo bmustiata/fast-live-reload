@@ -22,6 +22,7 @@ function ParameterParser(queryString) {
 
         if (!match) { // parameter is present, but has no value
             this._parameters[ decodeURIComponent( parameters[i] ) ] = true;
+            continue;
         }
 
         this._parameters[ decodeURIComponent( match[1] ) ] = decodeURIComponent( match[2] );
