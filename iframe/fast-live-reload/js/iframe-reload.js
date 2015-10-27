@@ -112,7 +112,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     /**
      * Parse the parameters and find the fastLiveReloadHost string.
      */
-    m = /^(.*?)\/\/(.*?)(\:\d+)?\/.*?(\?(.*?))?(\#(.*))?$/.exec( document.location.href );
+    m = /^(.*?)\/\/(.*?)(\:\d+)?\/.*?(\?(.*?))?(\#(?!\/)(.*))?$/.exec( document.location.href );
     hostString = m[2];
     queryString = m[5];
     hashString = m[7];
