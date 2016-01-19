@@ -160,6 +160,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.5.7  2016-01-19  *BugFix* Use `sane` module instead of `watcher` since it uses `fs.watch` with far better performance.
 * v2.5.6  2015-10-27  *BugFix* Allow parameters without values in query/fragment params. Thanks `bbasic`.
 * v2.5.5  2015-10-11  *BugFix* Allow `noscript` or comments after the `body` tag. Thanks `bbasic`.
 * v2.5.4  2015-10-01  *BugFix* Use the window.fastLiveReloadHost variable for the client script.

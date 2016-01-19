@@ -26,11 +26,6 @@ var Watcher = createClass({
     _monitoredFiles : null,
 
     /**
-     * @type {Function}
-     */
-    _createWatch : null,
-
-    /**
      * @type {Array<FileMonitor>}
      */
     _folderMonitors : null,
@@ -56,7 +51,6 @@ var Watcher = createClass({
             throw new Error('Watcher must have a paths array to monitor.');
         }
 
-        this._createWatch = createWatch;
         this._delay = delay;
 
         this._listeners = [];
@@ -127,11 +121,9 @@ var Watcher = createClass({
         for (var i = 0; i < this._paths.length; i++) {
             path = this._paths[i];
 
-            this._createWatch().createMonitor(
-                    path,
-                    { interval : this._pollInterval },
-                    this._createMonitor.bind(this, path)
-            );
+            var monitor = sane(path, {});
+            this._createMonitor(path, monitor);
+            //sane(path, this.createMonitor.bind(this, path));
         }
     },
 
@@ -143,9 +135,9 @@ var Watcher = createClass({
     _createMonitor : function(path, monitor) {
         this._folderMonitors.push(monitor);
 
-        monitor.on("created", this._notify.bind(this, path, "created"));
-        monitor.on("changed", this._notify.bind(this, path, "changed"));
-        monitor.on("removed", this._notify.bind(this, path, "removed"));
+        monitor.on("add", this._notify.bind(this, path, "created"));
+        monitor.on("change", this._notify.bind(this, path, "changed"));
+        monitor.on("delete", this._notify.bind(this, path, "removed"));
     },
 
     /**

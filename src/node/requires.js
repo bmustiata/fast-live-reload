@@ -10,13 +10,6 @@ var createClass = require("superb-class").createClass,
     onceMany = require("once-many").onceMany,
     tamper = require("tamper"),
     glob = require("glob"),
+    sane = require("sane"),
     childProcess = require("child_process");
-
-/**
- * createWatch - Creates a new watch object.
- * @return {object}
- */
-function createWatch() {
-    return require("watch");
-}
 
