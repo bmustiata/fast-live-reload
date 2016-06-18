@@ -24,6 +24,18 @@ def monitor_the_test_data_folder_running_pwd(context):
     make_process_ouptput_async(context, process)
 
 
+@step('I monitor from inside the test-data folder running `pwd` whenever files change')
+def monitor_the_test_data_folder_running_pwd(context):
+    process = subprocess.Popen(["fast-live-reload",
+                                "-e",
+                                "pwd"],
+                               cwd=context.test_data_folder,
+                               stdout=subprocess.PIPE,
+                               close_fds=ON_POSIX)
+
+    make_process_ouptput_async(context, process)
+
+
 @step(r'I monitor the test-data/test\.\* files running `pwd` whenever the file change')
 def monitor_the_test_data_folder_running_pwd(context):
     monitored_path = context.test_data_folder + '/test.*'
@@ -33,6 +45,21 @@ def monitor_the_test_data_folder_running_pwd(context):
                                 monitored_path,
                                 "-e",
                                 "pwd"],
+                               stdout=subprocess.PIPE)
+
+    make_process_ouptput_async(context, process)
+
+
+@step(r'I monitor inside the test-data folder for test.* files, running `pwd` whenever the file change')
+def monitor_the_test_data_folder_running_pwd(context):
+    monitored_path = context.test_data_folder
+    print("Monitored path: %s" % monitored_path)
+
+    process = subprocess.Popen(["fast-live-reload",
+                                'test.*',
+                                "-e",
+                                "pwd"],
+                               cwd=context.test_data_folder,
                                stdout=subprocess.PIPE)
 
     make_process_ouptput_async(context, process)
