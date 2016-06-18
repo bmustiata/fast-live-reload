@@ -26,8 +26,11 @@ def monitor_the_test_data_folder_running_pwd(context):
 
 @step(r'I monitor the test-data/test\.\* files running `pwd` whenever the file change')
 def monitor_the_test_data_folder_running_pwd(context):
+    monitored_path = context.test_data_folder + '/test.*'
+    print("Monitored path: %s" % monitored_path)
+
     process = subprocess.Popen(["fast-live-reload",
-                                context.test_data_folder + '/test.*',
+                                monitored_path,
                                 "-e",
                                 "pwd"],
                                stdout=subprocess.PIPE)
@@ -66,4 +69,5 @@ def check_if_the_pwd_command_was_executed(context):
 @step("fast-live-reload doesn't do anything")
 def check_that_fast_live_reload_doesnt_do_anything(context):
     result = context.fast_live_reload_process.stdout.read()
+    print(result)
     assert not result

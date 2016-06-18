@@ -3,5 +3,5 @@ Feature: Monitoring a folder should raise notifications when
 
   Scenario: Test if changing of a file raises the event change
     Given I monitor the test-data folder running `pwd` whenever files change
-    When I change the 'text.txt' file in that folder
+    When I change the 'test.txt' file in that folder
     Then the `pwd` command gets executed
