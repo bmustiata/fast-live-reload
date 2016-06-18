@@ -22,6 +22,10 @@ ease on all browsers, even on remote machines (see for example
 This tool is specifically designed for that.
 
 ## Example
+
+The live reload application is available as either `fast-live-reload`, or `flr` from the
+command line.
+
 ```
 $ fast-live-reload
 1. Will notify the changes for clients on port 9001
@@ -160,6 +164,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.5.8  2016-06-18  *BugFix* Register `flr` as a script, beside `fast-live-reload`. Fixed bug when watching absolute paths, with file patterns. Added regression tests. Updated dependencies.
 * v2.5.7  2016-01-19  *BugFix* Use `sane` module instead of `watcher` since it uses `fs.watch` with far better performance.
 * v2.5.6  2015-10-27  *BugFix* Allow parameters without values in query/fragment params. Thanks `bbasic`.
 * v2.5.5  2015-10-11  *BugFix* Allow `noscript` or comments after the `body` tag. Thanks `bbasic`.
