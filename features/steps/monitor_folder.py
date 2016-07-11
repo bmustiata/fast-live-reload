@@ -24,11 +24,11 @@ def monitor_the_test_data_folder_running_pwd(context):
     make_process_ouptput_async(context, process)
 
 
-@step('I monitor from inside the test-data folder running `pwd` whenever files change')
-def monitor_the_test_data_folder_running_pwd(context):
+@step('I monitor from inside the test-data folder running `(.*?)` whenever files change')
+def monitor_the_test_data_folder_running_pwd(context, command):
     process = subprocess.Popen(["fast-live-reload",
                                 "-e",
-                                "pwd"],
+                                command],
                                cwd=context.test_data_folder,
                                stdout=subprocess.PIPE,
                                close_fds=ON_POSIX)
@@ -36,8 +36,8 @@ def monitor_the_test_data_folder_running_pwd(context):
     make_process_ouptput_async(context, process)
 
 
-@step(r'I monitor the test-data/test\.\* files running `pwd` whenever the file change')
-def monitor_the_test_data_folder_running_pwd(context):
+@step(r'I monitor the test-data/test\.\* files running `(.*?)` whenever the file change')
+def monitor_the_test_data_folder_running_pwd(context, command):
     monitored_path = context.test_data_folder + '/test.*'
     print("Monitored path: %s" % monitored_path)
 
@@ -50,15 +50,15 @@ def monitor_the_test_data_folder_running_pwd(context):
     make_process_ouptput_async(context, process)
 
 
-@step(r'I monitor inside the test-data folder for test.* files, running `pwd` whenever the file change')
-def monitor_the_test_data_folder_running_pwd(context):
+@step(r'I monitor inside the test-data folder for test.* files, running `(.*?)` whenever the file change')
+def monitor_the_test_data_folder_running_pwd(context, command):
     monitored_path = context.test_data_folder
     print("Monitored path: %s" % monitored_path)
 
     process = subprocess.Popen(["fast-live-reload",
                                 'test.*',
                                 "-e",
-                                "pwd"],
+                                command],
                                cwd=context.test_data_folder,
                                stdout=subprocess.PIPE)
 
@@ -91,6 +91,14 @@ def change_the_text_txt_file(context, file_name):
 def check_if_the_pwd_command_was_executed(context):
     stdout = context.fast_live_reload_process.stdout.read1(1000000).decode('utf-8')
     assert 'Running: pwd' in stdout
+
+
+@step("the '(.*?)' gets printed on the display")
+def check_if_the_pwd_command_was_executed(context, text):
+    stdout = context.fast_live_reload_process.stdout.read1(1000000).decode('utf-8')
+    if text not in stdout:
+        print("'%s' not found in STDOUT:\n%s" % (text, stdout))
+        assert False
 
 
 @step("fast-live-reload doesn't do anything")

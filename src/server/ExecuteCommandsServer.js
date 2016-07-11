@@ -28,21 +28,65 @@ var ExecuteCommandsServer = createClass("ExecuteCommandsServer", {
         console.log(chalk.green("\nChanges occurred"));
 
         this._commands.forEach(function(command) {
-            console.log("\nRunning: " + chalk.green(command));
+            var k;
 
-            try {
-                var result = childProcess.execSync(command, {
-                    encoding: 'utf-8'
-                });
+            if (!isSingleFileCommand(command)) {
+                runCommand(command);
+                return;
+            }
 
-                console.log(result);
-            } catch (e) {
-                console.error(chalk.yellow("Command failed: " + command), e.message);
-                console.log(e.stdout);
-                console.error(e.stderr);
+            for (k in changes.created) {
+                runCommand(command, k);
+            }
+
+            for (k in changes.changed) {
+                runCommand(command, k);
             }
         });
 
         this._changeServer.filesChanged(changes);
     }
 });
+
+
+function runCommand(command, file) {
+    if (file) {
+        console.log("\nRunning: " + chalk.green(command) + " for '" + chalk.blue(file) + "'");
+    } else {
+        console.log("\nRunning: " + chalk.green(command));
+    }
+
+    try {
+        var options = {
+            encoding: 'utf-8',
+            shell: true
+        };
+
+        if (file) {
+            options['env'] = {
+                "FILE" : file
+            };
+        }
+
+        var result = childProcess.execSync(command, options);
+
+        console.log(result);
+    } catch (e) {
+        console.error(chalk.yellow("Command failed: " + command), e.message);
+        console.log(e.stdout);
+        console.error(e.stderr);
+    }
+}
+
+/**
+ * isSingleFileCommand - Returns true if this command is meant to process a single
+ *                       file, that is refers to $FILE or ${FILE} or %FILE% in the
+ *                       command string.
+ * @param {string} command
+ * @return {boolean}
+ */
+function isSingleFileCommand(command) {
+    return /.*\$FILE.*/.test(command) ||
+           /.*\$\{FILE\}.*/.test(command) ||
+           /.*%FILE%.*/.test(command);
+}
