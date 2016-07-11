@@ -11,5 +11,3 @@ def before_scenario(context, scenario):
 def after_scenario(context, scenario):
     context.fast_live_reload_process.kill()
     print("PROCESS KILLED")
-
-
