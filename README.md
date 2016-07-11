@@ -113,6 +113,20 @@ $ fast-live-reload -o graph-data \
                     dot -Tpng -ocustom-graph.png custom.graph
 ```
 
+### Run for each individual file
+
+In order to run a command for each file that was changed or created, we
+can just pass the $FILE variable in the command. Note the single quotes
+so the variable is not expanded by the current shell:
+
+```
+$ flr -o graph-data/*.graph \
+    -e 'dot -Tpng -o${FILE}.png $FILE'
+```
+
+Even if multiple graph files change, the command will be called individually
+ for each one of them.
+
 ## Remote Locations
 
 Remote locations are proxied, and the reloader will allow to reload the
@@ -164,6 +178,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.6.0  2016-07-11  Execute single commands if they refer to `$FILE` or `%FILE%`. Run commands through a shell.
 * v2.5.8  2016-06-18  *BugFix* Register `flr` as a script, beside `fast-live-reload`. Fixed bug when watching absolute paths, with file patterns. Added regression tests. Updated dependencies.
 * v2.5.7  2016-01-19  *BugFix* Use `sane` module instead of `watcher` since it uses `fs.watch` with far better performance.
 * v2.5.6  2015-10-27  *BugFix* Allow parameters without values in query/fragment params. Thanks `bbasic`.
