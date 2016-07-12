@@ -145,34 +145,34 @@ var Watcher = createClass({
 
     /**
      * Start recording the changed paths.
-     * @param {string} path The path where the change occured.
+     * @param {string} stringPath The path where the change occured.
      * @param {string} event The event name of what happened (created/changed/removed)
      * @param {string} f The file name where the event occured.
      */
-    _notify : function(path, event, f) {
+    _notify : function(stringPath, event, f) {
         // Since we can only monitor for folders, whenever we have to monitor specific files,
         // we need to have a watcher over the folder that contains them, and we need to filter
         // out the non matching hits (since in that folder there can be changes in files
         // we don't care about).
 
-        _log("Watcher.notify: ", path, event, f);
+        _log("Watcher.notify: ", stringPath, event, f);
 
-        path = this._normalizePath(path);
+        stringPath = this._normalizePath(stringPath);
         f = this._normalizePath(f);
 
-        _log("  path:", path);
+        _log("  path:", stringPath);
         _log("  file:", f);
 
         // if the given notification is on a file that is independently monitored
-        if (this._monitoredFiles[path]) {
-            if (!this._monitoredFiles[path][f]) {
-                _log("The file: ", f, " is not monitored in the path: ", this._monitoredFiles[path]);
+        if (this._monitoredFiles[stringPath]) {
+            if (!this._monitoredFiles[stringPath][f]) {
+                _log("The file: ", f, " is not monitored in the path: ", this._monitoredFiles[stringPath]);
                 // no monitored file matched, just some non monitored file changed,
                 // ignoring the change.
                 return;
             }
         } else {
-            _log("Path is not in monitored files: ", path, " monitored files: ", this._monitoredFiles);
+            _log("Path is not in monitored files: ", stringPath, " monitored files: ", this._monitoredFiles);
         }
 
         if (!this._notificationTimeout) {
@@ -187,7 +187,8 @@ var Watcher = createClass({
             };
         }
 
-        this._currentChanges[event][f] = this._currentChanges.eventCount++;
+        var fullFileName = path.resolve(stringPath, f);
+        this._currentChanges[event][fullFileName] = this._currentChanges.eventCount++;
     },
 
     /**
