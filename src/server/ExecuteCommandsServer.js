@@ -58,8 +58,7 @@ function runCommand(command, file) {
 
     try {
         var options = {
-            encoding: 'utf-8',
-            shell: true
+            encoding: 'utf-8'
         };
 
         if (file) {
