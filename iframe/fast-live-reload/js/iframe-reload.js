@@ -129,16 +129,71 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
      * Do the actual ajax call.
      */
     function loadUpdates() {
-        ajaxCall = new AjaxCall("http://" + host + "/?_cache=" + new Date().getTime());
-        ajaxCall.execute(function(data) {
-            self.callback.call(null, data);
-            setTimeout(loadUpdates, 500);
-        }, function() {
-            // wait a bit so we don't always update in case the stuff is
-            // down.
-            setTimeout(loadUpdates, 500);
-            return true;
-        });
+        if (!window.WebSocket) {
+            console.info('flr - web socket not supported, fallback with ajax will be used.');
+
+            ajaxCall = new AjaxCall("http://" + host + "/?_cache=" + new Date().getTime());
+            ajaxCall.execute(function(data) {
+                self.callback.call(null, data);
+                setTimeout(loadUpdates, 500);
+            }, function() {
+                // wait a bit so we don't always update in case the stuff is
+                // down.
+                setTimeout(loadUpdates, 500);
+                return true;
+            });
+            return;
+        } else {
+            wsChangesListener(host, self.callback);
+        }
+    }
+
+    function wsChangesListener(host, callBack) {
+      // open connection
+      var connection = null;
+
+      init();
+
+      function init() {
+
+        connection = new WebSocket('ws://' + host);
+
+        connection.onopen = function () {
+          // console.log('flr - connection established.');
+        };
+
+        connection.onerror = function (error) {
+          // just in there were some problems ...
+          // console.error('flr - error in communication: ', error);
+          if(connection){
+            connection.close();
+            connection = null;
+          }
+          // reestablishWebSocketConnection(host, callBack);
+        };
+
+        connection.onclose = function(){
+          if(connection){
+            // console.log('flr - connection closed.');
+            connection.close();
+            connection = null;
+          }
+          reestablishWebSocketConnection(host, callBack);
+        };
+
+        connection.onmessage = function (message) {
+          callBack.call(null, message.data);
+        };
+
+      }
+    }
+
+    function reestablishWebSocketConnection(host, callBack) {
+      setTimeout(function() {
+          // console.log('flr - reconnecting to web socket.');
+          wsChangesListener(host, callBack);
+        }
+      , 3000);
     }
 
     loadUpdates();

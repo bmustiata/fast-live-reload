@@ -6,6 +6,8 @@
 var ChangeServer = createClass({
     _express : null,
 
+    _expressWs : null,
+
     _connectedClients : null,
 
     /**
@@ -24,6 +26,9 @@ var ChangeServer = createClass({
         this._express = express();
         this._express.get("/", this._storeRequest.bind(this));
 
+        this._expressWs = expressWs(this._express);
+        this._express.ws("/", this._wsClientConnection.bind(this));
+
         this._connectedClients = [];
     },
 
@@ -36,6 +41,18 @@ var ChangeServer = createClass({
             request: req,
             response: res
         });
+    },
+
+    _wsClientConnection : function(ws, req){
+        // Nothing to do here!
+        // ws.on('message', function(msg) {
+        //     console.log(msg);
+        // });
+        // ws.on('close', function(ws){
+        //     console.log('connection closed');
+        //     console.log(ws);
+        // });
+        // console.log('new connection');
     },
 
     /**
@@ -51,6 +68,7 @@ var ChangeServer = createClass({
      * files have changed.
      */
     filesChanged : function(changes) {
+        // AJAX clients
         for (var i = 0; i < this._connectedClients.length; i++) {
             var response = this._connectedClients[i].response,
                 request = this._connectedClients[i].request;
@@ -66,6 +84,11 @@ var ChangeServer = createClass({
         }
 
         this._connectedClients = [];
+
+        // WebSocket clients
+        this._expressWs.getWss().clients.forEach(function(client){
+            client.send(JSON.stringify(changes));
+        });
     }
 });
 

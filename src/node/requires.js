@@ -1,5 +1,6 @@
 var createClass = require("superb-class").createClass,
     express = require("express"),
+    expressWs = require("express-ws"),
     chalk = require("chalk"),
     expressHandlebars = require("express-handlebars"),
     expressProxy = require("express-http-proxy"),
