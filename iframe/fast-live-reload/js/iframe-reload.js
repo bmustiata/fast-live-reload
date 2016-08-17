@@ -129,23 +129,34 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
      * Do the actual ajax call.
      */
     function loadUpdates() {
-        if (!window.WebSocket) {
-            console.info('flr - web socket not supported, fallback with ajax will be used.');
-
-            ajaxCall = new AjaxCall("http://" + host + "/?_cache=" + new Date().getTime());
-            ajaxCall.execute(function(data) {
-                self.callback.call(null, data);
-                setTimeout(loadUpdates, 500);
-            }, function() {
-                // wait a bit so we don't always update in case the stuff is
-                // down.
-                setTimeout(loadUpdates, 500);
-                return true;
-            });
-            return;
-        } else {
+        if (window.WebSocket) {
             wsChangesListener(host, self.callback);
+            return;
         }
+
+        // on older IEs the console is defined only when the developer tools are open.
+        if (typeof console != "undefined") {
+            console.info('fast-live-reload - Web Sockets are not supported, AJAX fallback will be used.');
+        }
+        ajaxChangesListener();
+    }
+
+    /**
+     * The AJAX change listener does a loop, by calling again itself using
+     * setTimeout. We don't use setInterval, since we don't want multiple
+     * parallel requests if the response comes slower.
+     */
+    function ajaxChangesListener() {
+        ajaxCall = new AjaxCall("http://" + host + "/?_cache=" + new Date().getTime());
+        ajaxCall.execute(function(data) {
+            self.callback.call(null, data);
+            setTimeout(ajaxChangesListener, 500);
+        }, function() {
+            // wait a bit so we don't always update in case the stuff is
+            // down.
+            setTimeout(ajaxChangesListener, 500);
+            return true;
+        });
     }
 
     function wsChangesListener(host, callBack) {
@@ -197,7 +208,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     }
 
     loadUpdates();
-}
+};
 
 
 /**

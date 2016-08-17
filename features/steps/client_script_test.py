@@ -10,16 +10,16 @@ use_step_matcher("re")
 @step("I open a browser on the '(.*?)'")
 def i_open_a_browser_on_the_file(context, file):
     browser = 'chrome'
-    test_site = 'http://localhost:9000/'
+    test_host = 'localhost'
 
     if 'TEST_BROWSER' in os.environ:
         browser = os.environ['TEST_BROWSER']
 
-    if 'TEST_SITE' in os.environ:
-        test_site = os.environ['TEST_SITE']
+    if 'TEST_HOST' in os.environ:
+        test_host = os.environ['TEST_HOST']
 
     open_browser(browser)
-    go_to(test_site + file)
+    go_to('http://%s:9000/%s#fastLiveReloadHost=%s:9001' % (test_host, file, test_host))
 
 
 @step("I have in the page the '(.*?)' present")
