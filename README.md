@@ -178,6 +178,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.7.0  2016-08-18  Use WebSockets if available. Default to AJAX when missing. Thanks `bbasic`.
 * v2.6.2  2016-07-12  *BugFix* `$FILE` always returns the absolute path to the changed or new file.
 * v2.6.1  2016-07-12  *BugFix* Don't run commandsa through a shell since it seems broken.
 * v2.6.0  2016-07-11  Execute single commands if they refer to `$FILE` or `%FILE%`. Run commands through a shell.
