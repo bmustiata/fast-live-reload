@@ -18,7 +18,7 @@
     "express": "4.12.2",
     "express-handlebars": "3.0.0",
     "express-http-proxy": "0.6.0",
-    "express-ws": "^2.0.0",
+    "express-ws": "2.0.0",
     "glob": "5.0.14",
     "handlebars": "3.0.3",
     "once-many": "0.1.0",
