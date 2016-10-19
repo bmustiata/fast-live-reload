@@ -35,11 +35,8 @@ if (parallelExecutePrograms.length) {
     });
 
     if (!dryRun) {
-        parallelExecutePrograms.forEach(function (command) {
+        parallelExecutePrograms.forEach(function startCommand(command) {
             var process = childProcess.exec(command);
-            //var parsedCommand = new CommandLineParser(command);
-            //var process = spawn(parsedCommand.getCommand(), parsedCommand.getArgs());
-
             runningProcesses.push(process);
 
             // output
@@ -51,6 +48,13 @@ if (parallelExecutePrograms.length) {
                 console.log(chalk.red("> " + command));
                 console.error("" + data);
             });
+
+            process.on('exit', function() {
+                console.log(chalk.red("`" + command + "` failed. Restarting."));
+                runningProcesses.splice( runningProcesses.indexOf(process), 1 );
+
+                startCommand(command);
+            })
         });
     }
 }
