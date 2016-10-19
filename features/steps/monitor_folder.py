@@ -12,13 +12,27 @@ ON_POSIX = 'posix' in sys.builtin_module_names
 use_step_matcher("re")
 
 
-@step('I monitor the test-data folder running `pwd` whenever files change')
-def monitor_the_test_data_folder_running_pwd(context):
+@step('I monitor the test-data folder running `(.*?)` whenever files change')
+def monitor_the_test_data_folder_running_pwd(context, command):
     process = subprocess.Popen(["fast-live-reload",
                                 context.test_data_folder,
                                 "-e",
-                                "pwd"],
+                                command],
                                stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               close_fds=ON_POSIX)
+
+    make_process_ouptput_async(context, process)
+
+
+@step('I monitor the test-data folder running in parallel `(.*?)`')
+def monitor_the_test_data_folder_running_pwd(context, command):
+    process = subprocess.Popen(["fast-live-reload",
+                                context.test_data_folder,
+                                "-ep",
+                                command],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
                                close_fds=ON_POSIX)
 
     make_process_ouptput_async(context, process)
@@ -29,6 +43,7 @@ def monitor_the_test_data_folder_running_pwd(context):
     process = subprocess.Popen(["fast-live-reload",
                                 context.test_data_folder],
                                stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
                                close_fds=ON_POSIX)
 
     make_process_ouptput_async(context, process)
@@ -41,6 +56,7 @@ def monitor_the_test_data_folder_running_pwd(context, command):
                                 command],
                                cwd=context.test_data_folder,
                                stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
                                close_fds=ON_POSIX)
 
     make_process_ouptput_async(context, process)
@@ -55,7 +71,8 @@ def monitor_the_test_data_folder_running_pwd(context, command):
                                 monitored_path,
                                 "-e",
                                 "pwd"],
-                               stdout=subprocess.PIPE)
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
 
     make_process_ouptput_async(context, process)
 
@@ -70,7 +87,8 @@ def monitor_the_test_data_folder_running_pwd(context, command):
                                 "-e",
                                 command],
                                cwd=context.test_data_folder,
-                               stdout=subprocess.PIPE)
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
 
     make_process_ouptput_async(context, process)
 
@@ -82,12 +100,17 @@ def make_process_ouptput_async(context, process):
     time.sleep(2)
 
     # just read the initial content
-    context.fast_live_reload_process.stdout.read1(1000000).decode('utf-8')
     fd = context.fast_live_reload_process.stdout
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    #initial_out = context.fast_live_reload_process.stdout.read1(1000000).decode('utf-8')
+    initial_out = context.fast_live_reload_process.stdout.read()
 
-    context.process_output_fd = fd
+    fd = context.fast_live_reload_process.stderr
+    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    #initial_err = context.fast_live_reload_process.stderr.read1(1000000).decode('utf-8')
+    initial_err = context.fast_live_reload_process.stderr.read()
 
 
 @step("when I change the '(.*?)' file in that folder")
