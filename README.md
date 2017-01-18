@@ -178,6 +178,7 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.7.3  2017-01-18  *BugFix* Whoops, wrong copy of environment still. Minor fix.
 * v2.7.2  2017-01-18  *BugFix* Makes sure environment is set correctly on child process executions.
 * v2.7.1  2016-10-19  Restart failing parallel executions.
 * v2.7.0  2016-08-18  Use WebSockets if available. Default to AJAX when missing. Thanks `bbasic`.
