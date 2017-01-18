@@ -108,9 +108,7 @@ function merge(base, extra) {
   }
 
   for (var k in extra) {
-    if (extra.hasOwnProperty[k]) {
-      result[k] = extra[k];
-    }
+    result[k] = extra[k];
   }
 
   return result;
