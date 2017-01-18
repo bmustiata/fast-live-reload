@@ -11,8 +11,9 @@ def before_scenario(context, scenario):
 
 
 def after_scenario(context, scenario):
-    context.fast_live_reload_process.kill()
-    print("PROCESS KILLED")
+    if 'fast_live_reload_process' in context:
+        context.fast_live_reload_process.kill()
+        print("PROCESS KILLED")
 
     if get_germanium():
         close_browser()

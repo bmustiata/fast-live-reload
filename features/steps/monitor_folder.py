@@ -70,7 +70,7 @@ def monitor_the_test_data_folder_running_pwd(context, command):
     process = subprocess.Popen(["fast-live-reload",
                                 monitored_path,
                                 "-e",
-                                "pwd"],
+                                command],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
 
