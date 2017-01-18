@@ -148,6 +148,15 @@ module.exports = function(grunt) {
                     // environment: 'production'
                 }
             }
+        },
+
+        chmod: {
+          "dist" : {
+            options: {
+              mode: '755'
+            },
+            src: ["lib/fast-live-reload.js"]
+          }
         }
     });
 
@@ -156,10 +165,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks("grunt-chmod");
 
     // register our tasks:
     grunt.registerTask('build-client', ['concat:client', 'sync:client-tmp']);
-    grunt.registerTask('build-server', ['concat:dist', 'sync:dist']);
+    grunt.registerTask('build-server', ['concat:dist', 'sync:dist', 'chmod:dist']);
     grunt.registerTask('build-iframe-client', ['concat:iframe', 'sync:iframe', 'compass:iframe']);
 
     grunt.registerTask('clean-all', ['clean:client', 'clean:dist', 'clean:iframe']);
