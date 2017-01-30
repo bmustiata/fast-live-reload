@@ -65,8 +65,10 @@ var Watcher = createClass({
 
 
     /**
-     * _readPathsAndMonitoredFiles - Fills in the _paths and the _monitoredFiles
-     * In the _paths there will be only the actual folders that need to be monitored.
+     * _readPathsAndMonitoredFiles - Fills in the _paths and the
+     * _monitoredFileas. In the _paths there will be only the actual folders
+     * that need to be monitored.
+     *
      * @param {Array<string>} paths
      * @return {void}
      */
@@ -196,7 +198,11 @@ var Watcher = createClass({
      */
     _fireChangedFiles : function() {
         this._listeners.forEach(function(listener) {
-            listener.call(null, this._currentChanges);
+            try {
+                listener.call(null, this._currentChanges);
+            } catch (e) {
+                console.warn("Unable to notify listener, skipping: ", e);
+            }
         }.bind(this));
 
         this._notificationTimeout = null;
