@@ -1,0 +1,6 @@
+fast-live-reload:
+  version: 2.7.4
+  files:
+    package.json: '"version": "**VERSION**",'
+    bower.json: '"version": "**VERSION**",'
+

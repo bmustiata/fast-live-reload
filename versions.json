@@ -1,9 +1,0 @@
-{
-  "fast-live-reload": {
-    "version": "2.7.3",
-    "files": {
-      "package.json": "\"version\": \"##VERSION##\",",
-      "bower.json": "\"version\": \"##VERSION##\","
-    }
-  }
-}
