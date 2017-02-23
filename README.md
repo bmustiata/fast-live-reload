@@ -178,6 +178,8 @@ Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
 
+* v2.7.5  2017-02-23  *BugFix* Keep the right page on iframe reload.
+* v2.7.4  2017-01-30  *BugFix* Don't die if a client dies, and doesn't updates sockets.
 * v2.7.3  2017-01-18  *BugFix* Whoops, wrong copy of environment still. Minor fix. Executable lib file, so the module can be linked with `npm link`.
 * v2.7.2  2017-01-18  *BugFix* Makes sure environment is set correctly on child process executions.
 * v2.7.1  2016-10-19  Restart failing parallel executions.
