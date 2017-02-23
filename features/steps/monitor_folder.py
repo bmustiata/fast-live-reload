@@ -12,6 +12,24 @@ ON_POSIX = 'posix' in sys.builtin_module_names
 use_step_matcher("re")
 
 
+@step('I monitor and serve the test-data folder')
+def monitor_and_serve_the_test_data_folder(context):
+    print("running: flr -s %s" % context.test_data_folder)
+    current_dir = os.getcwd()
+
+    os.chdir(context.test_data_folder)
+    process = subprocess.Popen(["fast-live-reload",
+                                "-s",
+                                context.test_data_folder],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               close_fds=ON_POSIX)
+
+    os.chdir(current_dir)
+
+    make_process_ouptput_async(context, process)
+
+
 @step('I monitor the test-data folder running `(.*?)` whenever files change')
 def monitor_the_test_data_folder_running_pwd(context, command):
     process = subprocess.Popen(["fast-live-reload",
