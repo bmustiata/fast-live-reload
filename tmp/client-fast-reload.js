@@ -96,12 +96,12 @@ ParameterParser.prototype.get = function(name, defaultValue) {
 
 /**
  * UpdateNotifier - Notifies when updates were reported by the server.
- * @param {string} clientHost The client host to connect to in order to wait for updates.
+ * @param {string} defaultHost The client host to connect to in order to wait for updates.
  * @param {function} callback
  * @return {void}
  */
-function UpdateNotifier(clientHost, callback) {
-    this._clientHost = clientHost || "localhost:9001";
+function UpdateNotifier(defaultHost, callback) {
+    this._defaultHost = defaultHost;
     this.callback = callback;
 }
 
@@ -131,7 +131,9 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     queryParams = new ParameterParser(queryString);
     hashParams =  new ParameterParser(hashString);
 
-    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : this._clientHost;
+    host = hostString + ':9001';
+    host = this._defaultHost ? this._defaultHost : host;
+    host = window.fastLiveReloadHost ? window.fastLiveReloadHost : host;
     host = queryParams.get("fastLiveReloadHost", host);
     host = hashParams.get("fastLiveReloadHost", host);
 
