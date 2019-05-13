@@ -146,9 +146,7 @@ var Watcher = createClass({
         for (var i = 0; i < this._paths.length; i++) {
             path = this._paths[i];
 
-            var monitor = chokidar.watch(path, {
-                persistent: true
-            });
+            var monitor = chokidar(path, {});
             this._createMonitor(path, monitor);
         }
     },
@@ -163,7 +161,7 @@ var Watcher = createClass({
 
         monitor.on("add", this._notify.bind(this, path, "created"));
         monitor.on("change", this._notify.bind(this, path, "changed"));
-        monitor.on("unlink", this._notify.bind(this, path, "removed"));
+        monitor.on("delete", this._notify.bind(this, path, "removed"));
     },
 
     /**

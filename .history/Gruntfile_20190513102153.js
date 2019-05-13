@@ -108,7 +108,7 @@ module.exports = function(grunt) {
                 ]
             },
 
-            iframe : {
+            'iframe' : {
                 verbose: true,
                 files: [
                     {
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
                 ]
             },
 
-            dist : {
+            'dist' : {
                 verbose: true,
                 files: [
                     {
@@ -151,7 +151,7 @@ module.exports = function(grunt) {
         },
 
         chmod: {
-          dist : {
+          "dist" : {
             options: {
               mode: '755'
             },

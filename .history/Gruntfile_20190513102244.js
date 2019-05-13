@@ -95,7 +95,7 @@ module.exports = function(grunt) {
         },
 
         sync : {
-            'client-tmp' : {
+            client-tmp : {
                 // pretend: true,
                 verbose: true,
                 files : [

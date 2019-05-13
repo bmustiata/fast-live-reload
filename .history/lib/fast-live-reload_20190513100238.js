@@ -14,7 +14,7 @@ var createClass = require("superb-class").createClass,
     onceMany = require("once-many").onceMany,
     tamper = require("tamper"),
     glob = require("glob"),
-    chokidar = require("chokidar"),
+    sane = require("sane"),
     childProcess = require("child_process");
 
 
@@ -146,10 +146,9 @@ var Watcher = createClass({
         for (var i = 0; i < this._paths.length; i++) {
             path = this._paths[i];
 
-            var monitor = chokidar.watch(path, {
-                persistent: true
-            });
+            var monitor = sane(path, {});
             this._createMonitor(path, monitor);
+            //sane(path, this.createMonitor.bind(this, path));
         }
     },
 
@@ -163,7 +162,7 @@ var Watcher = createClass({
 
         monitor.on("add", this._notify.bind(this, path, "created"));
         monitor.on("change", this._notify.bind(this, path, "changed"));
-        monitor.on("unlink", this._notify.bind(this, path, "removed"));
+        monitor.on("delete", this._notify.bind(this, path, "removed"));
     },
 
     /**

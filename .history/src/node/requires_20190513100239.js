@@ -11,6 +11,6 @@ var createClass = require("superb-class").createClass,
     onceMany = require("once-many").onceMany,
     tamper = require("tamper"),
     glob = require("glob"),
-    chokidar = require("chokidar"),
+    sane = require("sane"),
     childProcess = require("child_process");
 

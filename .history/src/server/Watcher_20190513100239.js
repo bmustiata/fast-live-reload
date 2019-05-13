@@ -127,7 +127,7 @@ var Watcher = createClass({
             path = this._paths[i];
 
             var monitor = chokidar.watch(path, {
-                persistent: true
+                persistent:true
             });
             this._createMonitor(path, monitor);
         }
