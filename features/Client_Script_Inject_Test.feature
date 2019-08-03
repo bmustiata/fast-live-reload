@@ -3,6 +3,7 @@ Feature: Loading a HTML file, should reload it automatically
 
   @1
   Scenario: Changes in the HTML trigger the reloading of the page
+        on the default port
     Given I monitor the test-data folder whenever files change
     And I open a browser on the 'test-file.html'
     Then I have in the page the 'original text' present
@@ -18,3 +19,14 @@ Feature: Loading a HTML file, should reload it automatically
     When I change the 'test-file.html' to the changed version on the filesystem
     Then I still have the 'test-file.html' in the iframe input.
     And I have in the iframe page the 'changed text' present
+
+  @3
+  Scenario: Changes in the HTML trigger the reloading of the page
+        on client port 9002
+    Given I monitor the test-data folder whenever files change on client port 9002
+    Then there is a program listening on port 9002
+    When I open a browser on the 'test-file.html'
+    Then I have in the page the 'original text' present
+    When I change the 'test-file.html' to the changed version on the filesystem
+    Then I have in the page the 'changed text' present
+

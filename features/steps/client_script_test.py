@@ -33,7 +33,7 @@ def i_open_a_browser_on_the_file(context, file):
         browser = os.environ['TEST_BROWSER']
 
     open_browser(browser, iframe_selector=iframe_strategy)
-    go_to('http://%s:9000/%s#fastLiveReloadHost=%s:9001' % (test_host(), file, test_host()))
+    go_to('http://%s:9000/%s' % (test_host(), file))
 
 
 @step("I open a browser for the iframe reload '(.*?)'")

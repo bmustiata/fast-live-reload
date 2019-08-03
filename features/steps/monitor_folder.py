@@ -56,10 +56,16 @@ def monitor_the_test_data_folder_running_pwd(context, command):
     make_process_ouptput_async(context, process)
 
 
-@step('I monitor the test-data folder whenever files change')
-def monitor_the_test_data_folder_running_pwd(context):
-    process = subprocess.Popen(["fast-live-reload",
-                                context.test_data_folder],
+@step(r'I monitor the test-data folder whenever files change( on client port (\d+))?')
+def monitor_the_test_data_folder_running_pwd(context, ext, client_port):
+    command = ["fast-live-reload"]
+
+    if client_port:
+        command.extend(["-p", client_port])
+
+    command.extend([context.test_data_folder])
+
+    process = subprocess.Popen(command,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                close_fds=ON_POSIX)
