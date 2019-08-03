@@ -15,7 +15,7 @@
       "email": "mail@leobergman.se"
     }
   ],
-  "version": "2.8.0",
+  "version": "2.8.1",
   "dependencies": {
     "chalk": "1.0.0",
     "chokidar": "^3.0.0",

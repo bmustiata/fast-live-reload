@@ -1,5 +1,5 @@
 fast-live-reload:
-  version: 2.8.0
+  version: 2.8.1
   files:
     package.json: '"version": "**VERSION**",'
     bower.json: '"version": "**VERSION**",'
