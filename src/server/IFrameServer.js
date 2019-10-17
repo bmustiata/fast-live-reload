@@ -112,6 +112,10 @@ var IFrameServer = createClass({
                     }
                 }
 
+                if (!callback) { // in newer versions callback is undefined, and we need to return
+                  return data;
+                }
+
                 callback(null, data);
             }.bind(this)
         }));

@@ -177,7 +177,9 @@ bower install fast-live-reload
 Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
-
+* v2.8.2  2019-10-17  *BugFix* Intercept bug in proxying sites fixed.
+* v2.8.1  2019-08-03  *BugFix* Non default client ports get correctly injected in the loading script.
+* v2.8.0  2019-05-14  Use chokidar so we can watch also when running from docker containers.
 * v2.7.6  2017-05-10  *BugFix* Use the host name from the browser. Thaks `tvanekeris`.
 * v2.7.5  2017-02-23  *BugFix* Keep the right page on iframe reload.
 * v2.7.4  2017-01-30  *BugFix* Don't die if a client dies, and doesn't updates sockets.
