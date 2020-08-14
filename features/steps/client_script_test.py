@@ -1,5 +1,6 @@
 import os
 import shutil
+import socket
 
 from behave import *
 from germanium.static import *
@@ -85,3 +86,16 @@ def i_go_to_the_test_file(context, file_name):
 def i_still_have_the_test_file_in_the_iframe_input(context, file_name):
     expected_text = 'http://%s:9000/%s' % (test_host(), file_name)
     assert expected_text == get_value(InputText)
+
+
+@step("there is a program listening on port (\\d+)")
+def check_program_listen(context, port):
+    a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        location = ("127.0.0.1", int(port))
+        result_of_check = a_socket.connect_ex(location)
+
+        return result_of_check == 0
+    finally:
+        a_socket. close()
+

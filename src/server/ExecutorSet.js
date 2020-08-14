@@ -16,7 +16,7 @@ var ExecutorSet = createClass("ExecutorSet", {
     /**
      * @type {Array<string>}
      */
-	_executedCommands : null,
+    executedCommands : null,
 
     /**
      * @type {boolean}
@@ -25,7 +25,7 @@ var ExecutorSet = createClass("ExecutorSet", {
 
     /**
      * constructor - Default constructor.
-	 */
+     */
     constructor: function() {
         this._monitoredFolders = [];
         this._executedCommands = [];

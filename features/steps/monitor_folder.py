@@ -151,7 +151,7 @@ def check_if_the_pwd_command_was_executed(context):
 
 
 @step("the '(.*?)' gets printed on the display")
-def check_if_the_pwd_command_was_executed(context, text):
+def check_if_the_command_was_executed(context, text):
     stdout = context.fast_live_reload_process.stdout.read1(1000000).decode('utf-8')
     if text not in stdout:
         print("\n'%s' not found in STDOUT:\n%s" % (text, stdout))

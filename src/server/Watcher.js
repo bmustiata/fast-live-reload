@@ -1,4 +1,4 @@
-//var _log = console.log;
+// var _log = console.log;
 var _log = function() {};
 
 /**
@@ -73,7 +73,7 @@ var Watcher = createClass({
      * @return {void}
      */
     _readPathsAndMonitoredFiles : function(paths) {
-    	this._paths = [];
+        this._paths = [];
         this._monitoredFiles = {};
 
         for (var i = 0; i < paths.length; i++) {
@@ -106,7 +106,7 @@ var Watcher = createClass({
      * @return {boolean}
      */
     _isFile : function(path) {
-    	return fs.statSync(path).isFile();
+        return fs.statSync(path).isFile();
     },
 
     /**
@@ -161,7 +161,7 @@ var Watcher = createClass({
         _log("Watcher.notify: ", stringPath, event, f);
 
         stringPath = this._normalizePath(stringPath);
-        f = this._normalizePath(f);
+        f = this._fileName(this._normalizePath(f));
 
         _log("  path:", stringPath);
         _log("  file:", f);
@@ -228,6 +228,15 @@ var Watcher = createClass({
         }
 
         return path;
+    },
+
+    /**
+     * _fileName - Drops any folder, and returns only the file name (basename)
+     * @param {string} f
+     * @return {string}
+     */
+    _fileName: function(f) {
+        return f.replace(/^.*[\\/]/, "");
     }
 });
 
