@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 /**
  * Grunt project configuration.
  */
@@ -139,13 +141,20 @@ module.exports = function(grunt) {
             }
         },
 
-        compass: {
+        sass: {
+            options: {
+                implementation: sass,
+                sourceMap: true
+            },
             iframe : {
                 options: {
                     sassDir: 'src/iframe/scss',
                     cssDir: 'iframe/fast-live-reload/css',
                     sourcemap: true
                     // environment: 'production'
+                },
+                files: {
+                    "iframe/fast-live-reload/css/style.css": "src/iframe/scss/style.scss",
                 }
             }
         },
@@ -164,13 +173,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-sync');
-    grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks("grunt-chmod");
 
     // register our tasks:
     grunt.registerTask('build-client', ['concat:client', 'sync:client-tmp']);
     grunt.registerTask('build-server', ['concat:dist', 'sync:dist', 'chmod:dist']);
-    grunt.registerTask('build-iframe-client', ['concat:iframe', 'sync:iframe', 'compass:iframe']);
+    grunt.registerTask('build-iframe-client', ['concat:iframe', 'sync:iframe', 'sass:iframe']);
 
     grunt.registerTask('clean-all', ['clean:client', 'clean:dist', 'clean:iframe']);
     grunt.registerTask('build-all', ['build-client', 'build-server', 'build-iframe-client']);
