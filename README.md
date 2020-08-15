@@ -177,6 +177,7 @@ bower install fast-live-reload
 Check the [documentation](doc/Client_Configuration.md) for full details.
 
 ## Change Log
+* v2.10.0 2020-08-15  *BugFix* Don't monitor folders for single files.
 * v2.9.2  2020-08-15  *BugFix* `--serve-port` not `-serve-port`.
 * v2.9.1  2020-08-15  *BugFix* Don't use deprecated API.
 * v2.9.0  2020-08-14  *BugFix* sass instead of compass. No more security issues.

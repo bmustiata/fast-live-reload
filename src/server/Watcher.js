@@ -21,14 +21,6 @@ var Watcher = createClass({
     _paths : null,
 
     /**
-     * Holds the list of files to be monitored. The list is mapped as an Object
-     * that holds for keys the folders that contain the files, and for values,
-     * other objects that have for keys the individual file name.
-     * @type {Object}
-     */
-    _monitoredFiles : null,
-
-    /**
      * @type {Array<FileMonitor>}
      */
     _folderMonitors : null,
@@ -74,39 +66,12 @@ var Watcher = createClass({
      */
     _readPathsAndMonitoredFiles : function(paths) {
         this._paths = [];
-        this._monitoredFiles = {};
 
         for (var i = 0; i < paths.length; i++) {
             var path = paths[i];
 
-            if (this._isFile(path)) {
-                var PATH_RE = /^((.*[\\/])?(.+?))$/,
-                    pathTokens = PATH_RE.exec(path),
-                    parentFolder = this._normalizePath(pathTokens[2]), // if the path is in the current folder, mark it as such
-                    fileName = this._normalizePath(pathTokens[3]);
-
-                if (this._paths.indexOf(parentFolder) < 0) { // this._paths doesn't contain parentFolder
-                    this._paths.push(parentFolder);
-                }
-
-                if (!this._monitoredFiles[parentFolder]) {
-                    this._monitoredFiles[parentFolder] = {};
-                }
-
-                this._monitoredFiles[parentFolder][fileName] = 1;
-            } else {
-                this._paths.push(this._normalizePath(path));
-            }
+            this._paths.push(this._normalizePath(path));
         }
-    },
-
-    /**
-     * _isFile - Checks if the given path is a file.
-     * @param {string} path
-     * @return {boolean}
-     */
-    _isFile : function(path) {
-        return fs.statSync(path).isFile();
     },
 
     /**
@@ -165,18 +130,6 @@ var Watcher = createClass({
 
         _log("  path:", stringPath);
         _log("  file:", f);
-
-        // if the given notification is on a file that is independently monitored
-        if (this._monitoredFiles[stringPath]) {
-            if (!this._monitoredFiles[stringPath][f]) {
-                _log("The file: ", f, " is not monitored in the path: ", this._monitoredFiles[stringPath]);
-                // no monitored file matched, just some non monitored file changed,
-                // ignoring the change.
-                return;
-            }
-        } else {
-            _log("Path is not in monitored files: ", stringPath, " monitored files: ", this._monitoredFiles);
-        }
 
         if (!this._notificationTimeout) {
             var delay = this._delay >= 0 ? this._delay : 0;
