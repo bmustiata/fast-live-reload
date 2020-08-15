@@ -1,3 +1,4 @@
-node_modules
-.sass-cache
-.idea
+/node_modules
+/.sass-cache
+/.idea
+/.mypy_cache
